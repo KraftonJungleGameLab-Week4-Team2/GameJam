@@ -38,19 +38,26 @@ public class GravityManager : MonoBehaviour
     private void CalculateGravity()
     {
         GravitySource tempOrigin = null;
-
         var maxDistance = float.MaxValue;
         foreach (var gs in _gravitySources)
         {
-            var distance = Vector3.Distance(_player.position, gs.transform.position);
-            if (maxDistance > distance)
+            var sqrDistance = (_player.position - gs.transform.position).sqrMagnitude;
+
+            if (gs.GravityRange * gs.GravityRange < sqrDistance)
+                continue;
+
+            if (maxDistance * maxDistance > sqrDistance)
             {
-                maxDistance = distance;
+                maxDistance = sqrDistance;
                 tempOrigin = gs;
             }
         }
 
         GravityOrigin = tempOrigin;
-        _gravityInfo.Gravity += GravityConstants.GravityAccel * Time.deltaTime;
+
+        if (GravityOrigin == null)
+            _gravityInfo.Gravity = 0.0f;
+        else
+            _gravityInfo.Gravity += GravityConstants.GravityAccel * Time.deltaTime;
     }
 }
