@@ -11,6 +11,7 @@ public class GravityManager : MonoBehaviour
     [SerializeField] private GravityInfo _gravityInfo;
 
     private GravitySource _gravitySource;
+    public IGravityInfo GravityInfo => _gravityInfo;
 
     private GravitySource GravityOrigin
     {
