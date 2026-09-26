@@ -39,11 +39,11 @@ public class GravityManager : MonoBehaviour
     {
         GravitySource tempOrigin = null;
 
-        var maxDistance = 0.0f;
+        var maxDistance = float.MaxValue;
         foreach (var gs in _gravitySources)
         {
             var distance = Vector3.Distance(_player.position, gs.transform.position);
-            if (maxDistance < distance)
+            if (maxDistance > distance)
             {
                 maxDistance = distance;
                 tempOrigin = gs;
