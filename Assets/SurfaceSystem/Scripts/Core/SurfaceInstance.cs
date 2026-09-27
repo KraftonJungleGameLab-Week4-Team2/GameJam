@@ -1,22 +1,28 @@
 using UnityEngine;
 
-// 실제 씬에 배치된 표면 오브젝트와 SurfaceProfile을 연결
+// 행성에 물리 재질을 연결하고 Unity 충돌 이벤트를 프로필에 전달한다.
 public class SurfaceInstance : MonoBehaviour
 {
+    [Header("Surface")]
     [SerializeField] private SurfaceProfile _profile;
-    [SerializeField] private Collider[] _surfaceColliders;
+    [SerializeField] private Collider[] _surfaceColliders = new Collider[0];
 
     public SurfaceProfile Profile
     {
-        get
-        {
-            return _profile;
-        }
+        get { return _profile; }
     }
 
     void Awake()
     {
-        ApplyPhysicsMaterial();
+        if (_surfaceColliders.Length == 0)
+        {
+            _surfaceColliders = GetComponentsInChildren<Collider>();
+        }
+
+        foreach (Collider surfaceCollider in _surfaceColliders)
+        {
+            surfaceCollider.sharedMaterial = _profile.PhysicsMaterial;
+        }
     }
 
     void Reset()
@@ -24,21 +30,13 @@ public class SurfaceInstance : MonoBehaviour
         _surfaceColliders = GetComponentsInChildren<Collider>();
     }
 
-    private void ApplyPhysicsMaterial()
+    void OnCollisionEnter(Collision collision)
     {
-        if (_profile == null || _profile.PhysicsMaterial == null)
-        {
-            return;
-        }
+        _profile.ProcessCollision(collision, true);
+    }
 
-        foreach (Collider surfaceCollider in _surfaceColliders)
-        {
-            if (surfaceCollider == null)
-            {
-                continue;
-            }
-
-            surfaceCollider.sharedMaterial = _profile.PhysicsMaterial;
-        }
+    void OnCollisionStay(Collision collision)
+    {
+        _profile.ProcessCollision(collision, false);
     }
 }

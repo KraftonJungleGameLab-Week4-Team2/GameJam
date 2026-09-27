@@ -13,6 +13,7 @@ public class SurfaceAgent : MonoBehaviour
         }
     }
 
+    // 플레이어의 지면 판정 결과로 현재 표면을 설정한다.
     public void SetSurface(Collider surfaceCollider)
     {
         if (surfaceCollider == null)
@@ -24,18 +25,20 @@ public class SurfaceAgent : MonoBehaviour
         _currentSurface = surfaceCollider.GetComponentInParent<SurfaceInstance>();
     }
 
+    // 공중으로 이동했을 때 현재 표면을 해제한다.
     public void ClearSurface()
     {
         _currentSurface = null;
     }
 
-    public SurfaceMovementModifiers GetMovementModifiers(float currentSpeed, float baseMaxSpeed)
+    // 표면이 없으면 이동 배율은 1, 추가 효과는 꺼진 값을 반환한다.
+    public SurfaceModifiers GetModifiers(float currentSpeed = 0f, float baseMaxSpeed = 0f)
     {
-        if (_currentSurface == null || _currentSurface.Profile == null)
+        if (_currentSurface == null)
         {
-            return SurfaceMovementModifiers.Default;
+            return SurfaceModifiers.Default;
         }
 
-        return _currentSurface.Profile.GetMovementModifiers(currentSpeed, baseMaxSpeed);
+        return _currentSurface.Profile.GetModifiers(currentSpeed, baseMaxSpeed);
     }
 }
