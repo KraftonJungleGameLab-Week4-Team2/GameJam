@@ -8,9 +8,9 @@ public class PlayerInputSystem : MonoBehaviour
 
     public event Action<Vector2> Move;
     public event Action Jump;
-    public event Action Dive;
-    public bool IsDive;
-    public bool IsJump;
+    public event Action Stomp;
+    private bool _isStomp;
+    private bool _isJump;
 
     private void Awake()
     {
@@ -25,8 +25,8 @@ public class PlayerInputSystem : MonoBehaviour
         _actions.Player.Jump.performed += OnJump;
         _actions.Player.Jump.canceled += OnJump;
 
-        _actions.Player.Dive.performed += OnDive;
-        _actions.Player.Dive.canceled += OnDive;
+        _actions.Player.Stomp.performed += OnStomp;
+        _actions.Player.Stomp.canceled += OnStomp;
     }
     private void OnDisable()
     {
@@ -37,8 +37,8 @@ public class PlayerInputSystem : MonoBehaviour
         _actions.Player.Jump.performed -= OnJump;
         _actions.Player.Jump.canceled -= OnJump;
 
-        _actions.Player.Dive.performed -= OnDive;
-        _actions.Player.Dive.canceled -= OnDive;
+        _actions.Player.Stomp.performed -= OnStomp;
+        _actions.Player.Stomp.canceled -= OnStomp;
     }
     private void OnMove(InputAction.CallbackContext context)
     {
@@ -46,28 +46,28 @@ public class PlayerInputSystem : MonoBehaviour
         _xMoveValue = moveInput.x;
         Move?.Invoke(moveInput);
     }
-    private void OnDive(InputAction.CallbackContext context)
+    private void OnStomp(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            IsDive = context.ReadValueAsButton();
-            Dive?.Invoke();
+            _isStomp = context.ReadValueAsButton();
+            Stomp?.Invoke();
         }
         if (context.phase == InputActionPhase.Canceled)
         {
-            IsDive = false;
+            _isStomp = false;
         }
     }
     private void OnJump(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            IsJump = context.ReadValueAsButton();
+            _isJump = context.ReadValueAsButton();
             Jump?.Invoke();
         }
         if (context.phase == InputActionPhase.Canceled)
         {
-            IsJump = false;
+            _isJump = false;
         }
     }
 }
