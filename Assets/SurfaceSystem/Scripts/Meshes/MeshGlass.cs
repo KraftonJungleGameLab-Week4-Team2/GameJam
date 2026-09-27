@@ -1,0 +1,115 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+using UnityEngine;
+
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(SurfaceInstance))]
+public class MeshGlass : MonoBehaviour
+{
+    private bool _isFracturing;
+    private bool _isBroken;
+    private GameObject _fragments;
+    private readonly List<Mesh> _ownedMeshes = new List<Mesh>();
+
+    public bool IsBroken { get { return _isBroken; } }
+    public bool IsFracturing { get { return _isFracturing; } }
+
+    // 공유 Effect 대신 이 행성에서 중복 실행과 생성한 메시의 수명을 관리한다.
+    public void BeginFracture(GlassFractureEffect effect, Vector3 impactPoint)
+    {
+        if (_isFracturing || _isBroken)
+        {
+            return;
+        }
+
+        _isFracturing = true;
+        StartCoroutine(RunFracture(effect, impactPoint));
+    }
+
+    // 알고리즘 실패 시 원본 행성을 유지하고 생성 중이던 파편을 정리한다.
+    private IEnumerator RunFracture(GlassFractureEffect effect, Vector3 impactPoint)
+    {
+        IEnumerator operation = effect.Fracture(this, impactPoint);
+        while (true)
+        {
+            bool hasNext;
+            try
+            {
+                hasNext = operation.MoveNext();
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception, this);
+                ClearFragments();
+                _isFracturing = false;
+                yield break;
+            }
+
+            if (!hasNext)
+            {
+                break;
+            }
+
+            yield return operation.Current;
+        }
+
+        _isFracturing = false;
+        if (_isBroken)
+        {
+            yield return new WaitForSeconds(effect.FragmentLifetime);
+            ClearFragments();
+        }
+    }
+
+    // 생성한 런타임 메시만 소유하며 프로젝트 원본 메시를 삭제하지 않는다.
+    public void TrackMesh(Mesh mesh)
+    {
+        _ownedMeshes.Add(mesh);
+    }
+
+    // 파편을 먼저 비활성 상태로 만들고 완성된 뒤 한 번에 공개한다.
+    public GameObject CreateFragmentRoot()
+    {
+        _fragments = new GameObject(name + " Fragments");
+        UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(_fragments, gameObject.scene);
+        _fragments.SetActive(false);
+        return _fragments;
+    }
+
+    // 원본의 렌더링과 충돌만 끈다. 행성 중심과 다른 협업자의 컴포넌트는 유지한다.
+    public void CompleteFracture()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+        foreach (Collider sourceCollider in GetComponents<Collider>())
+        {
+            sourceCollider.enabled = false;
+        }
+
+        _isBroken = true;
+        _fragments.SetActive(true);
+    }
+
+    // 파편 오브젝트와 런타임 메시를 함께 해제한다.
+    private void ClearFragments()
+    {
+        if (_fragments != null)
+        {
+            Destroy(_fragments);
+        }
+
+        foreach (Mesh mesh in _ownedMeshes)
+        {
+            Destroy(mesh);
+        }
+
+        _ownedMeshes.Clear();
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        ClearFragments();
+        _isFracturing = false;
+    }
+}
