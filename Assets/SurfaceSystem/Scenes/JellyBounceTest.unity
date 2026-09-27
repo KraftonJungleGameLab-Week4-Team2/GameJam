@@ -250,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 173117041}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 12.64, z: -0.56}
+  m_LocalPosition: {x: 0, y: 45.41, z: 0.45}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -405,6 +406,24 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70e8ee7e6f1488240aef0a4e938e9e4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputCamera: {fileID: 330585545}
+  _maxDistance: 100
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 51
+  _force: 100
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,6 +607,7 @@ GameObject:
   - component: {fileID: 2096823728}
   - component: {fileID: 2096823727}
   - component: {fileID: 2096823731}
+  - component: {fileID: 2096823732}
   m_Layer: 0
   m_Name: Planet_Jelly
   m_TagString: Untagged
@@ -699,6 +719,25 @@ MonoBehaviour:
   _profile: {fileID: 11400000, guid: 3982d9293fccbc548af529a7c8533643, type: 2}
   _surfaceColliders:
   - {fileID: 2096823727}
+--- !u!114 &2096823732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096823726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 920b598d41ee5c344b8b8850fe2cbad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deformationRadius: 0.5
+  _forceMultiplier: 2
+  _springForce: 100
+  _damping: 5
+  _settleThreshold: 0.001
+  _minimumImpactSpeed: 1
+  _impactForceMultiplier: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
