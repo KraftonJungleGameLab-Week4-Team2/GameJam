@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e59b1520927394092daef99bc5b7a7, type: 3}
   m_Name: IceSlipperyEffect
   m_EditorClassIdentifier: 
-  accelerationBySpeed:
+  _accelerationBySpeed:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -45,6 +45,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  decelerationMultiplier: 0.1
-  turningMultiplier: 0.15
-  maxSpeedMultiplier: 1
+  _decelerationMultiplier: 0.1
+  _turningMultiplier: 0.15
+  _maxSpeedMultiplier: 1
