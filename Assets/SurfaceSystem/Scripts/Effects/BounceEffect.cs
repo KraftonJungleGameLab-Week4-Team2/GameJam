@@ -26,7 +26,7 @@ public class BounceEffect : SurfaceEffect
     }
 
     // 접근 속도의 표면 법선 성분만 사용해 착지 반동을 만든다.
-    public override void OnImpact(Collision collision, SurfaceModifiers modifiers)
+    public override void OnImpact(SurfaceInstance surface, Collision collision, SurfaceModifiers modifiers)
     {
         Rigidbody rigidbody = collision.rigidbody;
 
@@ -59,7 +59,7 @@ public class BounceEffect : SurfaceEffect
     }
 
     // 표면에 멈추거나 내려가는 물체에 작은 재도약을 적용한다.
-    public override void OnStay(Collision collision, SurfaceModifiers modifiers)
+    public override void OnStay(SurfaceInstance surface, Collision collision, SurfaceModifiers modifiers)
     {
         Rigidbody rigidbody = collision.rigidbody;
 

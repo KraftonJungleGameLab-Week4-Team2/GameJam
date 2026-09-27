@@ -32,18 +32,18 @@ public class SurfaceProfile : ScriptableObject
     }
 
     // 충돌마다 설정을 한 번 계산하고, 첫 충돌 또는 접촉 유지 효과를 실행한다.
-    public void ProcessCollision(Collision collision, bool isFirstContact)
+    public void ProcessCollision(SurfaceInstance surface, Collision collision, bool isFirstContact)
     {
         SurfaceModifiers modifiers = GetModifiers();
         foreach (SurfaceEffect effect in _effects)
         {
             if (isFirstContact)
             {
-                effect.OnImpact(collision, modifiers);
+                effect.OnImpact(surface, collision, modifiers);
             }
             else
             {
-                effect.OnStay(collision, modifiers);
+                effect.OnStay(surface, collision, modifiers);
             }
         }
     }
