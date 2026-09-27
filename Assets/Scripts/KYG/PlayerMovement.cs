@@ -9,7 +9,7 @@ public class PlayerVari
     [Range(0f, 1000f)]
 
     [Header("Force")]
-    public float moveSpeed = 10;
+    public float moveSpeed = 5;
     public float jumpForce = 10;
     public float stompForce = 10;
 
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public bool _isGrounded;
     RaycastHit hit;
 
-
+    private Vector3 GetGroundDir() => (_gravityInfo.PlanetPos - transform.position).normalized;
 
     private void Awake()
     {
@@ -60,8 +60,8 @@ public class PlayerMovement : MonoBehaviour
         RotateToGroundNormal();
 
 
-        var groundDir = (_gravityInfo.PlanetPos - transform.position).normalized;
-        _rb.MovePosition(_rb.position + groundDir * _gravityInfo.Gravity * Time.fixedDeltaTime);
+
+        _rb.MovePosition(_rb.position + GetGroundDir() * _gravityInfo.Gravity * Time.fixedDeltaTime);
         //_rb.AddForce(groundDir * _gravityInfo.Gravity * 15, ForceMode.Force); addFoce버전
 
 
@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
         _gravityInfo = gravityInfo;
     }
 
-    private void RotateToGroundNormal() => transform.rotation = Quaternion.FromToRotation(transform.up, _isDownNormal) * transform.rotation;
+    private void RotateToGroundNormal() => transform.rotation = Quaternion.FromToRotation(transform.up, -GetGroundDir()) * transform.rotation;
 
     private void PlayerStomp() //내려찍기함수
     {
@@ -102,10 +102,10 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded)
         {
 
-            var groundDir = (_gravityInfo.PlanetPos - transform.position).normalized;
-            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, 0f);
-            _rb.AddForce(transform.up * _playerVari.jumpForce, ForceMode.Impulse);
 
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, 0f);
+            //_rb.AddForce(transform.up * _playerVari.jumpForce, ForceMode.Impulse);
+            _rb.MovePosition(_rb.position + -GetGroundDir() * 150 * Time.fixedDeltaTime);
 
         }
     }
@@ -116,10 +116,10 @@ public class PlayerMovement : MonoBehaviour
     private void PlayerMove() //플레이어 움직임 + 속도 초기화 함수호출
     {
         _playerVari.moveDir = _playerVari.xDir * this.transform.right;
-        Vector3 slopeMoveDir = Vector3.ProjectOnPlane(_playerVari.moveDir, _isDownNormal);
+        Vector3 slopeMoveDir = Vector3.ProjectOnPlane(_playerVari.moveDir, GetGroundDir());
         //_rb.AddForce(slopeMoveDir.normalized * _playerVari.moveSpeed, ForceMode.Force);
 
-        var groundDir = (_gravityInfo.PlanetPos - transform.position).normalized;
+
         _rb.MovePosition(_rb.position + slopeMoveDir * _playerVari.moveSpeed * Time.fixedDeltaTime);
 
         SpeedControl();
