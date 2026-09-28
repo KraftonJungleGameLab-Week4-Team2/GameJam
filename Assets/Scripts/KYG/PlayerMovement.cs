@@ -127,7 +127,6 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded)
         {
             _gravityInfo.ApplyGravity(0.0f);
-            _yVelocity = 0.0f;
             _isStomp = false;
         }
         Debug.DrawRay(transform.position, -transform.up, Color.red, 1f);
