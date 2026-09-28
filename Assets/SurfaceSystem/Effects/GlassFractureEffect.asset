@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: GlassFractureEffect
   m_EditorClassIdentifier: 
   _breakImpulseThreshold: 8
-  _requireSurfaceAgent: 1
   _fragmentCount: 20
   _totalMass: 10
-  _fragmentSpeed: 4
+  _fragmentSpeed: 10
   _fragmentLifetime: 8
   _useWorldGravity: 0
   _randomizeSeed: 1
