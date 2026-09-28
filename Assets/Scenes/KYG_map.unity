@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GravityRange>k__BackingField: 30
+  <GravityRange>k__BackingField: 25
 --- !u!135 &406854122
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -704,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GravityRange>k__BackingField: 30
+  <GravityRange>k__BackingField: 25
 --- !u!135 &743738379
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -791,6 +791,7 @@ GameObject:
   - component: {fileID: 765766402}
   - component: {fileID: 765766401}
   - component: {fileID: 765766400}
+  - component: {fileID: 765766403}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -828,7 +829,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ChkDownDistance: 2
   _ChkGroundDistance: 0.2
-  _isGrounded: 0
 --- !u!114 &765766401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,6 +868,18 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &765766403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765766398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44d49db7c19d7547b8170d464756a20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &818279684
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,7 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GravityRange>k__BackingField: 30
+  <GravityRange>k__BackingField: 25
 --- !u!135 &818279689
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1235,7 +1247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GravityRange>k__BackingField: 10
+  <GravityRange>k__BackingField: 25
 --- !u!135 &943610796
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1550,7 +1562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GravityRange>k__BackingField: 30
+  <GravityRange>k__BackingField: 25
 --- !u!135 &1257557290
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1810,7 +1822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GravityRange>k__BackingField: 30
+  <GravityRange>k__BackingField: 25
 --- !u!135 &1534037940
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2022,7 +2034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GravityRange>k__BackingField: 30
+  <GravityRange>k__BackingField: 25
 --- !u!135 &1781383183
 SphereCollider:
   m_ObjectHideFlags: 0
