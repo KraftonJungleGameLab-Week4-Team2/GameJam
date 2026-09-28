@@ -8,9 +8,6 @@ public class BounceEffect : SurfaceEffect
     [SerializeField, Min(0f)] private float _minimumImpactSpeed = 1f;
     [SerializeField, Min(0f)] private float _maxBounceSpeed = 20f;
 
-    [Header("Contact Bounce")]
-    [SerializeField, Min(0f)] private float _groundedBounceSpeed = 2f;
-
     public override void OnImpact(SurfaceInstance surface, Collision collision)
     {
         Rigidbody rigidbody = collision.rigidbody;
@@ -43,24 +40,36 @@ public class BounceEffect : SurfaceEffect
         rigidbody.AddForce(surfaceNormal * velocityChange, ForceMode.VelocityChange);
     }
 
-    public override void OnStay(SurfaceInstance surface, Collision collision)
+    public override void OnTriggerImpact(SurfaceInstance surface, Collider other)
     {
-        Rigidbody rigidbody = collision.rigidbody;
-
-        if (rigidbody == null || rigidbody.isKinematic || _groundedBounceSpeed <= 0f || collision.contactCount == 0)
+        Rigidbody rigidbody = other != null ? other.attachedRigidbody : null;
+        if (surface == null || rigidbody == null || rigidbody.isKinematic)
         {
             return;
         }
 
-        Vector3 surfaceNormal = GetSurfaceNormal(collision);
+        Vector3 contactPoint = surface.GetTriggerContactPoint(other);
+        Vector3 surfaceNormal = surface.GetTriggerSurfaceNormal(other, contactPoint);
+        Rigidbody surfaceBody = surface.GetComponent<Rigidbody>();
+        Vector3 relativeVelocity = rigidbody.GetPointVelocity(contactPoint);
+        if (surfaceBody != null)
+        {
+            relativeVelocity -= surfaceBody.GetPointVelocity(contactPoint);
+        }
+
+        float incomingNormalVelocity = Vector3.Dot(relativeVelocity, surfaceNormal);
+        if (incomingNormalVelocity >= -_minimumImpactSpeed)
+        {
+            return;
+        }
+
+        float bounceSpeed = Mathf.Min(-incomingNormalVelocity * _bounceMultiplier, _maxBounceSpeed);
         float currentNormalVelocity = Vector3.Dot(rigidbody.linearVelocity, surfaceNormal);
-
-        if (currentNormalVelocity > 0f)
+        float velocityChange = bounceSpeed - currentNormalVelocity;
+        if (velocityChange > 0f)
         {
-            return;
+            rigidbody.AddForce(surfaceNormal * velocityChange, ForceMode.VelocityChange);
         }
-
-        rigidbody.AddForce(surfaceNormal * _groundedBounceSpeed, ForceMode.VelocityChange);
     }
 
     private Vector3 GetSurfaceNormal(Collision collision)

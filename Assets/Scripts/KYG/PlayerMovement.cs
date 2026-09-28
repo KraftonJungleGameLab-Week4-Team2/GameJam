@@ -12,22 +12,30 @@ public class PlayerStat
     public float moveSpeed = 5;
     public float jumpForce = 7;
     public float stompForce = 100;
+
+    public float acceleration = 10f;
+    public float deceleration = 10f;
 }
 
+[RequireComponent(typeof(SurfaceMovement))]
 public class PlayerMovement : MonoBehaviour
 {
+    private SurfaceMovement _surfaceMovement;
     private PlayerInputSystem _inputSystem;
     private Rigidbody _rb;
     private PlayerStat _playerStat = new PlayerStat();
+
     [SerializeField] private IGravityInfo _gravityInfo;
     [SerializeField] private float _ChkDownDistance;
     [SerializeField] private float _ChkGroundDistance;
+
     private bool _isReadyJump;
     private bool _isStomp;
-    public bool _isGrounded;
-    private float _xDir;
+    private bool _isGrounded;
+    private float _xInput;
     private Vector3 _moveDir;
     private float _yVelocity;
+    private float _xVelocity;
 
     public void Initialize(IGravityInfo gravityInfo)
     {
@@ -43,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        _surfaceMovement = GetComponent<SurfaceMovement>();
         _rb = GetComponent<Rigidbody>();
         _inputSystem = GetComponent<PlayerInputSystem>();
     }
@@ -61,14 +70,14 @@ public class PlayerMovement : MonoBehaviour
         _inputSystem.Stomp -= PlayerStomp;
     }
 
-    private void PlayerMoveInput(Vector2 value) => _xDir = value.x;
+    private void PlayerMoveInput(Vector2 value) => _xInput = value.x;
 
     private void PlayerStomp()
     {
         if (_isGrounded == false && _isStomp == false)
         {
             _isStomp = true;
-            _yVelocity -= _playerStat.stompForce;
+            _yVelocity = _playerStat.stompForce;
         }
     }
 
@@ -76,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_isGrounded)
         {
-            _yVelocity += _playerStat.jumpForce;
+            _yVelocity = _playerStat.jumpForce;
         }
     }
 
@@ -98,16 +107,35 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyMovement()
     {
+        var accel = _playerStat.acceleration * _surfaceMovement.Current.accelerationMultiplier;
+        var decel = _playerStat.deceleration * _surfaceMovement.Current.decelerationMultiplier;
+        if (_xInput > 0)
+        {
+            _xVelocity = Mathf.Lerp(_xVelocity, _playerStat.moveSpeed, Time.fixedDeltaTime * accel);
+        }
+        else if (_xInput < 0)
+        {
+            _xVelocity = Mathf.Lerp(_xVelocity, -_playerStat.moveSpeed, Time.fixedDeltaTime * accel);
+        }
+        else
+        {
+            _xVelocity = Mathf.Lerp(_xVelocity, 0.0f, Time.fixedDeltaTime * decel);
+        }
+
+        Debug.Log(_xVelocity);
         var gravityDir = GetPlanetDir();
         var groundNormal = -gravityDir;
+        var moveDir = transform.right;
+        var horizontalVelocity = Vector3.ProjectOnPlane(moveDir * _xVelocity, groundNormal) ;
 
-        var moveDir = (transform.right * _xDir).normalized;
-        var horizontalVelocity = Vector3.ProjectOnPlane(moveDir * _playerStat.moveSpeed, groundNormal) ;
-        _yVelocity -= _gravityInfo.Gravity * Time.fixedDeltaTime;
+        if (_isGrounded == false)
+        {
+            _yVelocity -= _gravityInfo.Gravity * Time.fixedDeltaTime;
+        }
+
         var verticalVelocity = _yVelocity * groundNormal;
         _rb.linearVelocity = horizontalVelocity + verticalVelocity;
     }
-
 
     private void RotateToGroundNormal()
     {
@@ -123,13 +151,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckGround()
     {
-        _isGrounded = Physics.Raycast(transform.position, GetPlanetDir(), out var hit, _ChkGroundDistance) && _yVelocity < 0.01f;
+        _isGrounded = Physics.Raycast(transform.position, GetPlanetDir(), out var hit, _ChkGroundDistance) && _yVelocity <= 0.0f;
         if (_isGrounded)
         {
             _gravityInfo.ApplyGravity(0.0f);
             _isStomp = false;
         }
-        Debug.DrawRay(transform.position, -transform.up, Color.red, 1f);
+        Debug.DrawRay(transform.position, GetPlanetDir() * _ChkGroundDistance, Color.red);
     }
 
     private void OnGUI()

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f15deec937c078429b6b88c739052bd, type: 3}
-  m_Name: JellyBounceEffect
+  m_Script: {fileID: 11500000, guid: 259445ad09e69a74cb0513e700ee6f99, type: 3}
+  m_Name: BombSurfaceProfile
   m_EditorClassIdentifier: 
-  _bounceMultiplier: 1.2
-  _minimumImpactSpeed: 1
-  _maxBounceSpeed: 20
+  _physicsMaterial: {fileID: 13400000, guid: 19ca88597abd15a4ab4df798156a4993, type: 2}
+  _effects:
+  - {fileID: 11400000, guid: 970c60b3ce4b4b70b284f1fbd2c9e6d1, type: 2}
