@@ -32,6 +32,13 @@ public class PlayerMovement : MonoBehaviour
     public void Initialize(IGravityInfo gravityInfo)
     {
         _gravityInfo = gravityInfo;
+        _gravityInfo.GravityOriginChanged += OnGravitySourceChanged;
+    }
+
+    private void OnGravitySourceChanged(GravitySource source)
+    {
+        if(source != null)
+            _yVelocity = 0.0f;
     }
 
     private void Awake()
@@ -81,11 +88,17 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private Vector3 GetGroundDir() => (_gravityInfo.PlanetPos - transform.position).normalized;
+    private Vector3 GetPlanetDir()
+    {
+        if (_gravityInfo?.GravityOrigin != null)
+            return (_gravityInfo.GravityOrigin.transform.position - transform.position).normalized;
+        else
+            return Vector3.zero;
+    }
 
     private void ApplyMovement()
     {
-        var gravityDir = GetGroundDir();
+        var gravityDir = GetPlanetDir();
         var groundNormal = -gravityDir;
 
         var moveDir = (transform.right * _xDir).normalized;
@@ -96,11 +109,20 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void RotateToGroundNormal() => transform.rotation = Quaternion.FromToRotation(transform.up, -GetGroundDir()) * transform.rotation;
+    private void RotateToGroundNormal()
+    {
+        Vector3 gravityUp = -GetPlanetDir();
+        // 현재 forward를 중력 축에 투영하여 회전 목표 생성
+        Vector3 forward = Vector3.ProjectOnPlane(transform.forward, gravityUp);
+        if (forward.sqrMagnitude > 0.001f)
+        {
+            transform.rotation = Quaternion.LookRotation(forward, gravityUp);
+        }
+    }
 
     private void CheckGround()
     {
-        _isGrounded = Physics.Raycast(transform.position, -transform.up, out var hit, _ChkGroundDistance) && _yVelocity < 0.01f;
+        _isGrounded = Physics.Raycast(transform.position, GetPlanetDir(), out var hit, _ChkGroundDistance) && _yVelocity < 0.01f;
         if (_isGrounded)
         {
             _gravityInfo.ApplyGravity(0.0f);
@@ -113,5 +135,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnGUI()
     {
         GUI.Label(new Rect(10, 10, 200, 20), $"{_rb.linearVelocity} / {_yVelocity}");
+    }
+
+    private void OnDestroy()
+    {
+        if(_gravityInfo != null)
+            _gravityInfo.GravityOriginChanged -= OnGravitySourceChanged;
     }
 }

@@ -10,18 +10,9 @@ public class GravityManager : MonoBehaviour
 
     [SerializeField] private GravityInfo _gravityInfo;
 
-    private GravitySource _gravitySource;
+
     public IGravityInfo GravityInfo => _gravityInfo;
 
-    private GravitySource GravityOrigin
-    {
-        get => _gravitySource;
-        set
-        {
-            if (_gravitySource != value) _gravityInfo.Gravity = 0.0f;
-            _gravitySource = value;
-        }
-    }
 
     private void Start()
     {
@@ -32,7 +23,6 @@ public class GravityManager : MonoBehaviour
     private void Update()
     {
         CalculateGravity();
-        if (GravityOrigin != null) _gravityInfo.PlanetPos = GravityOrigin.transform.position;
     }
 
     private void CalculateGravity()
@@ -41,23 +31,27 @@ public class GravityManager : MonoBehaviour
         var maxDistance = float.MaxValue;
         foreach (var gs in _gravitySources)
         {
-            var sqrDistance = (_player.position - gs.transform.position).sqrMagnitude;
+            var distance = (_player.position - gs.transform.position).magnitude;
 
-            if (gs.GravityRange * gs.GravityRange < sqrDistance)
+            if (gs.GravityRange < distance)
                 continue;
 
-            if (maxDistance * maxDistance > sqrDistance)
+            if (maxDistance > distance)
             {
-                maxDistance = sqrDistance;
+                maxDistance = distance;
                 tempOrigin = gs;
             }
         }
 
-        GravityOrigin = tempOrigin;
-
-        if (GravityOrigin == null)
+        if (_gravityInfo.GravityOrigin != tempOrigin)
+        {
             _gravityInfo.Gravity = 0.0f;
-        else
+        }
+
+        _gravityInfo.GravityOrigin = tempOrigin == null ? _gravityInfo.GravityOrigin : tempOrigin;
+        if (_gravityInfo.GravityOrigin != null)
+        {
             _gravityInfo.Gravity += GravityConstants.GravityAccel * Time.deltaTime;
+        }
     }
 }
