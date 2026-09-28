@@ -20,11 +20,13 @@ public class MeshJelly : MonoBehaviour, IMeshDeformationTarget
     private Vector3[] _vertexVelocities;
     private bool _isDeforming;
 
-    void Awake()
+    private void Awake()
     {
         MeshFilter meshFilter = GetComponent<MeshFilter>();
+
         _mesh = Instantiate(meshFilter.sharedMesh);
         _mesh.MarkDynamic();
+
         meshFilter.sharedMesh = _mesh;
 
         _originalVertices = _mesh.vertices;
@@ -32,7 +34,7 @@ public class MeshJelly : MonoBehaviour, IMeshDeformationTarget
         _vertexVelocities = new Vector3[_mesh.vertexCount];
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         if (_isDeforming)
         {
@@ -40,20 +42,16 @@ public class MeshJelly : MonoBehaviour, IMeshDeformationTarget
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.contactCount == 0 || collision.rigidbody == null)
         {
             return;
         }
 
-        if (collision.gameObject.GetComponentInParent<SurfaceAgent>() == null)
-        {
-            return;
-        }
-
         ContactPoint contact = collision.GetContact(0);
         Vector3 surfaceNormal = GetSurfaceNormal(collision, contact);
+
         float impactSpeed = -Vector3.Dot(collision.relativeVelocity, surfaceNormal);
 
         if (impactSpeed < _minimumImpactSpeed)
@@ -67,15 +65,6 @@ public class MeshJelly : MonoBehaviour, IMeshDeformationTarget
             Time.fixedDeltaTime);
     }
 
-    void OnDestroy()
-    {
-        if (_mesh != null)
-        {
-            Destroy(_mesh);
-        }
-    }
-
-    // 입력이나 충돌로 받은 월드 좌표와 힘을 주변 버텍스의 속도에 더한다.
     public void ApplyDeformationForce(Vector3 worldPoint, Vector3 worldForce, float deltaTime)
     {
         Vector3 localPoint = transform.InverseTransformPoint(worldPoint);
@@ -84,19 +73,20 @@ public class MeshJelly : MonoBehaviour, IMeshDeformationTarget
         for (int index = 0; index < _deformedVertices.Length; index++)
         {
             float distance = Vector3.Distance(_deformedVertices[index], localPoint);
+
             if (distance > _deformationRadius)
             {
                 continue;
             }
 
             float falloff = 1f - distance / _deformationRadius;
+
             _vertexVelocities[index] += localForce * falloff * deltaTime;
         }
 
         _isDeforming = true;
     }
 
-    // 모든 버텍스를 원래 위치로 끌어당기고 감쇠시켜 젤리처럼 복원한다.
     private void UpdateDeformation()
     {
         float deltaTime = Time.deltaTime;
@@ -107,12 +97,12 @@ public class MeshJelly : MonoBehaviour, IMeshDeformationTarget
         for (int index = 0; index < _deformedVertices.Length; index++)
         {
             Vector3 returnForce = _originalVertices[index] - _deformedVertices[index];
+
             _vertexVelocities[index] += returnForce * _springForce * deltaTime;
             _vertexVelocities[index] *= damping;
             _deformedVertices[index] += _vertexVelocities[index] * deltaTime;
 
-            if (_vertexVelocities[index].sqrMagnitude > thresholdSqr
-                || returnForce.sqrMagnitude > thresholdSqr)
+            if (_vertexVelocities[index].sqrMagnitude > thresholdSqr || returnForce.sqrMagnitude > thresholdSqr)
             {
                 isMoving = true;
             }
@@ -121,10 +111,10 @@ public class MeshJelly : MonoBehaviour, IMeshDeformationTarget
         _mesh.vertices = _deformedVertices;
         _mesh.RecalculateNormals();
         _mesh.RecalculateBounds();
+
         _isDeforming = isMoving;
     }
 
-    // 접촉면의 수직 방향이 행성 표면에서 충돌 물체를 향하도록 맞춘다.
     private Vector3 GetSurfaceNormal(Collision collision, ContactPoint contact)
     {
         Vector3 surfaceNormal = contact.normal;
@@ -136,5 +126,13 @@ public class MeshJelly : MonoBehaviour, IMeshDeformationTarget
         }
 
         return surfaceNormal.normalized;
+    }
+
+    private void OnDestroy()
+    {
+        if (_mesh != null)
+        {
+            Destroy(_mesh);
+        }
     }
 }
