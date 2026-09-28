@@ -3,8 +3,8 @@ using UnityEngine;
 
 public interface IGravityInfo
 {
-    public Vector3 PlanetPos { get; }
-    public Vector3 PlayerPos { get; }
+    public event Action<GravitySource> GravityOriginChanged;
+    public GravitySource GravityOrigin { get; }
     public float Gravity { get; }
     public void ApplyGravity(float gravity);
 }
@@ -12,10 +12,20 @@ public interface IGravityInfo
 [Serializable]
 public class GravityInfo : IGravityInfo
 {
-    [field: SerializeField] public Vector3 PlanetPos { get; set; }
+    public event Action<GravitySource> GravityOriginChanged;
 
-    [field: SerializeField] public Vector3 PlayerPos { get; set; }
+    private GravitySource _gravityOrigin;
+    public GravitySource GravityOrigin
+    {
+        get => _gravityOrigin;
+        set
+        {
+            if(value != _gravityOrigin)
+                GravityOriginChanged?.Invoke(value);
 
+            _gravityOrigin = value;
+        }
+    }
     [field: SerializeField] public float Gravity { get; set; }
 
     public void ApplyGravity(float gravity)
