@@ -8,9 +8,6 @@ public class BounceEffect : SurfaceEffect
     [SerializeField, Min(0f)] private float _minimumImpactSpeed = 1f;
     [SerializeField, Min(0f)] private float _maxBounceSpeed = 20f;
 
-    [Header("Contact Bounce")]
-    [SerializeField, Min(0f)] private float _groundedBounceSpeed = 2f;
-
     public override void OnImpact(SurfaceInstance surface, Collision collision)
     {
         Rigidbody rigidbody = collision.rigidbody;
@@ -41,26 +38,6 @@ public class BounceEffect : SurfaceEffect
         }
 
         rigidbody.AddForce(surfaceNormal * velocityChange, ForceMode.VelocityChange);
-    }
-
-    public override void OnStay(SurfaceInstance surface, Collision collision)
-    {
-        Rigidbody rigidbody = collision.rigidbody;
-
-        if (rigidbody == null || rigidbody.isKinematic || _groundedBounceSpeed <= 0f || collision.contactCount == 0)
-        {
-            return;
-        }
-
-        Vector3 surfaceNormal = GetSurfaceNormal(collision);
-        float currentNormalVelocity = Vector3.Dot(rigidbody.linearVelocity, surfaceNormal);
-
-        if (currentNormalVelocity > 0f)
-        {
-            return;
-        }
-
-        rigidbody.AddForce(surfaceNormal * _groundedBounceSpeed, ForceMode.VelocityChange);
     }
 
     private Vector3 GetSurfaceNormal(Collision collision)

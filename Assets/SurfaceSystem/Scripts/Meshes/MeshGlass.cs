@@ -16,7 +16,7 @@ public class MeshGlass : MonoBehaviour
     public bool IsFracturing { get { return _isFracturing; } }
 
     // 공유 Effect 대신 이 행성에서 중복 실행과 생성한 메시의 수명을 관리한다.
-    public void BeginFracture(FractureEffect effect, Vector3 impactPoint)
+    public void BeginFracture(FractureEffect effect, Vector3 burstOrigin)
     {
         if (_isFracturing || _isBroken)
         {
@@ -24,13 +24,13 @@ public class MeshGlass : MonoBehaviour
         }
 
         _isFracturing = true;
-        StartCoroutine(RunFracture(effect, impactPoint));
+        StartCoroutine(RunFracture(effect, burstOrigin));
     }
 
     // 알고리즘 실패 시 원본 행성을 유지하고 생성 중이던 파편을 정리한다.
-    private IEnumerator RunFracture(FractureEffect effect, Vector3 impactPoint)
+    private IEnumerator RunFracture(FractureEffect effect, Vector3 burstOrigin)
     {
-        IEnumerator operation = effect.Fracture(this, impactPoint);
+        IEnumerator operation = effect.Fracture(this, burstOrigin);
         while (true)
         {
             bool hasNext;

@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a46cdb82dffcbb4fa06b5fb372df073, type: 3}
-  m_Name: GlassFractureEffect
+  m_Name: BombFractureEffect
   m_EditorClassIdentifier: 
-  _breakImpulseThreshold: 8
-  _requireSurfaceAgent: 1
+  _breakImpulseThreshold: 0
   _fragmentCount: 20
   _totalMass: 10
-  _fragmentSpeed: 4
+  _fragmentSpeed: 20
   _fragmentLifetime: 8
   _useWorldGravity: 0
   _randomizeSeed: 1
   _randomSeed: 12345
-  _insideMaterial: {fileID: 2100000, guid: a40923f81a1d63040bf7091b0d22d605, type: 2}
+  _insideMaterial: {fileID: 2100000, guid: a260c71feba45d141adc9de5d4dc24b7, type: 2}
