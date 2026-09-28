@@ -38,6 +38,11 @@ public class BounceEffect : SurfaceEffect
         }
     }
 
+    public override void OnSinkThresholdReached(SurfaceInstance surface, Rigidbody body, Vector3 outward)
+    {
+        ApplyOutwardBounce(body, outward);
+    }
+
     public override void OnImpact(SurfaceInstance surface, Collision collision)
     {
         Rigidbody rigidbody = collision.rigidbody;

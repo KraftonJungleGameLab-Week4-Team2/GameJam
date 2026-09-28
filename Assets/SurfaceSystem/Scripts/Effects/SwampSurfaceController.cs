@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(10001)]
+[DisallowMultipleComponent]
 public sealed class SwampSurfaceController : MonoBehaviour
 {
     private struct CollisionPair
@@ -16,7 +17,7 @@ public sealed class SwampSurfaceController : MonoBehaviour
     private readonly List<float> _originalRadii = new List<float>();
     private readonly List<CollisionPair> _ignoredPairs = new List<CollisionPair>();
 
-    private SwampEffect _effect;
+    private SinkEffect _effect;
     private Rigidbody _playerBody;
     private Collider _playerCollider;
     private Collider _trigger;
@@ -24,7 +25,7 @@ public sealed class SwampSurfaceController : MonoBehaviour
     private bool _active;
     private bool _waitUntilExit;
 
-    public void Begin(SwampEffect effect, Collider playerCollider)
+    public void Begin(SinkEffect effect, Collider playerCollider)
     {
         if (effect == null || playerCollider == null || playerCollider.attachedRigidbody == null)
         {
@@ -106,7 +107,6 @@ public sealed class SwampSurfaceController : MonoBehaviour
         float radialSpeed = Vector3.Dot(velocity, outward);
         if (_depth > 0.02f && radialSpeed > 1f)
         {
-            // A jump escapes the swamp and prevents re-entry until the player leaves its trigger.
             Restore(true);
             return;
         }
@@ -119,9 +119,13 @@ public sealed class SwampSurfaceController : MonoBehaviour
         radialSpeed = Mathf.Max(radialSpeed, -_effect.SinkSpeed);
         _playerBody.linearVelocity = tangent + outward * radialSpeed;
 
-        if (_depth >= Mathf.Min(_effect.DamageDepth, _effect.MaximumSinkDepth))
+        if (_depth >= Mathf.Min(_effect.ThresholdDepth, _effect.MaximumSinkDepth))
         {
-            _effect.OnDepthReached(GetComponent<SurfaceInstance>(), _playerBody, outward);
+            SurfaceInstance surface = GetComponent<SurfaceInstance>();
+            if (surface != null && surface.Profile != null)
+            {
+                surface.Profile.ProcessSinkThresholdReached(surface, _playerBody, outward);
+            }
             Restore(true);
         }
     }

@@ -68,6 +68,17 @@ public class SurfaceProfile : ScriptableObject
         return null;
     }
 
+    public void ProcessSinkThresholdReached(SurfaceInstance surface, Rigidbody body, Vector3 outward)
+    {
+        foreach (SurfaceEffect effect in _effects)
+        {
+            if (effect != null)
+            {
+                effect.OnSinkThresholdReached(surface, body, outward);
+            }
+        }
+    }
+
     public void ProcessSurfaceTriggerEnter(SurfaceInstance surface, Collider other)
     {
         foreach (SurfaceEffect effect in _effects)
