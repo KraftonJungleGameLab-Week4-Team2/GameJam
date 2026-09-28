@@ -14,14 +14,14 @@ public class __TEST_PLAYER__ : MonoBehaviour
 
     private void Update()
     {
-        var dir = -(_gravityInfo.PlanetPos - transform.position).normalized;
+        var dir = -(_gravityInfo.GravityOrigin.transform.position - transform.position).normalized;
 
         if (Input.GetKeyDown(KeyCode.Space)) _rigidbody.AddForce(dir * 500);
     }
 
     public void FixedUpdate()
     {
-        var groundDir = (_gravityInfo.PlanetPos - transform.position).normalized;
+        var groundDir = (_gravityInfo.GravityOrigin.transform.position - transform.position).normalized;
 
 
         if (Physics.Raycast(transform.position, groundDir, out var hit, 1f))
