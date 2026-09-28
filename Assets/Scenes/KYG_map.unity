@@ -457,7 +457,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 406854117}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -471,7 +471,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -596,9 +596,7 @@ MonoBehaviour:
   _player: {fileID: 765766399}
   _gravitySources: []
   _gravityInfo:
-    <PlanetPos>k__BackingField: {x: 0, y: 0, z: 0}
-    <PlayerPos>k__BackingField: {x: 0, y: 0, z: 0}
-    <Gravity>k__BackingField: 0
+    <Gravity>k__BackingField: 5
 --- !u!4 &516559022
 Transform:
   m_ObjectHideFlags: 0
@@ -659,7 +657,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 743738374}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -828,7 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54cdd845172283479c9ecb432959916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ChkDownDistance: 10
+  _ChkDownDistance: 2
   _ChkGroundDistance: 0.2
   _isGrounded: 0
 --- !u!114 &765766401
@@ -915,7 +913,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 818279684}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1190,7 +1188,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943610791}
   serializedVersion: 4
-  m_Mass: 111
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1340,7 +1338,7 @@ Transform:
   m_GameObject: {fileID: 1136032409}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -8.39, z: 0}
+  m_LocalPosition: {x: 0, y: 0.939, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1505,7 +1503,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1257557285}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1777,6 +1775,7 @@ GameObject:
   - component: {fileID: 1534037941}
   - component: {fileID: 1534037940}
   - component: {fileID: 1534037939}
+  - component: {fileID: 1534037943}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Respawn
@@ -1886,6 +1885,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1534037937}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1534037943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534037937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <GravityRange>k__BackingField: 10
 --- !u!1 &1633310519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1963,7 +1975,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781383178}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
