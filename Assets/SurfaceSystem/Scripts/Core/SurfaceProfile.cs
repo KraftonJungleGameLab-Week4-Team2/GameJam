@@ -56,46 +56,58 @@ public class SurfaceProfile : ScriptableObject
         }
     }
 
-    public void ProcessTriggerEnter(SurfaceInstance surface, Collider other)
+    public T GetEffect<T>() where T : SurfaceEffect
+    {
+        foreach (SurfaceEffect effect in _effects)
+        {
+            if (effect is T typedEffect)
+            {
+                return typedEffect;
+            }
+        }
+        return null;
+    }
+
+    public void ProcessSurfaceTriggerEnter(SurfaceInstance surface, Collider other)
     {
         foreach (SurfaceEffect effect in _effects)
         {
             if (effect != null)
             {
-                effect.OnTriggerEnter(surface, other);
+                effect.OnSurfaceTriggerEnter(surface, other);
             }
         }
     }
 
-    public void ProcessTriggerStay(SurfaceInstance surface, Collider other)
+    public void ProcessSurfaceTriggerStay(SurfaceInstance surface, Collider other)
     {
         foreach (SurfaceEffect effect in _effects)
         {
             if (effect != null)
             {
-                effect.OnTriggerStay(surface, other);
+                effect.OnSurfaceTriggerStay(surface, other);
             }
         }
     }
 
-    public void ProcessTriggerExit(SurfaceInstance surface, Collider other)
+    public void ProcessSurfaceTriggerExit(SurfaceInstance surface, Collider other)
     {
         foreach (SurfaceEffect effect in _effects)
         {
             if (effect != null)
             {
-                effect.OnTriggerExit(surface, other);
+                effect.OnSurfaceTriggerExit(surface, other);
             }
         }
     }
 
-    public void ProcessTriggerImpact(SurfaceInstance surface, Collider other)
+    public void ProcessSurfaceTriggerImpact(SurfaceInstance surface, Collider other)
     {
         foreach (SurfaceEffect effect in _effects)
         {
             if (effect != null)
             {
-                effect.OnTriggerImpact(surface, other);
+                effect.OnSurfaceTriggerImpact(surface, other);
             }
         }
     }

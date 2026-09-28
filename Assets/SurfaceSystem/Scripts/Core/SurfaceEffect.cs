@@ -10,11 +10,11 @@ public abstract class SurfaceEffect : ScriptableObject
 
     public virtual void OnImpact(SurfaceInstance surface, Collision collision) {}
 
-    public virtual void OnTriggerEnter(SurfaceInstance surface, Collider other) {}
+    public virtual void OnSurfaceTriggerEnter(SurfaceInstance surface, Collider other) {}
 
-    public virtual void OnTriggerStay(SurfaceInstance surface, Collider other) {}
+    public virtual void OnSurfaceTriggerStay(SurfaceInstance surface, Collider other) {}
 
-    public virtual void OnTriggerExit(SurfaceInstance surface, Collider other) {}
+    public virtual void OnSurfaceTriggerExit(SurfaceInstance surface, Collider other) {}
 
-    public virtual void OnTriggerImpact(SurfaceInstance surface, Collider other) {}
+    public virtual void OnSurfaceTriggerImpact(SurfaceInstance surface, Collider other) {}
 }

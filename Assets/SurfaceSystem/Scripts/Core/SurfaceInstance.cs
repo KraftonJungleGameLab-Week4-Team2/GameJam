@@ -164,7 +164,7 @@ public class SurfaceInstance : MonoBehaviour
         }
         else if (_profile != null && _triggerFallbackHandled && !_collisionObservedForTrigger)
         {
-            _profile.ProcessTriggerStay(this, other);
+            _profile.ProcessSurfaceTriggerStay(this, other);
         }
     }
 
@@ -177,7 +177,7 @@ public class SurfaceInstance : MonoBehaviour
 
         if (_triggerFallbackHandled)
         {
-            _profile.ProcessTriggerExit(this, other);
+            _profile.ProcessSurfaceTriggerExit(this, other);
         }
 
         if (_collisionContact == other && _triggerFallbackHandled)
@@ -198,8 +198,8 @@ public class SurfaceInstance : MonoBehaviour
         }
 
         _triggerFallbackHandled = true;
-        _profile.ProcessTriggerEnter(this, _triggerContact);
-        _profile.ProcessTriggerImpact(this, _triggerContact);
+        _profile.ProcessSurfaceTriggerEnter(this, _triggerContact);
+        _profile.ProcessSurfaceTriggerImpact(this, _triggerContact);
     }
 
     private void ClearTriggerContact()

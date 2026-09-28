@@ -15,7 +15,7 @@ public class SlipperyEffect : SurfaceEffect
         Apply(surface, collision != null ? collision.collider : null);
     }
 
-    public override void OnTriggerEnter(SurfaceInstance surface, Collider other)
+    public override void OnSurfaceTriggerEnter(SurfaceInstance surface, Collider other)
     {
         Apply(surface, other);
     }
@@ -46,7 +46,7 @@ public class SlipperyEffect : SurfaceEffect
         Clear(surface, collision != null ? collision.collider : null);
     }
 
-    public override void OnTriggerExit(SurfaceInstance surface, Collider other)
+    public override void OnSurfaceTriggerExit(SurfaceInstance surface, Collider other)
     {
         Clear(surface, other);
     }

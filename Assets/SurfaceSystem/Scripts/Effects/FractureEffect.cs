@@ -48,7 +48,7 @@ public class FractureEffect : SurfaceEffect
         glass.BeginFracture(this, collision.GetContact(0).point);
     }
 
-    public override void OnTriggerImpact(SurfaceInstance surface, Collider other)
+    public override void OnSurfaceTriggerImpact(SurfaceInstance surface, Collider other)
     {
         Rigidbody body = other != null ? other.attachedRigidbody : null;
         if (surface == null || body == null || body.isKinematic)
