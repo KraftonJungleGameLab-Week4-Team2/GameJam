@@ -112,11 +112,12 @@ public class PlayerMovement : MonoBehaviour
     private void RotateToGroundNormal()
     {
         Vector3 gravityUp = -GetPlanetDir();
-        // 현재 forward를 중력 축에 투영하여 회전 목표 생성
         Vector3 forward = Vector3.ProjectOnPlane(transform.forward, gravityUp);
+
         if (forward.sqrMagnitude > 0.001f)
         {
-            transform.rotation = Quaternion.LookRotation(forward, gravityUp);
+            Quaternion targetRotation = Quaternion.LookRotation(forward, gravityUp);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 3f * Time.fixedDeltaTime);
         }
     }
 
