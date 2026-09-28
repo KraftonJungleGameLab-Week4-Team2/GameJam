@@ -13,8 +13,8 @@ public class PlayerStat
     public float jumpForce = 7;
     public float stompForce = 100;
 
-    public float acceleration = 100f;
-    public float deceleration = 100f;
+    public float acceleration = 10f;
+    public float deceleration = 10f;
 }
 
 [RequireComponent(typeof(SurfaceMovement))]
@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded == false && _isStomp == false)
         {
             _isStomp = true;
-            _yVelocity -= _playerStat.stompForce;
+            _yVelocity = _playerStat.stompForce;
         }
     }
 
@@ -125,9 +125,14 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(_xVelocity);
         var gravityDir = GetPlanetDir();
         var groundNormal = -gravityDir;
-        var moveDir = (transform.right).normalized;
+        var moveDir = transform.right;
         var horizontalVelocity = Vector3.ProjectOnPlane(moveDir * _xVelocity, groundNormal) ;
-        _yVelocity -= _gravityInfo.Gravity * Time.fixedDeltaTime;
+
+        if (_isGrounded == false)
+        {
+            _yVelocity -= _gravityInfo.Gravity * Time.fixedDeltaTime;
+        }
+
         var verticalVelocity = _yVelocity * groundNormal;
         _rb.linearVelocity = horizontalVelocity + verticalVelocity;
     }
