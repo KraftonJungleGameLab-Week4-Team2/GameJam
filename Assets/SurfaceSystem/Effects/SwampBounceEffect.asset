@@ -15,3 +15,4 @@ MonoBehaviour:
   _bounceMultiplier: 1
   _minimumImpactSpeed: 1000
   _maxBounceSpeed: 8
+  _onlyAffectPlayer: 1

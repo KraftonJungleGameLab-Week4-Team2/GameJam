@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78b7d438e3644be28facd81cb032dcac, type: 3}
-  m_Name: SwampDamageEffect
+  m_Script: {fileID: 11500000, guid: 2f15deec937c078429b6b88c739052bd, type: 3}
+  m_Name: FireBounceEffect
   m_EditorClassIdentifier: 
-  _damage: 10
+  _bounceMultiplier: 1.2
+  _minimumImpactSpeed: 1
+  _maxBounceSpeed: 12
   _onlyAffectPlayer: 1

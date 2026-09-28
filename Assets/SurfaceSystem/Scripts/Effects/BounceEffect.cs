@@ -8,6 +8,7 @@ public class BounceEffect : SurfaceEffect
     [SerializeField, Min(0f)] private float _bounceMultiplier = 1.2f;
     [SerializeField, Min(0f)] private float _minimumImpactSpeed = 1f;
     [SerializeField, Min(0f)] private float _maxBounceSpeed = 20f;
+    [SerializeField] private bool _onlyAffectPlayer;
 
     public void ApplyOutwardBounce(Rigidbody body, Vector3 outward)
     {
@@ -47,7 +48,7 @@ public class BounceEffect : SurfaceEffect
     {
         Rigidbody rigidbody = collision.rigidbody;
 
-        if (rigidbody == null || rigidbody.isKinematic || collision.contactCount == 0)
+        if (rigidbody == null || rigidbody.isKinematic || collision.contactCount == 0 || !IsValidTarget(rigidbody))
         {
             return;
         }
@@ -78,7 +79,7 @@ public class BounceEffect : SurfaceEffect
     public override void OnSurfaceTriggerImpact(SurfaceInstance surface, Collider other)
     {
         Rigidbody rigidbody = other != null ? other.attachedRigidbody : null;
-        if (surface == null || rigidbody == null || rigidbody.isKinematic)
+        if (surface == null || rigidbody == null || rigidbody.isKinematic || !IsValidTarget(rigidbody))
         {
             return;
         }
@@ -120,5 +121,22 @@ public class BounceEffect : SurfaceEffect
         }
 
         return normal.normalized;
+    }
+
+    private bool IsValidTarget(Rigidbody body)
+    {
+        if (!_onlyAffectPlayer)
+        {
+            return true;
+        }
+
+        foreach (MonoBehaviour behaviour in body.GetComponentsInParent<MonoBehaviour>())
+        {
+            if (behaviour != null && behaviour.GetType().Name == "PlayerMovement")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
