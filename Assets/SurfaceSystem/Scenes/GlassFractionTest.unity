@@ -249,7 +249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &173117042
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -916,10 +916,10 @@ GameObject:
   - component: {fileID: 2096823728}
   - component: {fileID: 2096823727}
   - component: {fileID: 2096823731}
-  - component: {fileID: 2096823732}
   - component: {fileID: 2096823733}
+  - component: {fileID: 2096823734}
   m_Layer: 0
-  m_Name: Planet_Jelly
+  m_Name: Planet_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -932,7 +932,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096823726}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 38ecdbf2c3f95984986ca795656c6da5, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -969,7 +969,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b6ed5fa16d29d4940a4202038c192979, type: 2}
+  - {fileID: 2100000, guid: a40923f81a1d63040bf7091b0d22d605, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1026,28 +1026,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0465047d1df4cc345990205f85ea2240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _profile: {fileID: 11400000, guid: 3982d9293fccbc548af529a7c8533643, type: 2}
+  _profile: {fileID: 11400000, guid: ae3e31ec22346f84897b893ba1867bcf, type: 2}
   _surfaceColliders:
   - {fileID: 2096823727}
---- !u!114 &2096823732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2096823726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 920b598d41ee5c344b8b8850fe2cbad0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _deformationRadius: 0.5
-  _forceMultiplier: 2
-  _springForce: 200
-  _damping: 5
-  _settleThreshold: 0.001
-  _minimumImpactSpeed: 1
-  _impactForceMultiplier: 5
 --- !u!114 &2096823733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,6 +1042,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <GravityRange>k__BackingField: 20
+--- !u!114 &2096823734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096823726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3275681ba6a34a44845aa34dd789049, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

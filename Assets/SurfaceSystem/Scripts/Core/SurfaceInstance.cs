@@ -32,11 +32,11 @@ public class SurfaceInstance : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        _profile.ProcessCollision(collision, true);
+        _profile.ProcessCollision(this, collision, true);
     }
 
     void OnCollisionStay(Collision collision)
     {
-        _profile.ProcessCollision(collision, false);
+        _profile.ProcessCollision(this, collision, false);
     }
 }
