@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_isGrounded)
         {
-            _yVelocity += _playerStat.jumpForce;
+            _yVelocity = _playerStat.jumpForce;
         }
     }
 
@@ -152,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
             _gravityInfo.ApplyGravity(0.0f);
             _isStomp = false;
         }
-        Debug.DrawRay(transform.position, -transform.up, Color.red, 1f);
+        Debug.DrawRay(transform.position, GetPlanetDir() * _ChkGroundDistance, Color.red);
     }
 
     private void OnGUI()
