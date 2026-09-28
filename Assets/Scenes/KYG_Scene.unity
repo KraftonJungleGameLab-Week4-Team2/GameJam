@@ -1024,6 +1024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gravityManager: {fileID: 985910338}
   _playerMovement: {fileID: 1936282279}
+  _playerInputSystem: {fileID: 1936282280}
 --- !u!4 &1949047532
 Transform:
   m_ObjectHideFlags: 0

@@ -1,11 +1,18 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class PlayerInputSystem : MonoBehaviour
+
+public interface IPlayerInput
+{
+    public event Action<Vector2> Move;
+    public event Action Jump;
+    public event Action Stomp;
+}
+
+public class PlayerInputSystem : MonoBehaviour, IPlayerInput
 {
     private InputSystem_Actions _actions;
     private float _xMoveValue;
-
     public event Action<Vector2> Move;
     public event Action Jump;
     public event Action Stomp;
