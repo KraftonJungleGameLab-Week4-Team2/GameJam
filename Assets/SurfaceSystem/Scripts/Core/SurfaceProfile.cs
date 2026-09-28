@@ -1,6 +1,5 @@
 using UnityEngine;
 
-// 표면의 조합을 저장하고 Effect를 호출한다. 재질별 조건이나 물리 계산은 Effect가 맡는다.
 [CreateAssetMenu(fileName = "SurfaceProfile", menuName = "SurfaceSystem/Surface Profile")]
 public class SurfaceProfile : ScriptableObject
 {
@@ -13,37 +12,46 @@ public class SurfaceProfile : ScriptableObject
         get { return _physicsMaterial; }
     }
 
-    // 등록된 Effect가 이동과 상호작용 설정을 하나의 결과에 채운다.
-    public SurfaceModifiers GetModifiers(float currentSpeed = 0f, float baseMaxSpeed = 0f)
+    public void ProcessEnter(SurfaceInstance surface, Collision collision)
     {
-        SurfaceModifiers modifiers = SurfaceModifiers.Default;
-        float normalizedSpeed = 0f;
-        if (baseMaxSpeed > Mathf.Epsilon)
-        {
-            normalizedSpeed = Mathf.Clamp01(currentSpeed / baseMaxSpeed);
-        }
-
         foreach (SurfaceEffect effect in _effects)
         {
-            effect.Modify(ref modifiers, normalizedSpeed);
+            if (effect != null)
+            {
+                effect.OnEnter(surface, collision);
+            }
         }
-
-        return modifiers;
     }
 
-    // 충돌마다 설정을 한 번 계산하고, 첫 충돌 또는 접촉 유지 효과를 실행한다.
-    public void ProcessCollision(SurfaceInstance surface, Collision collision, bool isFirstContact)
+    public void ProcessStay(SurfaceInstance surface, Collision collision)
     {
-        SurfaceModifiers modifiers = GetModifiers();
         foreach (SurfaceEffect effect in _effects)
         {
-            if (isFirstContact)
+            if (effect != null)
             {
-                effect.OnImpact(surface, collision, modifiers);
+                effect.OnStay(surface, collision);
             }
-            else
+        }
+    }
+
+    public void ProcessExit(SurfaceInstance surface, Collision collision)
+    {
+        foreach (SurfaceEffect effect in _effects)
+        {
+            if (effect != null)
             {
-                effect.OnStay(surface, collision, modifiers);
+                effect.OnExit(surface, collision);
+            }
+        }
+    }
+
+    public void ProcessImpact(SurfaceInstance surface, Collision collision)
+    {
+        foreach (SurfaceEffect effect in _effects)
+        {
+            if (effect != null)
+            {
+                effect.OnImpact(surface, collision);
             }
         }
     }

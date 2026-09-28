@@ -1,6 +1,5 @@
 using UnityEngine;
 
-// 행성에 물리 재질을 연결하고 Unity 충돌 이벤트를 프로필에 전달한다.
 public class SurfaceInstance : MonoBehaviour
 {
     [Header("Surface")]
@@ -12,11 +11,16 @@ public class SurfaceInstance : MonoBehaviour
         get { return _profile; }
     }
 
-    void Awake()
+    private void Awake()
     {
         if (_surfaceColliders.Length == 0)
         {
             _surfaceColliders = GetComponentsInChildren<Collider>();
+        }
+
+        if (_profile == null)
+        {
+            return;
         }
 
         foreach (Collider surfaceCollider in _surfaceColliders)
@@ -25,18 +29,39 @@ public class SurfaceInstance : MonoBehaviour
         }
     }
 
-    void Reset()
+    private void Reset()
     {
         _surfaceColliders = GetComponentsInChildren<Collider>();
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        _profile.ProcessCollision(this, collision, true);
+        if (_profile == null)
+        {
+            return;
+        }
+
+        _profile.ProcessEnter(this, collision);
+        _profile.ProcessImpact(this, collision);
     }
 
-    void OnCollisionStay(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        _profile.ProcessCollision(this, collision, false);
+        if (_profile == null)
+        {
+            return;
+        }
+
+        _profile.ProcessStay(this, collision);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (_profile == null)
+        {
+            return;
+        }
+
+        _profile.ProcessExit(this, collision);
     }
 }

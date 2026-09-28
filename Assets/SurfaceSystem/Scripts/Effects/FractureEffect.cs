@@ -6,8 +6,8 @@ using UnityEngine;
 
 using SurfaceSystem.OpenFracture;
 
-[CreateAssetMenu(fileName = "GlassFractureEffect", menuName = "SurfaceSystem/Effects/Glass Fracture Effect")]
-public class GlassFractureEffect : SurfaceEffect
+[CreateAssetMenu(fileName = "FractureEffect", menuName = "SurfaceSystem/Effects/Fracture Effect")]
+public class FractureEffect : SurfaceEffect
 {
     [Header("Impact")]
     [SerializeField, Min(0f)] private float _breakImpulseThreshold = 8f;
@@ -23,28 +23,21 @@ public class GlassFractureEffect : SurfaceEffect
 
     public float FragmentLifetime { get { return _fragmentLifetime; } }
 
-    // 유리 파괴 기준을 플레이어와 공통 설정 조회에 제공한다.
-    public override void Modify(ref SurfaceModifiers modifiers, float normalizedSpeed)
-    {
-        modifiers.breakEnabled = true;
-        modifiers.breakImpulseThreshold = _breakImpulseThreshold;
-    }
-
     // 실제 충격량을 판정하고 충돌한 행성에서 파괴 작업을 시작한다.
-    public override void OnImpact(SurfaceInstance surface, Collision collision, SurfaceModifiers modifiers)
+    public override void OnImpact(SurfaceInstance surface, Collision collision)
     {
-        if (!modifiers.breakEnabled || collision.contactCount == 0
-            || collision.impulse.magnitude < modifiers.breakImpulseThreshold)
+        if (collision.contactCount == 0)
         {
             return;
         }
 
-        if (collision.gameObject.GetComponentInParent<SurfaceAgent>() == null)
+        if (collision.impulse.magnitude < _breakImpulseThreshold)
         {
             return;
         }
 
         MeshGlass glass = surface.GetComponent<MeshGlass>();
+
         if (glass == null)
         {
             Debug.LogError("GlassFractureEffect requires MeshGlass on the SurfaceInstance object.", surface);
