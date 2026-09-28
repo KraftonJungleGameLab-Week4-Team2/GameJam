@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded == false && _isStomp == false)
         {
             _isStomp = true;
-            _yVelocity = _playerStat.stompForce;
+            _yVelocity = -_playerStat.stompForce;
         }
     }
 
