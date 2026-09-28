@@ -48,6 +48,40 @@ public class FractureEffect : SurfaceEffect
         glass.BeginFracture(this, collision.GetContact(0).point);
     }
 
+    public override void OnTriggerImpact(SurfaceInstance surface, Collider other)
+    {
+        Rigidbody body = other != null ? other.attachedRigidbody : null;
+        if (surface == null || body == null || body.isKinematic)
+        {
+            return;
+        }
+
+        Vector3 point = surface.GetTriggerContactPoint(other);
+        Vector3 normal = surface.GetTriggerSurfaceNormal(other, point);
+        Rigidbody surfaceBody = surface.GetComponent<Rigidbody>();
+        Vector3 relativeVelocity = body.GetPointVelocity(point);
+        if (surfaceBody != null)
+        {
+            relativeVelocity -= surfaceBody.GetPointVelocity(point);
+        }
+
+        float impactSpeed = -Vector3.Dot(relativeVelocity, normal);
+        float estimatedImpulse = impactSpeed * body.mass;
+        if (estimatedImpulse < _breakImpulseThreshold)
+        {
+            return;
+        }
+
+        MeshGlass glass = surface.GetComponent<MeshGlass>();
+        if (glass == null)
+        {
+            Debug.LogError("GlassFractureEffect requires MeshGlass on the SurfaceInstance object.", surface);
+            return;
+        }
+
+        glass.BeginFracture(this, point);
+    }
+
     // OpenFracture로 실제 메시를 절단하며 한 프레임에 한 번씩 분할한다.
     public IEnumerator Fracture(MeshGlass glass, Vector3 burstOrigin)
     {

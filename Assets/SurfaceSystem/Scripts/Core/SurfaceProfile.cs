@@ -55,4 +55,48 @@ public class SurfaceProfile : ScriptableObject
             }
         }
     }
+
+    public void ProcessTriggerEnter(SurfaceInstance surface, Collider other)
+    {
+        foreach (SurfaceEffect effect in _effects)
+        {
+            if (effect != null)
+            {
+                effect.OnTriggerEnter(surface, other);
+            }
+        }
+    }
+
+    public void ProcessTriggerStay(SurfaceInstance surface, Collider other)
+    {
+        foreach (SurfaceEffect effect in _effects)
+        {
+            if (effect != null)
+            {
+                effect.OnTriggerStay(surface, other);
+            }
+        }
+    }
+
+    public void ProcessTriggerExit(SurfaceInstance surface, Collider other)
+    {
+        foreach (SurfaceEffect effect in _effects)
+        {
+            if (effect != null)
+            {
+                effect.OnTriggerExit(surface, other);
+            }
+        }
+    }
+
+    public void ProcessTriggerImpact(SurfaceInstance surface, Collider other)
+    {
+        foreach (SurfaceEffect effect in _effects)
+        {
+            if (effect != null)
+            {
+                effect.OnTriggerImpact(surface, other);
+            }
+        }
+    }
 }

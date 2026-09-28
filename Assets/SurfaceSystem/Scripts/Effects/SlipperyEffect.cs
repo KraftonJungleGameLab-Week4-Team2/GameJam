@@ -12,7 +12,17 @@ public class SlipperyEffect : SurfaceEffect
 
     public override void OnEnter(SurfaceInstance surface, Collision collision)
     {
-        SurfaceMovement movementState = collision.gameObject.GetComponentInParent<SurfaceMovement>();
+        Apply(surface, collision != null ? collision.collider : null);
+    }
+
+    public override void OnTriggerEnter(SurfaceInstance surface, Collider other)
+    {
+        Apply(surface, other);
+    }
+
+    private void Apply(SurfaceInstance surface, Collider other)
+    {
+        SurfaceMovement movementState = other != null ? other.GetComponentInParent<SurfaceMovement>() : null;
 
         if (movementState == null)
         {
@@ -33,7 +43,17 @@ public class SlipperyEffect : SurfaceEffect
 
     public override void OnExit(SurfaceInstance surface, Collision collision)
     {
-        SurfaceMovement movementState = collision.gameObject.GetComponentInParent<SurfaceMovement>();
+        Clear(surface, collision != null ? collision.collider : null);
+    }
+
+    public override void OnTriggerExit(SurfaceInstance surface, Collider other)
+    {
+        Clear(surface, other);
+    }
+
+    private void Clear(SurfaceInstance surface, Collider other)
+    {
+        SurfaceMovement movementState = other != null ? other.GetComponentInParent<SurfaceMovement>() : null;
 
         if (movementState == null)
         {

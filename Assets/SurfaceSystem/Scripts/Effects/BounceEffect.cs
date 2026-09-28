@@ -40,6 +40,38 @@ public class BounceEffect : SurfaceEffect
         rigidbody.AddForce(surfaceNormal * velocityChange, ForceMode.VelocityChange);
     }
 
+    public override void OnTriggerImpact(SurfaceInstance surface, Collider other)
+    {
+        Rigidbody rigidbody = other != null ? other.attachedRigidbody : null;
+        if (surface == null || rigidbody == null || rigidbody.isKinematic)
+        {
+            return;
+        }
+
+        Vector3 contactPoint = surface.GetTriggerContactPoint(other);
+        Vector3 surfaceNormal = surface.GetTriggerSurfaceNormal(other, contactPoint);
+        Rigidbody surfaceBody = surface.GetComponent<Rigidbody>();
+        Vector3 relativeVelocity = rigidbody.GetPointVelocity(contactPoint);
+        if (surfaceBody != null)
+        {
+            relativeVelocity -= surfaceBody.GetPointVelocity(contactPoint);
+        }
+
+        float incomingNormalVelocity = Vector3.Dot(relativeVelocity, surfaceNormal);
+        if (incomingNormalVelocity >= -_minimumImpactSpeed)
+        {
+            return;
+        }
+
+        float bounceSpeed = Mathf.Min(-incomingNormalVelocity * _bounceMultiplier, _maxBounceSpeed);
+        float currentNormalVelocity = Vector3.Dot(rigidbody.linearVelocity, surfaceNormal);
+        float velocityChange = bounceSpeed - currentNormalVelocity;
+        if (velocityChange > 0f)
+        {
+            rigidbody.AddForce(surfaceNormal * velocityChange, ForceMode.VelocityChange);
+        }
+    }
+
     private Vector3 GetSurfaceNormal(Collision collision)
     {
         ContactPoint contact = collision.GetContact(0);

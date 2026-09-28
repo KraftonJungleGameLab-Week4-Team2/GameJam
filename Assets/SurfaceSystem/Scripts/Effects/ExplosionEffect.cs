@@ -32,13 +32,23 @@ public class ExplosionEffect : SurfaceEffect
 
     public override void OnEnter(SurfaceInstance surface, Collision collision)
     {
-        if (surface == null || collision == null || collision.contactCount == 0)
+        StartCountdown(surface, collision != null ? collision.collider : null);
+    }
+
+    public override void OnTriggerEnter(SurfaceInstance surface, Collider other)
+    {
+        StartCountdown(surface, other);
+    }
+
+    private void StartCountdown(SurfaceInstance surface, Collider other)
+    {
+        if (surface == null || other == null)
         {
             return;
         }
 
         // SurfaceMovement는 프로젝트 플레이어에 이미 붙어 있는 SurfaceSystem 컴포넌트다.
-        if (collision.gameObject.GetComponentInParent<SurfaceMovement>() == null)
+        if (other.GetComponentInParent<SurfaceMovement>() == null)
         {
             return;
         }
@@ -55,7 +65,7 @@ public class ExplosionEffect : SurfaceEffect
             bomb = surface.gameObject.AddComponent<MeshBomb>();
         }
 
-        bomb.StartCountdown(this, collision.rigidbody);
+        bomb.StartCountdown(this, other.attachedRigidbody);
     }
 
     public void Explode(MeshBomb bomb, Rigidbody playerBody)
