@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float lifeTime = 5f;
     private Vector3 waypoint;
     private Transform target;
+    private Vector3 dir;
 
     public void Init(Vector3 waypoint, Transform target) //BossAttack에서 첫번째 스탑 위치와 , 목표위치를 불러옴
     {
@@ -28,8 +29,8 @@ public class Bullet : MonoBehaviour
 
         yield return new WaitForSeconds(waitAtWaypoint); //잠깐 대기 
 
-
-        Vector3 dir = (target.position - transform.position).normalized; //이동방향
+        if (target)
+            dir = (target.position - transform.position).normalized; //이동방향
         float time = 0f;
         while (time < lifeTime) // lifeTime 전까지 날라감
         {
