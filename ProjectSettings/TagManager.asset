@@ -8,6 +8,7 @@ TagManager:
   - Undefined
   - Box
   - FireBall
+  - Boss
   layers:
   - Default
   - TransparentFX
