@@ -5,7 +5,6 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float speed = 60f;
     [SerializeField] private float lifeTime = 5f;
-    [SerializeField] private float turnSpeed = 360f;
 
     private Vector3 _waypoint;
     private Transform _target;
@@ -45,20 +44,15 @@ public class Bullet : MonoBehaviour
             yield return null;
         }
 
+        if (_target != null)
+        {
+            _direction = (_target.position - transform.position).normalized;
+            FaceDirection(_direction);
+        }
+
         float elapsed = 0f;
         while (elapsed < lifeTime && !_hasHit)
         {
-            if (_target != null)
-            {
-                Vector3 toTarget = _target.position - transform.position;
-                if (toTarget.sqrMagnitude > 0.001f)
-                {
-                    Vector3 desiredDirection = toTarget.normalized;
-                    _direction = Vector3.RotateTowards(_direction, desiredDirection,
-                        turnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0f).normalized;
-                }
-            }
-
             FaceDirection(_direction);
             float step = speed * Time.deltaTime;
             if (MoveAndCheckHit(_direction, step))
