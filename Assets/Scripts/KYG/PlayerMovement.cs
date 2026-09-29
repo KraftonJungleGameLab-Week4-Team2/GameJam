@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class PlayerStat
@@ -100,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         if (_gameStateSO.State != GameState.Playing)
             return;
 
-        _xInput = value.y;
+        _xInput = Mathf.Clamp(value.x - value.y, -1f, 1f);
     }
 
     private void PlayerStomp()
@@ -162,14 +161,14 @@ public class PlayerMovement : MonoBehaviour
         var gravityDir = GetPlanetDir();
         var groundNormal = -gravityDir;
 
-// 2D/횡스크롤 기준 (화면 앞쪽 z축이 고정된 평면일 경우)
-// 기준 축(Vector3.forward)과 지면 법선의 외적으로 완벽한 접선(Tangent) 벡터 생성
-        Vector3 moveDir = Vector3.Cross(Vector3.forward, groundNormal).normalized;
+        // 2D/횡스크롤 기준 (화면 앞쪽 z축이 고정된 평면일 경우)
+        // 기준 축(Vector3.forward)과 지면 법선의 외적으로 완벽한 접선(Tangent) 벡터 생성
+        Vector3 moveDir = Vector3.Cross(groundNormal, Vector3.forward).normalized;
 
-// _xVelocity 입력 방향(좌/우)에 맞게 곱해줌
+        // _xVelocity 입력 방향(좌/우)에 맞게 곱해줌
         var horizontalVelocity = moveDir * _xVelocity;
 
-// 수직 속도 계산
+        // 수직 속도 계산
         if (!_isGrounded)
         {
             _yVelocity -= _gravityInfo.Gravity * Time.fixedDeltaTime;
@@ -235,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(_gravityInfo != null)
+        if (_gravityInfo != null)
             _gravityInfo.GravityOriginChanged -= OnGravitySourceChanged;
     }
 }
