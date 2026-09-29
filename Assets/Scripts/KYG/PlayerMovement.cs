@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
         var gravityDir = GetPlanetDir();
         var groundNormal = -gravityDir;
 
-        // 핵심: transform.right를 행성 표면 평면에 완벽히 투영하여 접선 벡터 추출
+        // transform.right를 행성 표면 평면에 완벽히 투영하여 접선 벡터 추출
         var moveDir = Vector3.ProjectOnPlane(transform.right, groundNormal).normalized;
         var horizontalVelocity = moveDir * _xVelocity;
 
@@ -168,6 +168,9 @@ public class PlayerMovement : MonoBehaviour
         // 2D 횡스크롤/서클 이동인 경우 화면 앞쪽(Vector3.forward)을 기준으로 안정적으로 회전 생성
         // 만약 Z축 회전 평면 게임이라면:
         Quaternion targetRotation = Quaternion.FromToRotation(transform.up, gravityUp) * transform.rotation;
+
+        // 플레이어가 y축으로 회전하는 경우 방지
+        targetRotation.y = 0;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10.0f * Time.fixedDeltaTime);
     }
 
@@ -178,9 +181,16 @@ public class PlayerMovement : MonoBehaviour
         _isGrounded = hasGroundHit && _yVelocity <= 0.0f;
         if (_isGrounded)
         {
-            if (hit.collider.TryGetComponent<GravitySource>(out var source))
+            // 그라운드 판정이 처음 들어갈 때
+            if (_isGrounded == false)
             {
-                GravitySource = source;
+                if (hit.collider.TryGetComponent<GravitySource>(out var source))
+                {
+                    GravitySource = source;
+                }
+
+                // z축 좌표를 행성 z축 좌표와 고정시키기
+                transform.position = new Vector3(transform.position.x, transform.position.y, hit.transform.position.z);
             }
 
             if (IsStomp)
