@@ -34,11 +34,8 @@ public class Bullet : MonoBehaviour
         float time = 0f;
         while (time < lifeTime) // lifeTime 전까지 날라감
         {
-            var targetRot = Quaternion.LookRotation(dir, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
-            transform.Translate(Vector3.forward * Time.deltaTime * speed);
 
-            //transform.position += dir * speed * Time.deltaTime;
+            transform.position += dir * speed * Time.deltaTime;
             time += Time.deltaTime;
             yield return null;
         }

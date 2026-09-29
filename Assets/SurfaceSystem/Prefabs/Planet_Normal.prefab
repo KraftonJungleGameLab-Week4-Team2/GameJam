@@ -78,10 +78,10 @@ GameObject:
   - component: {fileID: 7553786160411457568}
   - component: {fileID: 4192729785216494752}
   - component: {fileID: 4907712643730359614}
-  - component: {fileID: -6174814814155765118}
   - component: {fileID: 8347652524497355017}
   - component: {fileID: 6816723426587637519}
   - component: {fileID: 3510137176018979516}
+  - component: {fileID: 8775561287298748526}
   m_Layer: 0
   m_Name: Planet_Normal
   m_TagString: Untagged
@@ -137,7 +137,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d7b7a736b15bd1e4081cb6173b947f16, type: 2}
+  - {fileID: 2100000, guid: e54c061a13ba3004899daff360bbd489, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -180,22 +180,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-6174814814155765118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7913768680697233272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e024b57dfa1a745ad7bc85e52377ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _meshGlass: {fileID: 3510137176018979516}
-  _materialType: 0
-  _originScale: {x: 0, y: 0, z: 0}
-  _planetState: 0
 --- !u!114 &8347652524497355017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +222,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3275681ba6a34a44845aa34dd789049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &8775561287298748526
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7913768680697233272}
+  serializedVersion: 4
+  m_Mass: 100
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &6182486175072686438
 PrefabInstance:
   m_ObjectHideFlags: 0

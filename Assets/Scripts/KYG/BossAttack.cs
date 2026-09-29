@@ -1,6 +1,6 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 public class BossAttack : MonoBehaviour
@@ -10,6 +10,10 @@ public class BossAttack : MonoBehaviour
     public GameObject attackCube;
     [SerializeField] private Transform _playerPos;
     [SerializeField] private GameObject _fakeFireBall;
+    [Tooltip("Fake Meteor 생성 기준점입니다. Boss 프리팹은 LeftLeg/FootStem으로 설정되어 있습니다.")]
+    [SerializeField] private Transform _fakeMeteorSpawnPoint;
+    [Tooltip("FootStem에서 이동할 거리입니다. Boss 방향에 맞춰 회전하며, 보스 크기 배율은 적용하지 않습니다.")]
+    [SerializeField] private Vector3 _fakeMeteorSpawnOffset;
     public Vector3 playerRightUp;
     public bool nomalattack;
     public bool fireBallAttack;
@@ -119,8 +123,8 @@ public class BossAttack : MonoBehaviour
 
     private IEnumerator PlayFakeFireBall()
     {
-        Vector3 bossRightPosition = boss.position;
-        GameObject fakeMeteor = Instantiate(_fakeFireBall, bossRightPosition, Quaternion.identity);
+        Vector3 spawnPosition = GetFakeMeteorSpawnPosition();
+        GameObject fakeMeteor = Instantiate(_fakeFireBall, spawnPosition, Quaternion.identity);
         Rigidbody fakeMeteorBody = fakeMeteor.GetComponent<Rigidbody>();
         fakeMeteorBody.isKinematic = true;
         fakeMeteorBody.useGravity = false;
@@ -129,9 +133,14 @@ public class BossAttack : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
 
         Vector3 launchOffset = new Vector3(0f, 100f, -300f);
-        yield return fakeMeteor.transform.DOMove(bossRightPosition + launchOffset, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
+        yield return fakeMeteor.transform.DOMove(spawnPosition + launchOffset, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
 
         Destroy(fakeMeteor);
+    }
+
+    private Vector3 GetFakeMeteorSpawnPosition()
+    {
+        return _fakeMeteorSpawnPoint.position + transform.rotation * _fakeMeteorSpawnOffset;
     }
 
     private Vector3 GetMeteorSpawnPosition(Transform target)
