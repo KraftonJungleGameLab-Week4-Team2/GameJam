@@ -2,23 +2,19 @@ using UnityEngine;
 
 public class GravityManager : MonoBehaviour
 {
-    [SerializeField] private bool _findSourcsInScene = true;
-
     [SerializeField] private Transform _player;
-
-    [SerializeField] private GravitySource[] _gravitySources;
 
     [SerializeField] private GravityInfo _gravityInfo;
 
+    [SerializeField] private GravitySource[] _gravitySources;
 
     public IGravityInfo GravityInfo => _gravityInfo;
 
-
-    private void Start()
+    public void SetGravitySources(GravitySource[] sources)
     {
-        if (_findSourcsInScene)
-            _gravitySources = FindObjectsByType<GravitySource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        _gravitySources = sources;
     }
+
 
     private void Update()
     {

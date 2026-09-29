@@ -7,12 +7,80 @@ public class MainScreen : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [Space]
+    [SerializeField] private Slider _bossHpSlider;
+    [SerializeField] private GameObject[] _playerHp;
     [SerializeField] private Image _retryImage;
     [SerializeField] private float _holdDuration = 1.5f;
+    [Space]
+    [SerializeField] private GameObject[] _dialogues;
+    [SerializeField] private GameObject _nextButton;
+    [SerializeField] private GameObject[] _afterDialougeActive;
 
     [Header("In Game")]
+    [SerializeField] private int _currentDialogueIndex = 0;
     [SerializeField] private float _currentHoldTime = 0f;
     [SerializeField] private bool _isRetry = false;
+
+    void Start()
+    {
+        _currentDialogueIndex = 0;
+        SetDialogue(_currentDialogueIndex);
+    }
+
+    public void SetDialogue(int index)
+    {
+        for (int i = 0; i < _dialogues.Length; i++)
+        {
+            if (i == index)
+            {
+                _dialogues[i].SetActive(true);
+            }
+            else
+            {
+                _dialogues[i].SetActive(false);
+            }
+        }
+    }
+
+    public void NextDialogue()
+    {
+        _currentDialogueIndex++;
+
+        SetDialogue(_currentDialogueIndex);
+
+        // 다이얼로그 대화창 끝이면
+        if (_currentDialogueIndex > _dialogues.Length - 1)
+        {
+            _nextButton.SetActive(false);
+
+            // 다 켜줌
+            for (int i = 0; i < _afterDialougeActive.Length; i++)
+            {
+                _afterDialougeActive[i].SetActive(true);
+            }
+            return;
+        }
+    }
+
+    public void SetPlayerHP(int hp)
+    {
+        for (int i = 0; i < _playerHp.Length; i++)
+        {
+            if (i < hp)
+            {
+                _playerHp[i].SetActive(true);
+            }
+            else
+            {
+                _playerHp[i].SetActive(false);
+            }
+        }
+    }
+
+    public void SetBossHp(float hp)
+    {
+        _bossHpSlider.value = hp;
+    }
 
     void Update()
     {

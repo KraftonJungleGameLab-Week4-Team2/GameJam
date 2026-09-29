@@ -3,6 +3,7 @@ using UnityEngine;
 public class Revolution : MonoBehaviour
 {
     public Transform target;
+    public float CurrentAngle => _angle;
     private Rigidbody _rigidbody;
     [SerializeField] private float rotateSpeed = 0.05f;
 
@@ -10,6 +11,14 @@ public class Revolution : MonoBehaviour
 
     [Range(0, 6.28f)]
     [SerializeField] private float _angle; //행성의 각도
+
+    public void Configure(Transform orbitCenter, float radius, float angle, float speed)
+    {
+        target = orbitCenter;
+        _radius = radius;
+        _angle = angle;
+        rotateSpeed = speed;
+    }
 
     //private void Awake()
     //{
@@ -29,6 +38,11 @@ public class Revolution : MonoBehaviour
     }
     private void PlanetRevolution()
     {
+        if (target == null)
+        {
+            return;
+        }
+
         float x = target.position.x + Mathf.Cos(_angle) * _radius;
         float y = target.position.y + Mathf.Sin(_angle) * _radius;
         float z = target.position.z;

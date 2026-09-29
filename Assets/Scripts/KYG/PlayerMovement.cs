@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class PlayerStat
@@ -22,6 +21,9 @@ public class PlayerStat
 public class PlayerMovement : MonoBehaviour
 {
     public event Action<GravitySource> PlanetChanged;
+
+    [SerializeField]
+    private GameStateSO _gameStateSO;
 
     private GravitySource _gravitySource;
     private GravitySource GravitySource
@@ -92,10 +94,19 @@ public class PlayerMovement : MonoBehaviour
         _inputSystem.Stomp -= PlayerStomp;
     }
 
-    private void PlayerMoveInput(Vector2 value) => _xInput = value.y;
+    private void PlayerMoveInput(Vector2 value)
+    {
+        if (_gameStateSO.State != GameState.Playing)
+            return;
+
+        _xInput = Mathf.Clamp(value.x - value.y, -1f, 1f);
+    }
 
     private void PlayerStomp()
     {
+        if (_gameStateSO.State != GameState.Playing)
+            return;
+
         if (_isGrounded == false && IsStomp == false)
         {
             IsStomp = true;
@@ -105,6 +116,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerJump()
     {
+        if (_gameStateSO.State != GameState.Playing)
+            return;
+
         if (_isGrounded)
         {
             _yVelocity = _playerStat.jumpForce;
@@ -147,14 +161,14 @@ public class PlayerMovement : MonoBehaviour
         var gravityDir = GetPlanetDir();
         var groundNormal = -gravityDir;
 
-// 2D/횡스크롤 기준 (화면 앞쪽 z축이 고정된 평면일 경우)
-// 기준 축(Vector3.forward)과 지면 법선의 외적으로 완벽한 접선(Tangent) 벡터 생성
-        Vector3 moveDir = Vector3.Cross(Vector3.forward, groundNormal).normalized;
+        // 2D/횡스크롤 기준 (화면 앞쪽 z축이 고정된 평면일 경우)
+        // 기준 축(Vector3.forward)과 지면 법선의 외적으로 완벽한 접선(Tangent) 벡터 생성
+        Vector3 moveDir = Vector3.Cross(groundNormal, Vector3.forward).normalized;
 
-// _xVelocity 입력 방향(좌/우)에 맞게 곱해줌
+        // _xVelocity 입력 방향(좌/우)에 맞게 곱해줌
         var horizontalVelocity = moveDir * _xVelocity;
 
-// 수직 속도 계산
+        // 수직 속도 계산
         if (!_isGrounded)
         {
             _yVelocity -= _gravityInfo.Gravity * Time.fixedDeltaTime;
@@ -182,21 +196,21 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit hit;
         bool hasGroundHit = Physics.Raycast(transform.position, GetPlanetDir(), out hit, _ChkGroundDistance);
+
+        var beforeGround = _isGrounded;
         _isGrounded = hasGroundHit && _yVelocity <= 0.0f;
         if (_isGrounded)
         {
             // 그라운드 판정이 처음 들어갈 때
-            if (_isGrounded == false)
+            if (beforeGround == false)
             {
                 if (hit.collider.TryGetComponent<GravitySource>(out var source))
                 {
                     GravitySource = source;
                 }
-
                 // z축 좌표를 행성 z축 좌표와 고정시키기
                 transform.position = new Vector3(transform.position.x, transform.position.y, hit.transform.position.z);
             }
-
             if (IsStomp)
             {
                 SurfaceInstance surface = hit.collider.GetComponentInParent<SurfaceInstance>();
@@ -220,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(_gravityInfo != null)
+        if (_gravityInfo != null)
             _gravityInfo.GravityOriginChanged -= OnGravitySourceChanged;
     }
 }

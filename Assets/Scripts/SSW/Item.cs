@@ -21,7 +21,7 @@ public class Item : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_isCollected || !other.transform.root.CompareTag("Player"))
+        if (_isCollected || !IsPlayer(other.transform))
         {
 
             return;
@@ -32,6 +32,21 @@ public class Item : MonoBehaviour
 
         _isCollected = true;
         Collected?.Invoke(this);
+    }
+
+    private bool IsPlayer(Transform target)
+    {
+        while (target != null)
+        {
+            if (target.CompareTag("Player"))
+            {
+                return true;
+            }
+
+            target = target.parent;
+        }
+
+        return false;
     }
 }
 

@@ -6,6 +6,7 @@ public class PlayerInputSystem : MonoBehaviour
     private InputSystem_Actions _actions;
 
     private float _xMoveValue;
+    private float _yMoveValue;
 
     public event Action<Vector2> Move;
     public event Action Jump;
@@ -48,6 +49,7 @@ public class PlayerInputSystem : MonoBehaviour
     {
         Vector2 moveInput = context.ReadValue<Vector2>();
         _xMoveValue = moveInput.x;
+        _yMoveValue = moveInput.y;
         Move?.Invoke(moveInput);
     }
     private void OnStomp(InputAction.CallbackContext context)

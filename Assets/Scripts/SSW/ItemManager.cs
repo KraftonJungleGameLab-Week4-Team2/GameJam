@@ -11,6 +11,8 @@ public class ItemManager : MonoBehaviour
     [SerializeField, Min(0f)] private float _itemLifetime = 30f;
     [FormerlySerializedAs("Respawn")]
     [SerializeField, Min(0f)] private float _respawnDelay = 3f;
+    [Space]
+    [SerializeField] private OffScreenIndicator _offScreenIndicator;
 
     private Item _spawnedItem;
     private Transform _itemOrbitTarget;
@@ -44,6 +46,15 @@ public class ItemManager : MonoBehaviour
             return;
         }
 
+        if (!IsPlanetAvailable(_itemOrbitTarget))
+        {
+            Transform lostPlanet = _itemOrbitTarget;
+            DespawnSpawnedItem();
+            SpawnAtRandomPlanet(lostPlanet);
+            _timer = _itemLifetime;
+            return;
+        }
+
         _timer -= Time.deltaTime;
         if (_timer > 0f)
         {
@@ -62,7 +73,7 @@ public class ItemManager : MonoBehaviour
         for (int i = 0; i < _planetParent.childCount; i++)
         {
             Transform planet = _planetParent.GetChild(i);
-            if (planet.gameObject.activeInHierarchy)
+            if (IsPlanetAvailable(planet))
             {
                 planets.Add(planet);
             }
@@ -83,6 +94,17 @@ public class ItemManager : MonoBehaviour
         return SpawnItem(target);
     }
 
+    private bool IsPlanetAvailable(Transform planet)
+    {
+        if (planet == null || !planet.gameObject.activeInHierarchy)
+        {
+            return false;
+        }
+
+        MeshGlass meshGlass = planet.GetComponent<MeshGlass>();
+        return !meshGlass.IsBroken && !meshGlass.IsFracturing;
+    }
+
     private Item SpawnItem(Transform planet)
     {
         Item item = Instantiate(_itemPrefab, planet.position, Quaternion.identity);
@@ -90,6 +112,9 @@ public class ItemManager : MonoBehaviour
         item.Collected += HandleItemCollected;
         _spawnedItem = item;
         _itemOrbitTarget = planet;
+
+        _offScreenIndicator.targetTr = item.transform;
+
         return item;
     }
 

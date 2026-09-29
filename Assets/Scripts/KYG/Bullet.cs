@@ -1,61 +1,158 @@
 using System.Collections;
 using UnityEngine;
+
 public class Bullet : MonoBehaviour
 {
-
-    [SerializeField] private float speed = 60;
-    //[SerializeField] private float waitAtWaypoint = 0.3f;
+    [SerializeField] private float speed = 60f;
     [SerializeField] private float lifeTime = 5f;
-    private Vector3 waypoint;
-    private Transform target;
-    private Vector3 dir;
 
-    public void Init(Vector3 waypoint, Transform target) //BossAttack에서 첫번째 스탑 위치와 , 목표위치를 불러옴
+    private Vector3 _waypoint;
+    private Transform _target;
+    private Vector3 _direction;
+    private Collider _bulletCollider;
+    private bool _hasHit;
+
+    private void Awake()
     {
-        this.waypoint = waypoint;
-        this.target = target;
+        _bulletCollider = GetComponent<Collider>();
+    }
+
+    public void Init(Vector3 waypoint, Transform target)
+    {
+        _waypoint = waypoint;
+        _target = target;
+        _direction = (_waypoint - transform.position).normalized;
+        FaceDirection(_direction);
         StartCoroutine(Shot());
     }
 
-    IEnumerator Shot()
+    private IEnumerator Shot()
     {
-        while (Vector3.Distance(transform.position, waypoint) > 1f) //운석이 일정거리가 가까워질때까지 접근
+        while ((_waypoint - transform.position).sqrMagnitude > 0.01f)
         {
-            var targetRot = Quaternion.LookRotation((waypoint - transform.position).normalized, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 2f * Time.deltaTime);
-            transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            //transform.position = Vector3.MoveTowards(transform.position, waypoint, speed * Time.deltaTime);
-            yield return null; //한번에 도착하지 않기 위함
-        }
+            Vector3 toWaypoint = _waypoint - transform.position;
+            _direction = toWaypoint.normalized;
+            FaceDirection(_direction);
 
-        if (target)
-            dir = (target.position - transform.position).normalized; //이동방향
+            float step = speed * Time.deltaTime;
+            if (MoveAndCheckHit(_direction, step))
+            {
+                yield break;
+            }
 
-        float time = 0f;
-        while (time < lifeTime) // lifeTime 전까지 날라감
-        {
-            var targetRot = Quaternion.LookRotation(dir, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
-            transform.Translate(Vector3.forward * Time.deltaTime * speed);
-
-            //transform.position += dir * speed * Time.deltaTime;
-            time += Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, _waypoint, step);
             yield return null;
         }
+
+        if (_target != null)
+        {
+            _direction = (_target.position - transform.position).normalized;
+            FaceDirection(_direction);
+        }
+
+        float elapsed = 0f;
+        while (elapsed < lifeTime && !_hasHit)
+        {
+            FaceDirection(_direction);
+            float step = speed * Time.deltaTime;
+            if (MoveAndCheckHit(_direction, step))
+            {
+                yield break;
+            }
+
+            transform.position += _direction * step;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
         Destroy(gameObject);
+    }
+
+    private bool MoveAndCheckHit(Vector3 direction, float distance)
+    {
+        if (_bulletCollider is not BoxCollider box || distance <= 0f)
+        {
+            return false;
+        }
+
+        Vector3 scale = box.transform.lossyScale;
+        Vector3 halfExtents = Vector3.Scale(box.size,
+            new Vector3(Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z))) * 0.5f;
+        RaycastHit[] hits = Physics.BoxCastAll(box.bounds.center, halfExtents, direction,
+            transform.rotation, distance, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
+
+        float closestDistance = float.MaxValue;
+        Collider closestCollider = null;
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.transform == transform || hit.collider.transform.IsChildOf(transform))
+            {
+                continue;
+            }
+
+            if (IsPlayer(hit.collider.transform) || HasTagInParents(hit.collider.transform, "Planet"))
+            {
+                if (hit.distance < closestDistance)
+                {
+                    closestDistance = hit.distance;
+                    closestCollider = hit.collider;
+                }
+            }
+        }
+
+        if (closestCollider == null)
+        {
+            return false;
+        }
+
+        HandleHit();
+        return true;
+    }
+
+    private void FaceDirection(Vector3 direction)
+    {
+        if (direction.sqrMagnitude > 0.0001f)
+        {
+            transform.rotation = Quaternion.FromToRotation(Vector3.right, direction);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (other.CompareTag("Planet"))
+        if (IsPlayer(other.transform) || HasTagInParents(other.transform, "Planet"))
         {
-            Destroy(gameObject);
+            HandleHit();
         }
-        if (other.CompareTag("Player"))
+    }
+
+    private bool IsPlayer(Transform target)
+    {
+        return HasTagInParents(target, "Player");
+    }
+
+    private bool HasTagInParents(Transform target, string tagName)
+    {
+        while (target != null)
         {
-            Destroy(gameObject);
+            if (target.CompareTag(tagName))
+            {
+                return true;
+            }
+
+            target = target.parent;
         }
 
+        return false;
+    }
+
+    private void HandleHit()
+    {
+        if (_hasHit)
+        {
+            return;
+        }
+
+        _hasHit = true;
+        Destroy(gameObject);
     }
 }

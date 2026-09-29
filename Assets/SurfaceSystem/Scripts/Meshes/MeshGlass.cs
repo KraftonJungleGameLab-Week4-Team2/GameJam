@@ -1,7 +1,7 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(SurfaceInstance))]
@@ -11,6 +11,9 @@ public class MeshGlass : MonoBehaviour
     private bool _isBroken;
     private GameObject _fragments;
     private readonly List<Mesh> _ownedMeshes = new List<Mesh>();
+
+    public event Action OnMeshBroken;
+    public event Action RestoreRequested;
 
     public bool IsBroken { get { return _isBroken; } }
     public bool IsFracturing { get { return _isFracturing; } }
@@ -66,8 +69,13 @@ public class MeshGlass : MonoBehaviour
         transform.localScale = Vector3.zero;
 
         // 파괴 후 다시 복구하는 처리
-
         yield return new WaitForSeconds(effect.RestoreTime);
+
+        if (RestoreRequested != null)
+        {
+            RestoreRequested.Invoke();
+            yield break;
+        }
 
         GetComponent<Renderer>().enabled = true;
 
@@ -114,6 +122,7 @@ public class MeshGlass : MonoBehaviour
         }
 
         _isBroken = true;
+        OnMeshBroken?.Invoke();
         _fragments.SetActive(true);
     }
 
