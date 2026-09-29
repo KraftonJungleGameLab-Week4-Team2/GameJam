@@ -44,7 +44,6 @@ public class Meteor : MonoBehaviour
         FractureEffect fractureEffect = surface.Profile.GetEffect<FractureEffect>();
         if (fractureEffect == null)
         {
-            Debug.LogWarning("The planet SurfaceProfile has no FractureEffect for meteor impacts.", surface);
             return;
         }
 
