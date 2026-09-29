@@ -406,6 +406,7 @@ MonoBehaviour:
   _gravityManager: {fileID: 516559021}
   _playerMovement: {fileID: 765766400}
   _playerCamera: {fileID: 629809696}
+  _screenEffectManager: {fileID: 0}
 --- !u!4 &112049554
 Transform:
   m_ObjectHideFlags: 0
@@ -618,6 +619,7 @@ MonoBehaviour:
   playerRightUp: {x: 0, y: 0, z: 0}
   nomalattack: 0
   fireBallAttack: 0
+  _meteorCooldown: 4.5
   boss: {fileID: 186366200}
   _planetAry:
   - {fileID: 406854118}
