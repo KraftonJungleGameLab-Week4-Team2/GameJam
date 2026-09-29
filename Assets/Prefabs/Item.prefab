@@ -164,5 +164,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   rotateSpeed: 1
-  _radius: 40
-  _angle: 3.52
+  _radius: 7
+  _angle: 1
