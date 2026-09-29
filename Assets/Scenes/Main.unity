@@ -1369,6 +1369,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4388080296130301881, guid: 38c5917c5e2894817b2ad34d0555c8b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12759,6 +12763,7 @@ MonoBehaviour:
   playerRightUp: {x: 0, y: 0, z: 0}
   nomalattack: 0
   fireBallAttack: 0
+  _meteorCooldown: 5
   boss: {fileID: 1963589692}
   _planetAry:
   - {fileID: 0}
