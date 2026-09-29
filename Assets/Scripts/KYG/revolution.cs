@@ -38,6 +38,11 @@ public class Revolution : MonoBehaviour
     }
     private void PlanetRevolution()
     {
+        if (target == null)
+        {
+            return;
+        }
+
         float x = target.position.x + Mathf.Cos(_angle) * _radius;
         float y = target.position.y + Mathf.Sin(_angle) * _radius;
         float z = target.position.z;

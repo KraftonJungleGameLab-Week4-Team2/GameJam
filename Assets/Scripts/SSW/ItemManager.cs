@@ -44,6 +44,15 @@ public class ItemManager : MonoBehaviour
             return;
         }
 
+        if (!IsPlanetAvailable(_itemOrbitTarget))
+        {
+            Transform lostPlanet = _itemOrbitTarget;
+            DespawnSpawnedItem();
+            SpawnAtRandomPlanet(lostPlanet);
+            _timer = _itemLifetime;
+            return;
+        }
+
         _timer -= Time.deltaTime;
         if (_timer > 0f)
         {
@@ -62,7 +71,7 @@ public class ItemManager : MonoBehaviour
         for (int i = 0; i < _planetParent.childCount; i++)
         {
             Transform planet = _planetParent.GetChild(i);
-            if (planet.gameObject.activeInHierarchy)
+            if (IsPlanetAvailable(planet))
             {
                 planets.Add(planet);
             }
@@ -81,6 +90,17 @@ public class ItemManager : MonoBehaviour
 
         Transform target = planets[Random.Range(0, planets.Count)];
         return SpawnItem(target);
+    }
+
+    private bool IsPlanetAvailable(Transform planet)
+    {
+        if (planet == null || !planet.gameObject.activeInHierarchy)
+        {
+            return false;
+        }
+
+        MeshGlass meshGlass = planet.GetComponent<MeshGlass>();
+        return !meshGlass.IsBroken && !meshGlass.IsFracturing;
     }
 
     private Item SpawnItem(Transform planet)
