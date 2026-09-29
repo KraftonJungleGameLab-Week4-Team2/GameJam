@@ -19,6 +19,7 @@ public sealed class SwampSurfaceController : MonoBehaviour
 
     private SinkEffect _effect;
     private Rigidbody _playerBody;
+    private SurfaceMovement _surfaceMovement;
     private Collider _playerCollider;
     private Collider _trigger;
     private float _depth;
@@ -50,6 +51,7 @@ public sealed class SwampSurfaceController : MonoBehaviour
 
         _effect = effect;
         _playerBody = playerCollider.attachedRigidbody;
+        _surfaceMovement = _playerBody.GetComponent<SurfaceMovement>();
         _playerCollider = playerCollider;
         _trigger = FindTrigger(playerCollider);
         _depth = 0f;
@@ -118,6 +120,7 @@ public sealed class SwampSurfaceController : MonoBehaviour
         Vector3 tangent = Vector3.ProjectOnPlane(velocity, outward);
         radialSpeed = Mathf.Max(radialSpeed, -_effect.SinkSpeed);
         _playerBody.linearVelocity = tangent + outward * radialSpeed;
+        _surfaceMovement?.SetGroundedForSurface(true);
 
         if (_depth >= Mathf.Min(_effect.ThresholdDepth, _effect.MaximumSinkDepth))
         {
@@ -217,12 +220,14 @@ public sealed class SwampSurfaceController : MonoBehaviour
 
     private void Restore(bool waitUntilExit)
     {
+        _surfaceMovement?.SetGroundedForSurface(false);
         ApplyCapsuleScale(1f);
         SetPlanetCollisionIgnored(false);
         _active = false;
         _depth = 0f;
         _effect = null;
         _playerBody = null;
+        _surfaceMovement = null;
         _waitUntilExit = waitUntilExit;
         if (!waitUntilExit)
         {

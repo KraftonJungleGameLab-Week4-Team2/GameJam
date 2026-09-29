@@ -78,7 +78,22 @@ public class ExplosionEffect : SurfaceEffect
         Vector3 explosionCenter = bomb.transform.position;
         if (playerBody != null && !playerBody.isKinematic)
         {
-            playerBody.AddExplosionForce(_explosionForce, explosionCenter, _explosionRadius, _upwardsModifier, ForceMode.Impulse);
+            SurfaceMovement movement = playerBody.GetComponent<SurfaceMovement>();
+            if (movement != null)
+            {
+                Vector3 outward = playerBody.worldCenterOfMass - explosionCenter;
+                float distance = outward.magnitude;
+                if (distance < _explosionRadius)
+                {
+                    outward = distance > 0.001f ? outward / distance : playerBody.transform.up;
+                    float impulse = _explosionForce * (1f - distance / _explosionRadius);
+                    movement.ApplyExternalVelocity(playerBody.linearVelocity + outward * (impulse / playerBody.mass));
+                }
+            }
+            else
+            {
+                playerBody.AddExplosionForce(_explosionForce, explosionCenter, _explosionRadius, _upwardsModifier, ForceMode.Impulse);
+            }
         }
 
         MeshGlass glass = bomb.GetComponent<MeshGlass>();
