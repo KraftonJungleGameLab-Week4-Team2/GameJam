@@ -7,12 +7,34 @@ public class MainScreen : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [Space]
+    [SerializeField] private Slider _bossHpSlider;
+    [SerializeField] private GameObject[] _playerHp;
     [SerializeField] private Image _retryImage;
     [SerializeField] private float _holdDuration = 1.5f;
 
     [Header("In Game")]
     [SerializeField] private float _currentHoldTime = 0f;
     [SerializeField] private bool _isRetry = false;
+
+    public void SetPlayerHP(int hp)
+    {
+        for (int i = 0; i < _playerHp.Length; i++)
+        {
+            if (i < hp)
+            {
+                _playerHp[i].SetActive(true);
+            }
+            else
+            {
+                _playerHp[i].SetActive(false);
+            }
+        }
+    }
+
+    public void SetBossHp(float hp)
+    {
+        _bossHpSlider.value = hp;
+    }
 
     void Update()
     {
