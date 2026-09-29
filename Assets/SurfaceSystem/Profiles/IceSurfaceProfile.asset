@@ -16,3 +16,4 @@ MonoBehaviour:
   _effects:
   - {fileID: 11400000, guid: dd1d611ed4378224b92ef96a9d99eb8b, type: 2}
   - {fileID: 11400000, guid: ae698d3a0047f8349bb9759c7cd05f25, type: 2}
+  _allowStompFracture: 0

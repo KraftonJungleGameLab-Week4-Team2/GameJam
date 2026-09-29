@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259445ad09e69a74cb0513e700ee6f99, type: 3}
   m_Name: NormalSurfaceProfile
   m_EditorClassIdentifier: 
-  _physicsMaterial: {fileID: 13400000, guid: 10e535e5aa3051f479368e1c3f69b591, type: 2}
+  _physicsMaterial: {fileID: 13400000, guid: 40e5bfc3161a62e46bdc5599d8fd9103, type: 2}
   _effects: []
   _allowStompFracture: 0
