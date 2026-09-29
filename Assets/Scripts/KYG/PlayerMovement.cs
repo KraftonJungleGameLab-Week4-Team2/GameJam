@@ -21,6 +21,21 @@ public class PlayerStat
 [RequireComponent(typeof(SurfaceMovement))]
 public class PlayerMovement : MonoBehaviour
 {
+    public event Action<GravitySource> PlanetChanged;
+
+    private GravitySource _gravitySource;
+    private GravitySource GravitySource
+    {
+        get => _gravitySource;
+        set
+        {
+            if (value != _gravitySource)
+            {
+                PlanetChanged?.Invoke(value);
+            }
+            _gravitySource = value;
+        }
+    }
     private SurfaceMovement _surfaceMovement;
     private PlayerInputSystem _inputSystem;
     private Rigidbody _rb;
@@ -129,7 +144,6 @@ public class PlayerMovement : MonoBehaviour
             _xVelocity = Mathf.Lerp(_xVelocity, 0.0f, Time.fixedDeltaTime * decel);
         }
 
-        Debug.Log(_xVelocity);
         var gravityDir = GetPlanetDir();
         var groundNormal = -gravityDir;
 
@@ -164,6 +178,11 @@ public class PlayerMovement : MonoBehaviour
         _isGrounded = hasGroundHit && _yVelocity <= 0.0f;
         if (_isGrounded)
         {
+            if (hit.collider.TryGetComponent<GravitySource>(out var source))
+            {
+                GravitySource = source;
+            }
+
             if (IsStomp)
             {
                 SurfaceInstance surface = hit.collider.GetComponentInParent<SurfaceInstance>();
