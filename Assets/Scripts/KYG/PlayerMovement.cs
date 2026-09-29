@@ -159,9 +159,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckGround()
     {
-        _isGrounded = Physics.Raycast(transform.position, GetPlanetDir(), out var hit, _ChkGroundDistance) && _yVelocity <= 0.0f;
+        RaycastHit hit;
+        bool hasGroundHit = Physics.Raycast(transform.position, GetPlanetDir(), out hit, _ChkGroundDistance);
+        _isGrounded = hasGroundHit && _yVelocity <= 0.0f;
         if (_isGrounded)
         {
+            if (IsStomp)
+            {
+                SurfaceInstance surface = hit.collider.GetComponentInParent<SurfaceInstance>();
+                if (surface != null && surface.Profile != null)
+                {
+                    FractureEffect effect = surface.Profile.GetEffect<FractureEffect>();
+                    effect?.TryFractureFromStomp(surface, hit.point);
+                }
+            }
+
             _gravityInfo.ApplyGravity(0.0f);
             IsStomp = false;
         }

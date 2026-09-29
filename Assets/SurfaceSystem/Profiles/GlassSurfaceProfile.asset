@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259445ad09e69a74cb0513e700ee6f99, type: 3}
   m_Name: GlassSurfaceProfile
   m_EditorClassIdentifier: 
-  _physicsMaterial: {fileID: 13400000, guid: 38ecdbf2c3f95984986ca795656c6da5, type: 2}
-  _allowStompFracture: 1
+  _physicsMaterial: {fileID: 13400000, guid: 40e5bfc3161a62e46bdc5599d8fd9103, type: 2}
   _effects:
   - {fileID: 11400000, guid: 4234ca1a425b12642b15090231a3e722, type: 2}
+  _allowStompFracture: 1

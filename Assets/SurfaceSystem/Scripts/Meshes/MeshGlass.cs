@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(SurfaceInstance))]
@@ -26,6 +26,7 @@ public class MeshGlass : MonoBehaviour
         _isFracturing = true;
         StartCoroutine(RunFracture(effect, burstOrigin));
     }
+
 
     // 알고리즘 실패 시 원본 행성을 유지하고 생성 중이던 파편을 정리한다.
     private IEnumerator RunFracture(FractureEffect effect, Vector3 burstOrigin)
@@ -60,6 +61,29 @@ public class MeshGlass : MonoBehaviour
             yield return new WaitForSeconds(effect.FragmentLifetime);
             ClearFragments();
         }
+
+        var beforeScale = transform.localScale;
+        transform.localScale = Vector3.zero;
+
+        // 파괴 후 다시 복구하는 처리
+
+        yield return new WaitForSeconds(effect.RestoreTime);
+
+        GetComponent<Renderer>().enabled = true;
+
+        foreach (Collider sourceCollider in GetComponentsInChildren<Collider>())
+        {
+            sourceCollider.enabled = true;
+        }
+
+        transform.DOScale(beforeScale, 0.5f).SetEase(Ease.OutSine).OnComplete(() =>
+        {
+            transform.DOPunchScale(Vector3.one * 2f, 0.5f).OnComplete(() =>
+            {
+                transform.localScale = beforeScale;
+                _isBroken = false;
+            });
+        });
     }
 
     // 생성한 런타임 메시만 소유하며 프로젝트 원본 메시를 삭제하지 않는다.

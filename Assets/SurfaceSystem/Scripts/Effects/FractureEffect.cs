@@ -19,17 +19,30 @@ public class FractureEffect : SurfaceEffect
     [SerializeField] private int _randomSeed = 12345;
     [SerializeField] private Material _insideMaterial;
 
+    [field : SerializeField]
+    public float RestoreTime { get; private set; }
     public float FragmentLifetime { get { return _fragmentLifetime; } }
 
     public bool TryFractureFromStomp(SurfaceInstance surface, Collision collision)
     {
-        if (surface == null || surface.Profile == null || !surface.Profile.AllowStompFracture || collision == null || collision.contactCount == 0)
+        if (collision == null || collision.contactCount == 0)
         {
             return false;
         }
 
-        return BeginFracture(surface, collision.GetContact(0).point);
+        return TryFractureFromStomp(surface, collision.GetContact(0).point);
     }
+
+    public bool TryFractureFromStomp(SurfaceInstance surface, Vector3 contactPoint)
+    {
+        if (surface == null || surface.Profile == null || !surface.Profile.AllowStompFracture)
+        {
+            return false;
+        }
+
+        return BeginFracture(surface, contactPoint);
+    }
+
     public bool TryFractureFromMeteor(SurfaceInstance surface, Vector3 impactPoint)
     {
         return BeginFracture(surface, impactPoint);
