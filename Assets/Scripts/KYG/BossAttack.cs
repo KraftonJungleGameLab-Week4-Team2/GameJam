@@ -50,7 +50,7 @@ public class BossAttack : MonoBehaviour
         Debug.Log("발사");
 
         //발사체 생성 위치
-        _bossRight = boss.position + new Vector3(50f, 0, 0);
+        _bossRight = boss.position;
 
         //플레이어 위치 저장
         Vector3 playerPoint = _playerPos.position;
@@ -76,7 +76,7 @@ public class BossAttack : MonoBehaviour
     }
     private IEnumerator FireBall()
     {
-        _bossLeft = boss.position + new Vector3(-50, 0, 0);
+        _bossLeft = boss.position;
         GameObject fakeFireBall = Instantiate(_fakeFireBall, _bossLeft, Quaternion.identity);
         fireBallAttack = false;
         Rigidbody fakeRb = fakeFireBall.GetComponent<Rigidbody>();
@@ -99,7 +99,7 @@ public class BossAttack : MonoBehaviour
         Destroy(fireballWarning);
 
 
-        //하나의 메테오를 생성시켜서 추락 X,Y 조정한 축위에서 
+        //하나의 메테오를 생성시켜서 추락 X,Y 조정한 축위에서
         Vector3 fireBallPosition = ramdomPlanet.position + new Vector3(0, 50, 0);
         GameObject fireBall = Instantiate(_fireBallPrefab, fireBallPosition, Quaternion.identity);
     }
