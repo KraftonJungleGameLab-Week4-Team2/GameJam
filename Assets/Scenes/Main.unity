@@ -415,7 +415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.5
+  rotateSpeed: 0.05
   _radius: 40
   _angle: 3.3
 --- !u!114 &268222473 stripped
@@ -513,7 +513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.5
+  rotateSpeed: 0.05
   _radius: 40
   _angle: 5
 --- !u!114 &309725895 stripped
@@ -1034,7 +1034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.5
+  rotateSpeed: 0.05
   _radius: 40
   _angle: 0.3
 --- !u!114 &546036918 stripped
@@ -1477,7 +1477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.5
+  rotateSpeed: 0.05
   _radius: 40
   _angle: 4
 --- !u!114 &741167228 stripped
@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.5
+  rotateSpeed: 0.05
   _radius: 40
   _angle: 5.8
 --- !u!114 &749074107 stripped
@@ -11990,7 +11990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.5
+  rotateSpeed: 0.05
   _radius: 40
   _angle: 2
 --- !u!114 &1341825461 stripped
@@ -12294,7 +12294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.5
+  rotateSpeed: 0.05
   _radius: 40
   _angle: 2.7
 --- !u!114 &1496461930 stripped
@@ -12389,6 +12389,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1497873951}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1755675848
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1755675849}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1755675849
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755675848}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 30}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1963589692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1769683498 stripped
 Transform:
@@ -12489,7 +12520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.5
+  rotateSpeed: 0.05
   _radius: 40
   _angle: 0.9
 --- !u!114 &1850272752 stripped
@@ -12883,20 +12914,23 @@ MonoBehaviour:
   attackCube: {fileID: 1961456385036043971, guid: d345582912884ed4cb1b52c1f1590e25, type: 3}
   _playerPos: {fileID: 1769683498}
   _fakeFireBall: {fileID: 1090330047057873782, guid: 14ef01a2ec1a0a1489c170f75458be9a, type: 3}
+  _fakeMeteorSpawnPoint: {fileID: 1755675849}
+  _fakeMeteorSpawnOffset: {x: 0, y: 0, z: 0}
   playerRightUp: {x: 0, y: 0, z: 0}
   nomalattack: 0
   fireBallAttack: 0
   _meteorCooldown: 5
   boss: {fileID: 1963589692}
   _planetAry:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1488801944}
+  - {fileID: 546036914}
+  - {fileID: 1850272748}
+  - {fileID: 1341825457}
+  - {fileID: 1496461926}
+  - {fileID: 268222469}
+  - {fileID: 741167224}
+  - {fileID: 309725891}
+  - {fileID: 749074103}
   _WarningPrefab: {fileID: 7368972867605669777, guid: 30e948f640d49b749ab33c11df83b768, type: 3}
   _fireBallPrefab: {fileID: 790161944733967431, guid: c4ad8e67f9d1c454cad99de01c1ba9ed, type: 3}
 --- !u!136 &1963589689
@@ -12987,7 +13021,8 @@ Transform:
   m_LocalPosition: {x: 4.49, y: 152.1, z: 261}
   m_LocalScale: {x: 40, y: 40, z: 40}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1755675849}
   m_Father: {fileID: 284507497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1983862063
