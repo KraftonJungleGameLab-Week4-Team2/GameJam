@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(SurfaceInstance))]
@@ -11,6 +10,8 @@ public class MeshGlass : MonoBehaviour
     private bool _isBroken;
     private GameObject _fragments;
     private readonly List<Mesh> _ownedMeshes = new List<Mesh>();
+
+    public event Action OnMeshBroken;
 
     public bool IsBroken { get { return _isBroken; } }
     public bool IsFracturing { get { return _isFracturing; } }
@@ -60,30 +61,31 @@ public class MeshGlass : MonoBehaviour
         {
             yield return new WaitForSeconds(effect.FragmentLifetime);
             ClearFragments();
+
+            Destroy(this.gameObject);
         }
 
-        var beforeScale = transform.localScale;
-        transform.localScale = Vector3.zero;
+        //var beforeScale = transform.localScale;
+        //transform.localScale = Vector3.zero;
 
-        // 파괴 후 다시 복구하는 처리
+        //// 파괴 후 다시 복구하는 처리
+        //yield return new WaitForSeconds(effect.RestoreTime);
 
-        yield return new WaitForSeconds(effect.RestoreTime);
+        //GetComponent<Renderer>().enabled = true;
 
-        GetComponent<Renderer>().enabled = true;
+        //foreach (Collider sourceCollider in GetComponentsInChildren<Collider>())
+        //{
+        //    sourceCollider.enabled = true;
+        //}
 
-        foreach (Collider sourceCollider in GetComponentsInChildren<Collider>())
-        {
-            sourceCollider.enabled = true;
-        }
-
-        transform.DOScale(beforeScale, 0.5f).SetEase(Ease.OutSine).OnComplete(() =>
-        {
-            transform.DOPunchScale(Vector3.one * 2f, 0.5f).OnComplete(() =>
-            {
-                transform.localScale = beforeScale;
-                _isBroken = false;
-            });
-        });
+        //transform.DOScale(beforeScale, 0.5f).SetEase(Ease.OutSine).OnComplete(() =>
+        //{
+        //    transform.DOPunchScale(Vector3.one * 2f, 0.5f).OnComplete(() =>
+        //    {
+        //        transform.localScale = beforeScale;
+        //        _isBroken = false;
+        //    });
+        //});
     }
 
     // 생성한 런타임 메시만 소유하며 프로젝트 원본 메시를 삭제하지 않는다.
@@ -114,6 +116,7 @@ public class MeshGlass : MonoBehaviour
         }
 
         _isBroken = true;
+        OnMeshBroken?.Invoke();
         _fragments.SetActive(true);
     }
 

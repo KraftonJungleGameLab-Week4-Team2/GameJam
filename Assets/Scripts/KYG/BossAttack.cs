@@ -50,7 +50,7 @@ public class BossAttack : MonoBehaviour
         Debug.Log("발사");
 
         //발사체 생성 위치
-        _bossRight = boss.position + new Vector3(50f, 0, 0);
+        _bossRight = boss.position;
 
         //플레이어 위치 저장
         Vector3 playerPoint = _playerPos.position;
@@ -115,7 +115,7 @@ public class BossAttack : MonoBehaviour
 
     private IEnumerator PlayFakeFireBall()
     {
-        Vector3 bossRightPosition = boss.position + Vector3.left * 50f;
+        Vector3 bossRightPosition = boss.position;
         GameObject fakeMeteor = Instantiate(_fakeFireBall, bossRightPosition, Quaternion.identity);
         Rigidbody fakeMeteorBody = fakeMeteor.GetComponent<Rigidbody>();
         fakeMeteorBody.isKinematic = true;
