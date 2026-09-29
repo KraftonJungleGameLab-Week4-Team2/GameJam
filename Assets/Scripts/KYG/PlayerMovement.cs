@@ -23,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
 {
     public event Action<GravitySource> PlanetChanged;
 
+    [SerializeField]
+    private GameStateSO _gameStateSO;
+
     private GravitySource _gravitySource;
     private GravitySource GravitySource
     {
@@ -92,10 +95,19 @@ public class PlayerMovement : MonoBehaviour
         _inputSystem.Stomp -= PlayerStomp;
     }
 
-    private void PlayerMoveInput(Vector2 value) => _xInput = value.y;
+    private void PlayerMoveInput(Vector2 value)
+    {
+        if (_gameStateSO.State != GameState.Playing)
+            return;
+
+        _xInput = value.y;
+    }
 
     private void PlayerStomp()
     {
+        if (_gameStateSO.State != GameState.Playing)
+            return;
+
         if (_isGrounded == false && IsStomp == false)
         {
             IsStomp = true;
@@ -105,6 +117,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerJump()
     {
+        if (_gameStateSO.State != GameState.Playing)
+            return;
+
         if (_isGrounded)
         {
             _yVelocity = _playerStat.jumpForce;
