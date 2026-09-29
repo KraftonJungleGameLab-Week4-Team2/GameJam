@@ -2,23 +2,21 @@ using UnityEngine;
 
 public class GravityManager : MonoBehaviour
 {
-    [SerializeField] private bool _findSourcsInScene = true;
+    [Header("References")]
+    [SerializeField] private SolarSystem _solarSystem;
 
     [SerializeField] private Transform _player;
 
-    [SerializeField] private GravitySource[] _gravitySources;
 
     [SerializeField] private GravityInfo _gravityInfo;
 
+    [SerializeField] private Transform _findGravitySourcesParentTr;
+
+    [Header("InGame")]
+    [SerializeField] private GravitySource[] _gravitySources;
 
     public IGravityInfo GravityInfo => _gravityInfo;
 
-
-    private void Start()
-    {
-        if (_findSourcsInScene)
-            _gravitySources = FindObjectsByType<GravitySource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-    }
 
     private void Update()
     {
@@ -27,6 +25,8 @@ public class GravityManager : MonoBehaviour
 
     private void CalculateGravity()
     {
+        _gravitySources = _findGravitySourcesParentTr.GetComponentsInChildren<GravitySource>();
+
         GravitySource tempOrigin = null;
         var maxDistance = float.MaxValue;
         foreach (var gs in _gravitySources)
