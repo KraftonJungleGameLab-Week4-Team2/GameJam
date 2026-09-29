@@ -35,7 +35,7 @@ public class GravityManager : MonoBehaviour
                 continue;
 
             var distance = (_player.position - gs.transform.position).magnitude;
-            
+
             if (maxDistance > distance)
             {
                 maxDistance = distance;
