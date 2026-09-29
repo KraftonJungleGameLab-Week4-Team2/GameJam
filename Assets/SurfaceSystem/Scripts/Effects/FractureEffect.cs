@@ -91,11 +91,6 @@ public class FractureEffect : SurfaceEffect
             throw new InvalidOperationException("Glass requires a readable, closed mesh with one submesh.");
         }
 
-        if (glass.GetComponentsInChildren<Collider>().Length != glass.GetComponents<Collider>().Length)
-        {
-            throw new InvalidOperationException("Place Glass colliders on the same object as MeshGlass.");
-        }
-
         Mesh worldMesh = Instantiate(source);
         glass.TrackMesh(worldMesh);
         Vector3[] vertices = worldMesh.vertices;

@@ -776,7 +776,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ChkDownDistance: 10
   _ChkGroundDistance: 0.1
-  _isGrounded: 0
 --- !u!114 &1034168772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,8 +979,8 @@ GameObject:
   - component: {fileID: 2096823728}
   - component: {fileID: 2096823727}
   - component: {fileID: 2096823731}
-  - component: {fileID: 2096823734}
   - component: {fileID: 2096823733}
+  - component: {fileID: 2096823734}
   m_Layer: 0
   m_Name: Planet_Bomb
   m_TagString: Untagged

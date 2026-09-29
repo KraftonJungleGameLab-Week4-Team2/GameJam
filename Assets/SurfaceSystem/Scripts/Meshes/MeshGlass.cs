@@ -81,7 +81,10 @@ public class MeshGlass : MonoBehaviour
     public void CompleteFracture()
     {
         GetComponent<MeshRenderer>().enabled = false;
-        foreach (Collider sourceCollider in GetComponents<Collider>())
+        // Planet trigger colliders are commonly placed on child objects. Disable
+        // those together with the root collider so the broken planet stops
+        // receiving collision and trigger callbacks.
+        foreach (Collider sourceCollider in GetComponentsInChildren<Collider>())
         {
             sourceCollider.enabled = false;
         }
