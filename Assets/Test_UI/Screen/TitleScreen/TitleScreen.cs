@@ -8,6 +8,7 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private MenuButtonFocusKeeper _focusKeeper;
     [SerializeField] private HowToPlayScreen _howToPlayScreen;
     [SerializeField] private OptionsScreen _optionsScreen;
+    [SerializeField] private MainScreen _mainScreen;
 
     public void Show()
     {
@@ -25,6 +26,9 @@ public class TitleScreen : MonoBehaviour
     public void OnClickNewGameButton()
     {
         Debug.Log("New Game");
+
+        Hide();
+        _mainScreen.Show();
     }
 
     public void OnClickHowToPlayButton()
