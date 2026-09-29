@@ -32,10 +32,8 @@ public class PlayerMovement : MonoBehaviour
         get => _gravitySource;
         set
         {
-            Debug.Log("S1");
             if (value != _gravitySource)
             {
-                Debug.Log("S2");
                 PlanetChanged?.Invoke(value);
             }
             _gravitySource = value;
@@ -199,22 +197,21 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit hit;
         bool hasGroundHit = Physics.Raycast(transform.position, GetPlanetDir(), out hit, _ChkGroundDistance);
-        var currentIsGrounded = hasGroundHit && _yVelocity <= 0.0f;
-        if (currentIsGrounded)
+
+        var beforeGround = _isGrounded;
+        _isGrounded = hasGroundHit && _yVelocity <= 0.0f;
+        if (_isGrounded)
         {
-                            if (hit.collider.TryGetComponent<GravitySource>(out var source))
+            // 그라운드 판정이 처음 들어갈 때
+            if (beforeGround == false)
+            {
+                if (hit.collider.TryGetComponent<GravitySource>(out var source))
                 {
                     GravitySource = source;
                 }
-            // 그라운드 판정이 처음 들어갈 때
-            if (_isGrounded == false)
-            {
-
-
                 // z축 좌표를 행성 z축 좌표와 고정시키기
                 transform.position = new Vector3(transform.position.x, transform.position.y, hit.transform.position.z);
             }
-            _isGrounded = currentIsGrounded;
             if (IsStomp)
             {
                 SurfaceInstance surface = hit.collider.GetComponentInParent<SurfaceInstance>();
