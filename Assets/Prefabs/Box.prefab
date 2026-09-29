@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1626696846048208351}
   m_Layer: 0
   m_Name: Box
-  m_TagString: Untagged
+  m_TagString: Box
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,3 +124,4 @@ MonoBehaviour:
   speed: 40
   waitAtWaypoint: 0.3
   lifeTime: 5
+  _playerstat: {fileID: 0}

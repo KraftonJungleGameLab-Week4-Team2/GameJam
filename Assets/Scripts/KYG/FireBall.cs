@@ -4,7 +4,7 @@ public class FireBall : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     private Vector3 _fireBallPosition;
-    public float speed = 5;
+    public float speed = 40;
     public Vector3 target;
     void Start()
     {

@@ -16,10 +16,13 @@ public class BossAttack : MonoBehaviour
     [SerializeField] private GameObject _WarningPrefab;
     [SerializeField] private GameObject _fireBallPrefab;
 
+
+
     private void Start()
     {
         nomalattack = true;
         fireBallAttack = true;
+
     }
     void Update()
     {
@@ -32,6 +35,7 @@ public class BossAttack : MonoBehaviour
         {
             StartCoroutine(CallFake());
         }
+
     }
     IEnumerator CallNomal()
     {
