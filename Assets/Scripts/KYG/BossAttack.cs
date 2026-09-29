@@ -22,7 +22,7 @@ public class BossAttack : MonoBehaviour
     public Transform boss;
     private Vector3 _bossRight;
     [SerializeField] private Transform[] _planetAry;
-    [SerializeField] private GameObject _WarningPrefab;
+    // [SerializeField] private GameObject _WarningPrefab;
     [SerializeField] private GameObject _fireBallPrefab;
 
     public void SetTargetPlanets(Transform[] planets)
@@ -112,9 +112,9 @@ public class BossAttack : MonoBehaviour
             yield break;
         }
 
-        GameObject warning = Instantiate(_WarningPrefab, targetPlanet.position, Quaternion.identity, targetPlanet);
+        // GameObject warning = Instantiate(_WarningPrefab, targetPlanet.position, Quaternion.identity, targetPlanet);
         yield return new WaitForSeconds(3f);
-        Destroy(warning);
+        // Destroy(warning);
 
         if (targetPlanet == null || targetPlanet.GetComponent<MeshGlass>().IsBroken
             || targetPlanet.GetComponent<MeshGlass>().IsFracturing)
