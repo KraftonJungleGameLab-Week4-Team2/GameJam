@@ -1325,6 +1325,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 284507497}
     m_Modifications:
+    - target: {fileID: 590783846899071512, guid: 38c5917c5e2894817b2ad34d0555c8b6, type: 3}
+      propertyPath: _gameStateSO
+      value: 
+      objectReference: {fileID: 11400000, guid: a2a49b5ee3ec24b65b5a9ddc174439a9, type: 2}
     - target: {fileID: 2739991769900248474, guid: 38c5917c5e2894817b2ad34d0555c8b6, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1368,10 +1372,6 @@ PrefabInstance:
     - target: {fileID: 3955413036481151992, guid: 38c5917c5e2894817b2ad34d0555c8b6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4388080296130301881, guid: 38c5917c5e2894817b2ad34d0555c8b6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1926,6 +1926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a0d3c74bdb18e1439c2a2a0fef74952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameStateSO: {fileID: 11400000, guid: a2a49b5ee3ec24b65b5a9ddc174439a9, type: 2}
   _gravityManager: {fileID: 2063426215}
   _playerMovement: {fileID: 1769683500}
   _playerCamera: {fileID: 1185278374}
@@ -12757,6 +12758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33688853ee903de4faabad5fca7733f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameStateSo: {fileID: 11400000, guid: a2a49b5ee3ec24b65b5a9ddc174439a9, type: 2}
   attackCube: {fileID: 1961456385036043971, guid: d345582912884ed4cb1b52c1f1590e25, type: 3}
   _playerPos: {fileID: 1769683498}
   _fakeFireBall: {fileID: 1090330047057873782, guid: 14ef01a2ec1a0a1489c170f75458be9a, type: 3}

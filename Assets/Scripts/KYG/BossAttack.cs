@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BossAttack : MonoBehaviour
 {
+    [SerializeField] private GameStateSO _gameStateSo;
+
     public GameObject attackCube;
     [SerializeField] private Transform _playerPos;
     [SerializeField] private GameObject _fakeFireBall;
@@ -22,10 +24,12 @@ public class BossAttack : MonoBehaviour
     {
         nomalattack = true;
         fireBallAttack = true;
-
     }
     void Update()
     {
+        if (_gameStateSo.State != GameState.Playing)
+            return;
+
         if (nomalattack)
         {
             StartCoroutine(CallNomal()); //4초마다 발사 하기 위한 코루틴
