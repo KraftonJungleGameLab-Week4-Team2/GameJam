@@ -202,6 +202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planet_Normal_3
       objectReference: {fileID: 0}
+    - target: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8381693990095111940, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -379,7 +383,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 268222468}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -394,7 +398,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -411,9 +415,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.05
+  rotateSpeed: 0.5
   _radius: 40
   _angle: 3.3
+--- !u!114 &268222473 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6816723426587637519, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+  m_PrefabInstance: {fileID: 1983862063}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268222468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &284507496
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +481,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309725890}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -481,7 +496,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -498,9 +513,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.05
+  rotateSpeed: 0.5
   _radius: 40
   _angle: 5
+--- !u!114 &309725895 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6816723426587637519, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+  m_PrefabInstance: {fileID: 40356210}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 309725890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &348024262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -516,6 +542,10 @@ PrefabInstance:
     - target: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_Name
       value: Planet_Normal_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8381693990095111940, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -800,6 +830,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planet_Normal_1
       objectReference: {fileID: 0}
+    - target: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8381693990095111940, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -898,6 +932,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planet_Normal
       objectReference: {fileID: 0}
+    - target: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8381693990095111940, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -964,7 +1002,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546036913}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -979,7 +1017,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -996,9 +1034,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.05
+  rotateSpeed: 0.5
   _radius: 40
   _angle: 0.3
+--- !u!114 &546036918 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6816723426587637519, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+  m_PrefabInstance: {fileID: 413451347}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546036913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &566451779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1362,7 @@ MonoBehaviour:
   _bombColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   _swampColor: {r: 0.4, g: 0.25, b: 0.1, a: 1}
   _glassColor: {r: 0.8, g: 0.9, b: 1, a: 1}
-  _playerMovement: {fileID: 0}
+  _playerMovement: {fileID: 1769683500}
   _currentMaterialType: 0
   _effectProgress: 0
   _testMaterialType: 0
@@ -1396,7 +1445,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 741167223}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1411,7 +1460,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -1428,9 +1477,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.05
+  rotateSpeed: 0.5
   _radius: 40
   _angle: 4
+--- !u!114 &741167228 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6816723426587637519, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+  m_PrefabInstance: {fileID: 872698226}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741167223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &749074102 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
@@ -1449,7 +1509,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749074102}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1464,7 +1524,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -1481,9 +1541,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.05
+  rotateSpeed: 0.5
   _radius: 40
   _angle: 5.8
+--- !u!114 &749074107 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6816723426587637519, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+  m_PrefabInstance: {fileID: 1905732350}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749074102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &756911091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,6 +1733,10 @@ PrefabInstance:
     - target: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_Name
       value: Planet_Normal_6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8381693990095111940, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1929,7 +2004,7 @@ MonoBehaviour:
   _gravityManager: {fileID: 2063426215}
   _playerMovement: {fileID: 1769683500}
   _playerCamera: {fileID: 1185278374}
-  _screenEffectManager: {fileID: 0}
+  _screenEffectManager: {fileID: 696816840}
 --- !u!1001 &1043808716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1945,6 +2020,10 @@ PrefabInstance:
     - target: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_Name
       value: Planet_Normal_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8381693990095111940, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11879,7 +11958,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341825456}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -11894,7 +11973,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -11911,9 +11990,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.05
+  rotateSpeed: 0.5
   _radius: 40
   _angle: 2
+--- !u!114 &1341825461 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6816723426587637519, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+  m_PrefabInstance: {fileID: 44507937}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341825456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1430341404
 GameObject:
   m_ObjectHideFlags: 0
@@ -12143,6 +12233,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1488801947 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6816723426587637519, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+  m_PrefabInstance: {fileID: 479846314}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488801943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1496461925 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
@@ -12161,7 +12262,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496461925}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -12176,7 +12277,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -12193,9 +12294,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.05
+  rotateSpeed: 0.5
   _radius: 40
   _angle: 2.7
+--- !u!114 &1496461930 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6816723426587637519, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+  m_PrefabInstance: {fileID: 1043808716}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496461925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1497873950
 GameObject:
   m_ObjectHideFlags: 0
@@ -12278,59 +12390,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1497873951}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1685753155
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1685753156}
-  - component: {fileID: 1685753157}
-  m_Layer: 0
-  m_Name: SolarSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1685753156
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1685753155}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1685753157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1685753155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02e05e165deecbe4c9d13d80d01b161a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnParentTr: {fileID: 0}
-  _centerTr: {fileID: 0}
-  _spawnCount: 6
-  _spawnRadius: 6
-  _rotationSpeed: 20
-  _respawnCooldown: 3
-  _socketPrefab: {fileID: 0}
-  _centerPrefab: {fileID: 0}
-  _planetPrefabs: []
 --- !u!4 &1769683498 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3955413036481151992, guid: 38c5917c5e2894817b2ad34d0555c8b6, type: 3}
@@ -12398,7 +12457,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850272747}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -12413,7 +12472,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -12430,9 +12489,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1488801944}
-  rotateSpeed: 0.05
+  rotateSpeed: 0.5
   _radius: 40
   _angle: 0.9
+--- !u!114 &1850272752 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6816723426587637519, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
+  m_PrefabInstance: {fileID: 348024262}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850272747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1905732350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12938,11 +13008,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8381693990095111940, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -21.5
       objectReference: {fileID: 0}
     - target: {fileID: 8381693990095111940, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 20.5
       objectReference: {fileID: 0}
     - target: {fileID: 8381693990095111940, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13031,12 +13101,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3173f662efad4c07b0103495568a8565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _solarSystem: {fileID: 0}
   _player: {fileID: 1769683498}
   _gravityInfo:
     <Gravity>k__BackingField: 5
-  _findGravitySourcesParentTr: {fileID: 0}
-  _gravitySources: []
+  _gravitySources:
+  - {fileID: 1488801947}
+  - {fileID: 546036918}
+  - {fileID: 1850272752}
+  - {fileID: 1341825461}
+  - {fileID: 1496461930}
+  - {fileID: 268222473}
+  - {fileID: 741167228}
+  - {fileID: 309725895}
+  - {fileID: 749074107}
 --- !u!1 &2068974080
 GameObject:
   m_ObjectHideFlags: 0
@@ -13284,6 +13361,5 @@ SceneRoots:
   - {fileID: 444245156}
   - {fileID: 978469767}
   - {fileID: 2063426214}
-  - {fileID: 1685753156}
   - {fileID: 1430341405}
   - {fileID: 284507497}
