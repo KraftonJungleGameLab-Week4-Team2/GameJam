@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
         // 카메라 변경
         _playerCamera.gameObject.SetActive(true);
 
-        // 게임 시작 지점
+        // 대화창 진행
+
+        // 보스 시작
     }
 }
