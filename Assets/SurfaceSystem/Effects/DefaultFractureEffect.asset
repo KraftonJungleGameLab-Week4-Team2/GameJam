@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a46cdb82dffcbb4fa06b5fb372df073, type: 3}
-  m_Name: GlassFractureEffect
+  m_Name: DefaultFractureEffect
   m_EditorClassIdentifier: 
-  _fragmentCount: 32
+  _fragmentCount: 18
   _totalMass: 10
-  _fragmentSpeed: 10
+  _fragmentSpeed: 6
   _fragmentLifetime: 8
   _useWorldGravity: 0
   _randomizeSeed: 1
   _randomSeed: 12345
-  _insideMaterial: {fileID: 2100000, guid: a40923f81a1d63040bf7091b0d22d605, type: 2}
+  _insideMaterial: {fileID: 2100000, guid: 7dd20a877c9bc4f4f8c5548f69fc1ea4, type: 2}
