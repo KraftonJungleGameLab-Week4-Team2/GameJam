@@ -105,6 +105,11 @@ MonoBehaviour:
     m_GlyphIndex: 0
     m_Scale: 1.2
     m_Name: icon_Esc
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 5
+    m_Scale: 1.2
+    m_Name: icon_R
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
@@ -186,5 +191,21 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: -1059851760, guid: 3a55213dc85d4f547a3aeec74375eba7, type: 3}
+  - m_Index: 5
+    m_Metrics:
+      m_Width: 170
+      m_Height: 170
+      m_HorizontalBearingX: 19
+      m_HorizontalBearingY: 141.6
+      m_HorizontalAdvance: 196.16
+    m_GlyphRect:
+      m_X: 299
+      m_Y: 555
+      m_Width: 170
+      m_Height: 170
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 289782057, guid: 3a55213dc85d4f547a3aeec74375eba7, type: 3}
   spriteInfoList: []
   fallbackSpriteAssets: []
