@@ -5205,7 +5205,6 @@ GameObject:
   - component: {fileID: 162444460828325316}
   - component: {fileID: 3875292861513746861}
   - component: {fileID: 4691322235430562181}
-  - component: {fileID: 2487147767130117483}
   m_Layer: 0
   m_Name: BoombSphereLight
   m_TagString: Untagged
@@ -5282,27 +5281,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &2487147767130117483
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8184020190230342348}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2034935250812004408
 PrefabInstance:
   m_ObjectHideFlags: 0
