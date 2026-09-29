@@ -9,9 +9,6 @@ using SurfaceSystem.OpenFracture;
 [CreateAssetMenu(fileName = "FractureEffect", menuName = "SurfaceSystem/Effects/Fracture Effect")]
 public class FractureEffect : SurfaceEffect
 {
-    [Header("Impact")]
-    [SerializeField, Min(0f)] private float _breakImpulseThreshold = 8f;
-
     [Header("Fragments")]
     [SerializeField, Range(2, 32)] private int _fragmentCount = 12;
     [SerializeField, Min(0.1f)] private float _totalMass = 10f;
@@ -24,62 +21,41 @@ public class FractureEffect : SurfaceEffect
 
     public float FragmentLifetime { get { return _fragmentLifetime; } }
 
-    // 실제 충격량을 판정하고 충돌한 행성에서 파괴 작업을 시작한다.
-    public override void OnImpact(SurfaceInstance surface, Collision collision)
+    public bool TryFractureFromStomp(SurfaceInstance surface, Collision collision)
     {
-        if (collision.contactCount == 0)
+        if (surface == null || surface.Profile == null || !surface.Profile.AllowStompFracture || collision == null || collision.contactCount == 0)
         {
-            return;
+            return false;
         }
 
-        if (collision.impulse.magnitude < _breakImpulseThreshold)
-        {
-            return;
-        }
-
-        MeshGlass glass = surface.GetComponent<MeshGlass>();
-
-        if (glass == null)
-        {
-            Debug.LogError("GlassFractureEffect requires MeshGlass on the SurfaceInstance object.", surface);
-            return;
-        }
-
-        glass.BeginFracture(this, collision.GetContact(0).point);
+        return BeginFracture(surface, collision.GetContact(0).point);
+    }
+    public bool TryFractureFromMeteor(SurfaceInstance surface, Vector3 impactPoint)
+    {
+        return BeginFracture(surface, impactPoint);
     }
 
-    public override void OnSurfaceTriggerImpact(SurfaceInstance surface, Collider other)
+    private bool BeginFracture(SurfaceInstance surface, Vector3 burstOrigin)
     {
-        Rigidbody body = other != null ? other.attachedRigidbody : null;
-        if (surface == null || body == null || body.isKinematic)
+        if (surface == null || surface.Profile == null)
         {
-            return;
-        }
-
-        Vector3 point = surface.GetTriggerContactPoint(other);
-        Vector3 normal = surface.GetTriggerSurfaceNormal(other, point);
-        Rigidbody surfaceBody = surface.GetComponent<Rigidbody>();
-        Vector3 relativeVelocity = body.GetPointVelocity(point);
-        if (surfaceBody != null)
-        {
-            relativeVelocity -= surfaceBody.GetPointVelocity(point);
-        }
-
-        float impactSpeed = -Vector3.Dot(relativeVelocity, normal);
-        float estimatedImpulse = impactSpeed * body.mass;
-        if (estimatedImpulse < _breakImpulseThreshold)
-        {
-            return;
+            return false;
         }
 
         MeshGlass glass = surface.GetComponent<MeshGlass>();
         if (glass == null)
         {
-            Debug.LogError("GlassFractureEffect requires MeshGlass on the SurfaceInstance object.", surface);
-            return;
+            Debug.LogError("FractureEffect requires MeshGlass on the SurfaceInstance object.", surface);
+            return false;
         }
 
-        glass.BeginFracture(this, point);
+        if (glass.IsBroken || glass.IsFracturing)
+        {
+            return false;
+        }
+
+        glass.BeginFracture(this, burstOrigin);
+        return true;
     }
 
     // OpenFracture로 실제 메시를 절단하며 한 프레임에 한 번씩 분할한다.

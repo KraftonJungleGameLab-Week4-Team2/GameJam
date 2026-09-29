@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a46cdb82dffcbb4fa06b5fb372df073, type: 3}
   m_Name: BombFractureEffect
   m_EditorClassIdentifier: 
-  _breakImpulseThreshold: 0
   _fragmentCount: 20
   _totalMass: 10
   _fragmentSpeed: 20

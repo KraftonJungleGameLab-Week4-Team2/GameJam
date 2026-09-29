@@ -15,3 +15,4 @@ MonoBehaviour:
   _physicsMaterial: {fileID: 13400000, guid: dd884ac397b0d3847b77644a4e4ccb3a, type: 2}
   _effects:
   - {fileID: 11400000, guid: 4bd00a25842c424bbdc716b94686b38e, type: 2}
+  - {fileID: 11400000, guid: ae698d3a0047f8349bb9759c7cd05f25, type: 2}
