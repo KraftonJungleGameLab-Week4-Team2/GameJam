@@ -7,10 +7,15 @@ public class SurfaceProfile : ScriptableObject
     [SerializeField] private PhysicsMaterial _physicsMaterial;
     [SerializeField] private SurfaceEffect[] _effects = new SurfaceEffect[0];
 
+    [Header("Fracture")]
+    [SerializeField] private bool _allowStompFracture;
+
     public PhysicsMaterial PhysicsMaterial
     {
         get { return _physicsMaterial; }
     }
+
+    public bool AllowStompFracture { get { return _allowStompFracture; } }
 
     public void ProcessEnter(SurfaceInstance surface, Collision collision)
     {

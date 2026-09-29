@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: GlassSurfaceProfile
   m_EditorClassIdentifier: 
   _physicsMaterial: {fileID: 13400000, guid: 38ecdbf2c3f95984986ca795656c6da5, type: 2}
+  _allowStompFracture: 1
   _effects:
   - {fileID: 11400000, guid: 4234ca1a425b12642b15090231a3e722, type: 2}

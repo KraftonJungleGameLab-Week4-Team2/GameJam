@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class PlayerStat
@@ -30,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _ChkGroundDistance;
 
     private bool _isReadyJump;
-    private bool _isStomp;
+    public bool IsStomp { get; private set; }
     private bool _isGrounded;
     private float _xInput;
     private Vector3 _moveDir;
@@ -80,9 +81,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerStomp()
     {
-        if (_isGrounded == false && _isStomp == false)
+        if (_isGrounded == false && IsStomp == false)
         {
-            _isStomp = true;
+            IsStomp = true;
             _yVelocity = -_playerStat.stompForce;
         }
     }
@@ -162,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded)
         {
             _gravityInfo.ApplyGravity(0.0f);
-            _isStomp = false;
+            IsStomp = false;
         }
         Debug.DrawRay(transform.position, GetPlanetDir() * _ChkGroundDistance, Color.red);
     }
