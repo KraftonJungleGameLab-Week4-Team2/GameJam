@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class revolution : MonoBehaviour
+public class Revolution : MonoBehaviour
 {
     public Transform target;
     private Rigidbody _rigidbody;
@@ -24,10 +24,10 @@ public class revolution : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Revolution();
+        PlanetRevolution();
 
     }
-    private void Revolution()
+    private void PlanetRevolution()
     {
         float x = target.position.x + Mathf.Cos(_angle) * _radius;
         float y = target.position.y + Mathf.Sin(_angle) * _radius;
