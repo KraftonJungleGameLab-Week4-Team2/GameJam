@@ -78,7 +78,6 @@ GameObject:
   - component: {fileID: 461364659208050414}
   - component: {fileID: 2335833872443196847}
   - component: {fileID: 4850746341110532666}
-  - component: {fileID: 829676018893697192}
   - component: {fileID: 4148353625294811908}
   - component: {fileID: 7457652299076422415}
   - component: {fileID: 5096175341208872248}
@@ -180,22 +179,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &829676018893697192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7017142313878252600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e024b57dfa1a745ad7bc85e52377ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _meshGlass: {fileID: 7457652299076422415}
-  _materialType: 5
-  _originScale: {x: 0, y: 0, z: 0}
-  _planetState: 0
 --- !u!114 &4148353625294811908
 MonoBehaviour:
   m_ObjectHideFlags: 0
