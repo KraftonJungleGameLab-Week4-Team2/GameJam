@@ -11,7 +11,7 @@ public class ItemManager : MonoBehaviour
         Vector3 spawnPosition = planet.position + Vector3.right * _orbitalRadius;
         Item item = Instantiate(_itemPrefab, spawnPosition, Quaternion.identity);
 
-        revolution orbit = item.GetComponent<revolution>();
+        Revolution orbit = item.GetComponent<Revolution>();
 
         orbit.target = planet;
         return item;
