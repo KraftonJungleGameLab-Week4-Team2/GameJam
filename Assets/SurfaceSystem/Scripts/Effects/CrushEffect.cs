@@ -28,7 +28,7 @@ public class CrushEffect : SurfaceEffect
         ApplyDent(surface, contact.point, -normal, impactSpeed);
     }
 
-    public override void OnTriggerImpact(SurfaceInstance surface, Collider other)
+    public override void OnSurfaceTriggerImpact(SurfaceInstance surface, Collider other)
     {
         Rigidbody body = other != null ? other.attachedRigidbody : null;
         if (surface == null || body == null || body.isKinematic)

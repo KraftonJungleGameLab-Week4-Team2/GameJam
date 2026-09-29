@@ -35,7 +35,7 @@ public class ExplosionEffect : SurfaceEffect
         StartCountdown(surface, collision != null ? collision.collider : null);
     }
 
-    public override void OnTriggerEnter(SurfaceInstance surface, Collider other)
+    public override void OnSurfaceTriggerEnter(SurfaceInstance surface, Collider other)
     {
         StartCountdown(surface, other);
     }

@@ -48,7 +48,7 @@ public class FractureEffect : SurfaceEffect
         glass.BeginFracture(this, collision.GetContact(0).point);
     }
 
-    public override void OnTriggerImpact(SurfaceInstance surface, Collider other)
+    public override void OnSurfaceTriggerImpact(SurfaceInstance surface, Collider other)
     {
         Rigidbody body = other != null ? other.attachedRigidbody : null;
         if (surface == null || body == null || body.isKinematic)
@@ -89,11 +89,6 @@ public class FractureEffect : SurfaceEffect
         if (source == null || !source.isReadable || source.subMeshCount != 1)
         {
             throw new InvalidOperationException("Glass requires a readable, closed mesh with one submesh.");
-        }
-
-        if (glass.GetComponentsInChildren<Collider>().Length != glass.GetComponents<Collider>().Length)
-        {
-            throw new InvalidOperationException("Place Glass colliders on the same object as MeshGlass.");
         }
 
         Mesh worldMesh = Instantiate(source);
