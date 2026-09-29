@@ -32,7 +32,14 @@ public class GravityManager : MonoBehaviour
         foreach (var gs in _gravitySources)
         {
             if (gs.IsBroken == true)
+            {
+                gs.SetRange(1f);
+                gs.SetHighlight(false);
                 continue;
+            }
+
+            gs.SetHighlight(false);
+            gs.SetRange(gs.GravityRange);
 
             var distance = (_player.position - gs.transform.position).magnitude;
 
@@ -51,6 +58,7 @@ public class GravityManager : MonoBehaviour
         _gravityInfo.GravityOrigin = tempOrigin == null ? _gravityInfo.GravityOrigin : tempOrigin;
         if (_gravityInfo.GravityOrigin != null)
         {
+            _gravityInfo.GravityOrigin.SetHighlight(true);
             _gravityInfo.Gravity += GravityConstants.GravityAccel * Time.deltaTime;
         }
     }
