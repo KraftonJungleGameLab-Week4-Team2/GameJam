@@ -25,6 +25,11 @@ public class MainScreen : MonoBehaviour
     {
         _currentDialogueIndex = 0;
         SetDialogue(_currentDialogueIndex);
+
+        PlayerStatus playerStatus = FindFirstObjectByType<PlayerStatus>();
+        Boss boss = FindFirstObjectByType<Boss>();
+        playerStatus.BindUI(this, boss);
+        boss.BindUI(this);
     }
 
     public void SetDialogue(int index)
@@ -79,6 +84,13 @@ public class MainScreen : MonoBehaviour
 
     public void SetBossHp(float hp)
     {
+        _bossHpSlider.value = hp;
+    }
+
+    public void SetBossHealth(float hp, float maxHp)
+    {
+        _bossHpSlider.minValue = 0f;
+        _bossHpSlider.maxValue = maxHp;
         _bossHpSlider.value = hp;
     }
 

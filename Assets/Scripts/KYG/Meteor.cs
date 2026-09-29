@@ -9,6 +9,7 @@ public class Meteor : MonoBehaviour
     private bool _hasLaunchTarget;
 
     private Collider _meteorCollider;
+    private bool _hasHitPlayer;
 
     private void Awake()
     {
@@ -59,6 +60,14 @@ public class Meteor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        PlayerStatus player = other.GetComponentInParent<PlayerStatus>();
+        if (player != null && !_hasHitPlayer)
+        {
+            _hasHitPlayer = true;
+            player.TakeDamage(1f);
+            return;
+        }
+
         SurfaceInstance surface = other.GetComponentInParent<SurfaceInstance>();
         if (surface == null || surface.Profile == null)
         {

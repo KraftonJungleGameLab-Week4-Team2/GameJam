@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DamageEffect", menuName = "SurfaceSystem/Effects/Damage Effect")]
 public class DamageEffect : SurfaceEffect
 {
-    [SerializeField, Min(0f)] private float _damage = 10f;
+    [SerializeField, Min(0f)] private float _damage = 1f;
     [SerializeField] private bool _onlyAffectPlayer;
 
     public override void OnEnter(SurfaceInstance surface, Collision collision)

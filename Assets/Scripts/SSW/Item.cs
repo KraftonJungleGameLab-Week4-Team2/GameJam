@@ -15,6 +15,8 @@ public class Item : MonoBehaviour
         }
 
         _isCollected = true;
+        PlayerStatus player = other.GetComponentInParent<PlayerStatus>();
+        player.AttackBoss();
         Collected?.Invoke(this);
     }
 

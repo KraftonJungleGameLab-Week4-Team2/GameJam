@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: FireSurfaceProfile
   m_EditorClassIdentifier: 
   _physicsMaterial: {fileID: 13400000, guid: 40e5bfc3161a62e46bdc5599d8fd9103, type: 2}
-  _effects:
-  - {fileID: 11400000, guid: 71f27957a82f7dd4fb19fd07f33547a7, type: 2}
+  _effects: []
   _allowStompFracture: 0
