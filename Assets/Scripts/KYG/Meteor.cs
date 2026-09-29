@@ -22,6 +22,8 @@ public class Meteor : MonoBehaviour
             _target = transform.position + Vector3.down * 300f;
         }
 
+        FaceDirection(_target - transform.position);
+
         StartCoroutine(MoveFireBall(_target, _moveSpeed));
         Destroy(gameObject, _lifeTime);
     }
@@ -31,17 +33,28 @@ public class Meteor : MonoBehaviour
         Vector3 direction = (targetPlanetPosition - transform.position).normalized;
         _target = targetPlanetPosition + direction * 300f;
         _hasLaunchTarget = true;
+        FaceDirection(direction);
     }
 
     private IEnumerator MoveFireBall(Vector3 destination, float moveSpeed)
     {
         while ((destination - transform.position).sqrMagnitude > 0.0001f)
         {
+            Vector3 direction = destination - transform.position;
+            FaceDirection(direction);
             transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
             yield return null;
         }
 
         Destroy(gameObject);
+    }
+
+    private void FaceDirection(Vector3 direction)
+    {
+        if (direction.sqrMagnitude > 0.0001f)
+        {
+            transform.rotation = Quaternion.FromToRotation(Vector3.right, direction.normalized);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
