@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: GlassFractureEffect
   m_EditorClassIdentifier: 
   _breakImpulseThreshold: 8
-  _requireSurfaceAgent: 1
   _fragmentCount: 20
   _totalMass: 10
-  _fragmentSpeed: 4
+  _fragmentSpeed: 10
   _fragmentLifetime: 8
   _useWorldGravity: 0
+  _randomizeSeed: 1
   _randomSeed: 12345
   _insideMaterial: {fileID: 2100000, guid: a40923f81a1d63040bf7091b0d22d605, type: 2}

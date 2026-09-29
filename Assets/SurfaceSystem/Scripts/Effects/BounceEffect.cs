@@ -1,36 +1,54 @@
 using UnityEngine;
+using System.Reflection;
 
 [CreateAssetMenu(fileName = "BounceEffect", menuName = "SurfaceSystem/Effects/Bounce Effect")]
 public class BounceEffect : SurfaceEffect
 {
     [Header("Impact Bounce")]
-    [SerializeField, Min(0f)]
-    private float _bounceMultiplier = 1.2f;
-    [SerializeField, Min(0f)]
-    private float _minimumImpactSpeed = 1f;
-    [SerializeField, Min(0f)]
-    private float _maxBounceSpeed = 20f;
+    [SerializeField, Min(0f)] private float _bounceMultiplier = 1.2f;
+    [SerializeField, Min(0f)] private float _minimumImpactSpeed = 1f;
+    [SerializeField, Min(0f)] private float _maxBounceSpeed = 20f;
+    [SerializeField] private bool _onlyAffectPlayer;
 
-    [Header("Contact Bounce")]
-    [SerializeField, Min(0f)]
-    private float _groundedBounceSpeed = 2f;
-
-    // 반동 설정을 공통 결과에 채운다. 같은 설정을 여러 번 넣으면 마지막 설정을 사용한다.
-    public override void Modify(ref SurfaceModifiers modifiers, float normalizedSpeed)
+    public void ApplyOutwardBounce(Rigidbody body, Vector3 outward)
     {
-        modifiers.bounceEnabled = true;
-        modifiers.bounceMultiplier = _bounceMultiplier;
-        modifiers.minimumImpactSpeed = _minimumImpactSpeed;
-        modifiers.maxBounceSpeed = _maxBounceSpeed;
-        modifiers.groundedBounceSpeed = _groundedBounceSpeed;
+        if (body == null || body.isKinematic)
+        {
+            return;
+        }
+
+        outward.Normalize();
+        float bounceSpeed = _maxBounceSpeed;
+        body.linearVelocity = Vector3.ProjectOnPlane(body.linearVelocity, outward) + outward * bounceSpeed;
+
+        // Keep the project's custom-gravity controller in sync with the applied bounce.
+        foreach (MonoBehaviour component in body.GetComponents<MonoBehaviour>())
+        {
+            if (component.GetType().Name != "PlayerMovement")
+            {
+                continue;
+            }
+
+            FieldInfo verticalVelocity = component.GetType().GetField(
+                "_yVelocity", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (verticalVelocity != null && verticalVelocity.FieldType == typeof(float))
+            {
+                verticalVelocity.SetValue(component, bounceSpeed);
+            }
+            break;
+        }
     }
 
-    // 접근 속도의 표면 법선 성분만 사용해 착지 반동을 만든다.
-    public override void OnImpact(SurfaceInstance surface, Collision collision, SurfaceModifiers modifiers)
+    public override void OnSinkThresholdReached(SurfaceInstance surface, Rigidbody body, Vector3 outward)
+    {
+        ApplyOutwardBounce(body, outward);
+    }
+
+    public override void OnImpact(SurfaceInstance surface, Collision collision)
     {
         Rigidbody rigidbody = collision.rigidbody;
 
-        if (!modifiers.bounceEnabled || !CanBounce(collision))
+        if (rigidbody == null || rigidbody.isKinematic || collision.contactCount == 0 || !IsValidTarget(rigidbody))
         {
             return;
         }
@@ -39,13 +57,13 @@ public class BounceEffect : SurfaceEffect
 
         float incomingNormalVelocity = Vector3.Dot(collision.relativeVelocity, surfaceNormal);
 
-        if (incomingNormalVelocity >= -modifiers.minimumImpactSpeed)
+        if (incomingNormalVelocity >= -_minimumImpactSpeed)
         {
             return;
         }
 
-        float bounceSpeed = -incomingNormalVelocity * modifiers.bounceMultiplier;
-        bounceSpeed = Mathf.Min(bounceSpeed, modifiers.maxBounceSpeed);
+        float bounceSpeed = -incomingNormalVelocity * _bounceMultiplier;
+        bounceSpeed = Mathf.Min(bounceSpeed, _maxBounceSpeed);
 
         float currentNormalVelocity = Vector3.Dot(rigidbody.linearVelocity, surfaceNormal);
         float velocityChange = bounceSpeed - currentNormalVelocity;
@@ -58,46 +76,67 @@ public class BounceEffect : SurfaceEffect
         rigidbody.AddForce(surfaceNormal * velocityChange, ForceMode.VelocityChange);
     }
 
-    // 표면에 멈추거나 내려가는 물체에 작은 재도약을 적용한다.
-    public override void OnStay(SurfaceInstance surface, Collision collision, SurfaceModifiers modifiers)
+    public override void OnSurfaceTriggerImpact(SurfaceInstance surface, Collider other)
     {
-        Rigidbody rigidbody = collision.rigidbody;
-
-        if (!modifiers.bounceEnabled || modifiers.groundedBounceSpeed <= 0f || !CanBounce(collision))
+        Rigidbody rigidbody = other != null ? other.attachedRigidbody : null;
+        if (surface == null || rigidbody == null || rigidbody.isKinematic || !IsValidTarget(rigidbody))
         {
             return;
         }
 
-        Vector3 surfaceNormal = GetSurfaceNormal(collision);
+        Vector3 contactPoint = surface.GetTriggerContactPoint(other);
+        Vector3 surfaceNormal = surface.GetTriggerSurfaceNormal(other, contactPoint);
+        Rigidbody surfaceBody = surface.GetComponent<Rigidbody>();
+        Vector3 relativeVelocity = rigidbody.GetPointVelocity(contactPoint);
+        if (surfaceBody != null)
+        {
+            relativeVelocity -= surfaceBody.GetPointVelocity(contactPoint);
+        }
+
+        float incomingNormalVelocity = Vector3.Dot(relativeVelocity, surfaceNormal);
+        if (incomingNormalVelocity >= -_minimumImpactSpeed)
+        {
+            return;
+        }
+
+        float bounceSpeed = Mathf.Min(-incomingNormalVelocity * _bounceMultiplier, _maxBounceSpeed);
         float currentNormalVelocity = Vector3.Dot(rigidbody.linearVelocity, surfaceNormal);
-
-        if (currentNormalVelocity > 0f)
+        float velocityChange = bounceSpeed - currentNormalVelocity;
+        if (velocityChange > 0f)
         {
-            return;
+            rigidbody.AddForce(surfaceNormal * velocityChange, ForceMode.VelocityChange);
         }
-
-        rigidbody.AddForce(surfaceNormal * modifiers.groundedBounceSpeed, ForceMode.VelocityChange);
     }
 
-    // 반동은 접점과 Rigidbody가 있는 SurfaceAgent 대상에만 적용한다.
-    private bool CanBounce(Collision collision)
-    {
-        return collision.rigidbody != null
-            && collision.contactCount > 0
-            && collision.gameObject.GetComponentInParent<SurfaceAgent>() != null;
-    }
-
-    // 접촉면의 수직 방향이 표면에서 충돌한 물체를 향하도록 맞춘다.
     private Vector3 GetSurfaceNormal(Collision collision)
     {
         ContactPoint contact = collision.GetContact(0);
         Vector3 normal = contact.normal;
+
         Vector3 directionToBody = collision.rigidbody.worldCenterOfMass - contact.point;
+
         if (Vector3.Dot(normal, directionToBody) < 0f)
         {
             normal = -normal;
         }
 
         return normal.normalized;
+    }
+
+    private bool IsValidTarget(Rigidbody body)
+    {
+        if (!_onlyAffectPlayer)
+        {
+            return true;
+        }
+
+        foreach (MonoBehaviour behaviour in body.GetComponentsInParent<MonoBehaviour>())
+        {
+            if (behaviour != null && behaviour.GetType().Name == "PlayerMovement")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

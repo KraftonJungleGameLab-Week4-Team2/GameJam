@@ -15,4 +15,3 @@ MonoBehaviour:
   _bounceMultiplier: 1.2
   _minimumImpactSpeed: 1
   _maxBounceSpeed: 20
-  _groundedBounceSpeed: 2
