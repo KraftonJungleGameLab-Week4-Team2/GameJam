@@ -24,18 +24,14 @@ public class SolarSystem : MonoBehaviour
         _orbitingPlanets = new GameObject[_orbitingPlanetCount];
         _orbitingPrefabs = new GameObject[_orbitingPlanetCount];
 
-        // Pick two different slots before choosing the remaining planet types.
-        int firstNormalSlot = Random.Range(0, _orbitingPlanetCount);
-        int secondNormalSlot = Random.Range(0, _orbitingPlanetCount - 1);
-        if (secondNormalSlot >= firstNormalSlot)
-        {
-            secondNormalSlot++;
-        }
+        // Slot 0 always uses Planet_Normal, so its generated name is always Planet_Normal_1.
+        float firstAngle = Mathf.PI * 2f / _orbitingPlanetCount;
+        SpawnPlanet(0, _normalPlanetPrefab, firstAngle);
 
-        for (int i = 0; i < _orbitingPlanetCount; i++)
+        int secondNormalSlot = Random.Range(1, _orbitingPlanetCount);
+        for (int i = 1; i < _orbitingPlanetCount; i++)
         {
-            GameObject prefab = i == firstNormalSlot || i == secondNormalSlot
-                ? _normalPlanetPrefab : PickRandomPrefab();
+            GameObject prefab = i == secondNormalSlot ? _normalPlanetPrefab : PickRandomPrefab();
             float angle = (i + 1) * Mathf.PI * 2f / _orbitingPlanetCount;
             SpawnPlanet(i, prefab, angle);
         }
