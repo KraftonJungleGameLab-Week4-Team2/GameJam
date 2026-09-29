@@ -31,11 +31,11 @@ public class GravityManager : MonoBehaviour
         var maxDistance = float.MaxValue;
         foreach (var gs in _gravitySources)
         {
-            var distance = (_player.position - gs.transform.position).magnitude;
-
-            if (gs.GravityRange < distance)
+            if (gs.IsBroken == true)
                 continue;
 
+            var distance = (_player.position - gs.transform.position).magnitude;
+            
             if (maxDistance > distance)
             {
                 maxDistance = distance;
