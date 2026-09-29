@@ -647,6 +647,38 @@ PrefabInstance:
       propertyPath: _maxHealth
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
+      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
+      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
+      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7953848205164264780}
+    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
+      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
+      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
+      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
+      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
+      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2024730028511031399, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15
@@ -1130,6 +1162,7 @@ MonoBehaviour:
   _bombColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   _swampColor: {r: 0.4, g: 0.25, b: 0.1, a: 1}
   _glassColor: {r: 0.8, g: 0.9, b: 1, a: 1}
+  _fireColor: {r: 0, g: 0, b: 0, a: 0}
   _playerMovement: {fileID: 1769683500}
   _currentMaterialType: 0
   _effectProgress: 0
@@ -12697,6 +12730,11 @@ PrefabInstance:
       addedObject: {fileID: 1781078845}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56b2f9b8ecb37794ca6bf2102da2919d, type: 3}
+--- !u!1 &7953848205164264780 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6187271630029463447, guid: 56b2f9b8ecb37794ca6bf2102da2919d, type: 3}
+  m_PrefabInstance: {fileID: 7953848205164264779}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
