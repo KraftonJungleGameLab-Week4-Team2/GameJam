@@ -1871,7 +1871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ApplyAfter: 2
   ChannelMask: 1
-  Gain: 1
+  Gain: 2
   Use2DDistance: 0
   UseCameraSpace: 1
   SignalCombinationMode: 0
