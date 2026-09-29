@@ -4,7 +4,9 @@ using UnityEngine;
 public class Meteor : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 40f;
+    [SerializeField] private float _lifeTime = 8f;
     private Vector3 _target;
+    private bool _hasLaunchTarget;
 
     private Collider _meteorCollider;
 
@@ -15,16 +17,25 @@ public class Meteor : MonoBehaviour
 
     private void Start()
     {
-        /* _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.AddForce(Vector3.down * 100, ForceMode.Impulse);  후보 1번 메테오 */
-        _target = transform.position + Vector3.down * 300f;
+        if (!_hasLaunchTarget)
+        {
+            _target = transform.position + Vector3.down * 300f;
+        }
+
         StartCoroutine(MoveFireBall(_target, _moveSpeed));
+        Destroy(gameObject, _lifeTime);
+    }
+
+    public void Launch(Vector3 targetPlanetPosition)
+    {
+        Vector3 direction = (targetPlanetPosition - transform.position).normalized;
+        _target = targetPlanetPosition + direction * 300f;
+        _hasLaunchTarget = true;
     }
 
     private IEnumerator MoveFireBall(Vector3 destination, float moveSpeed)
     {
-        float distance = (destination - transform.position).sqrMagnitude;
-        while (distance > 0.0001f)
+        while ((destination - transform.position).sqrMagnitude > 0.0001f)
         {
             transform.position = Vector3.MoveTowards(transform.position, destination, moveSpeed * Time.deltaTime);
             yield return null;

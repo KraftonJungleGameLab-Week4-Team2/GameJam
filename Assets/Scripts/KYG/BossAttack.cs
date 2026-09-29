@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+
 public class BossAttack : MonoBehaviour
 {
     public GameObject attackCube;
@@ -8,15 +11,12 @@ public class BossAttack : MonoBehaviour
     public Vector3 playerRightUp;
     public bool nomalattack;
     public bool fireBallAttack;
-    private float _fakeFireBallTimer = 5f; //5초는 안할겁니다
+    [SerializeField] private float _meteorCooldown = 5f;
     public Transform boss;
     private Vector3 _bossRight;
-    private Vector3 _bossLeft;
     [SerializeField] private Transform[] _planetAry;
     [SerializeField] private GameObject _WarningPrefab;
     [SerializeField] private GameObject _fireBallPrefab;
-
-
 
     private void Start()
     {
@@ -33,7 +33,7 @@ public class BossAttack : MonoBehaviour
         }
         if (fireBallAttack)
         {
-            StartCoroutine(CallFake());
+            StartCoroutine(CallMeteorAttack());
         }
 
     }
@@ -67,42 +67,98 @@ public class BossAttack : MonoBehaviour
         obj.GetComponent<Bullet>().Init(waypoint[randomIndex], playerNow);
 
     }
-    IEnumerator CallFake()
+    private IEnumerator CallMeteorAttack()
     {
-        yield return StartCoroutine(FireBall());
+        fireBallAttack = false;
 
-        yield return new WaitForSeconds(_fakeFireBallTimer);
+        Transform targetPlanet = GetRandomAvailablePlanet();
+        while (targetPlanet == null)
+        {
+            yield return new WaitForSeconds(0.5f);
+            targetPlanet = GetRandomAvailablePlanet();
+        }
+
+        yield return PlayFakeFireBall();
+        yield return new WaitForSeconds(3f);
+
+        GameObject warning = Instantiate(_WarningPrefab, targetPlanet.position, Quaternion.identity, targetPlanet);
+        yield return new WaitForSeconds(3f);
+        Destroy(warning);
+
+        GameObject meteor = Instantiate(_fireBallPrefab, GetMeteorSpawnPosition(targetPlanet), Quaternion.identity);
+        meteor.GetComponent<Meteor>().Launch(targetPlanet.position);
+
+        yield return new WaitForSeconds(_meteorCooldown);
         fireBallAttack = true;
     }
-    private IEnumerator FireBall()
+
+    private Transform GetRandomAvailablePlanet()
     {
-        _bossLeft = boss.position + new Vector3(-50, 0, 0);
-        GameObject fakeFireBall = Instantiate(_fakeFireBall, _bossLeft, Quaternion.identity);
-        fireBallAttack = false;
-        Rigidbody fakeRb = fakeFireBall.GetComponent<Rigidbody>();
+        List<Transform> availablePlanets = new List<Transform>();
 
-        yield return new WaitForSeconds(0.5f); //발사전 대기
+        foreach (Transform planet in _planetAry)
+        {
+            MeshGlass glass = planet.GetComponent<MeshGlass>();
+            if (!glass.IsBroken && !glass.IsFracturing)
+            {
+                availablePlanets.Add(planet);
+            }
+        }
 
-        fakeRb.AddForce(new Vector3(0, 100, -30), ForceMode.Impulse);
+        if (availablePlanets.Count == 0)
+        {
+            return null;
+        }
 
-        yield return new WaitForSeconds(1f); //발사후 화면 밖으로 나가면 삭제
-
-        Destroy(fakeFireBall);
-
-        yield return new WaitForSeconds(3f); //
-        int randomIndex = Random.Range(0, _planetAry.Length);
-
-        Transform ramdomPlanet = _planetAry[randomIndex];
-
-        GameObject fireballWarning = Instantiate(_WarningPrefab, ramdomPlanet.position, Quaternion.identity, ramdomPlanet);
-        yield return new WaitForSeconds(3f); //원래는 경고등 개념이였던것
-        Destroy(fireballWarning);
-
-
-        //하나의 메테오를 생성시켜서 추락 X,Y 조정한 축위에서 
-        Vector3 fireBallPosition = ramdomPlanet.position + new Vector3(0, 50, 0);
-        GameObject fireBall = Instantiate(_fireBallPrefab, fireBallPosition, Quaternion.identity);
+        return availablePlanets[Random.Range(0, availablePlanets.Count)];
     }
 
+    private IEnumerator PlayFakeFireBall()
+    {
+        Vector3 bossRightPosition = boss.position + Vector3.left * 50f;
+        GameObject fakeMeteor = Instantiate(_fakeFireBall, bossRightPosition, Quaternion.identity);
+        Rigidbody fakeMeteorBody = fakeMeteor.GetComponent<Rigidbody>();
+        fakeMeteorBody.isKinematic = true;
+        fakeMeteorBody.useGravity = false;
+        fakeMeteor.GetComponent<Collider>().enabled = false;
 
+        yield return new WaitForSeconds(0.75f);
+
+        Vector3 launchOffset = new Vector3(0f, 100f, -300f);
+        yield return fakeMeteor.transform.DOMove(bossRightPosition + launchOffset, 1.5f).SetEase(Ease.Linear).WaitForCompletion();
+
+        Destroy(fakeMeteor);
+    }
+
+    private Vector3 GetMeteorSpawnPosition(Transform target)
+    {
+        Camera playerCamera = Camera.main;
+        Vector3 targetViewport = playerCamera.WorldToViewportPoint(target.position);
+        float depth = Vector3.Dot(target.position - playerCamera.transform.position, playerCamera.transform.forward);
+        float margin = 0.35f;
+        Vector3 spawnViewport = targetViewport;
+
+        switch (Random.Range(0, 4))
+        {
+            case 0:
+                spawnViewport.x = -margin;
+                spawnViewport.y = Random.Range(0.1f, 0.9f);
+                break;
+            case 1:
+                spawnViewport.x = 1f + margin;
+                spawnViewport.y = Random.Range(0.1f, 0.9f);
+                break;
+            case 2:
+                spawnViewport.x = Random.Range(0.1f, 0.9f);
+                spawnViewport.y = -margin;
+                break;
+            default:
+                spawnViewport.x = Random.Range(0.1f, 0.9f);
+                spawnViewport.y = 1f + margin;
+                break;
+        }
+
+        spawnViewport.z = depth;
+        return playerCamera.ViewportToWorldPoint(spawnViewport);
+    }
 }
