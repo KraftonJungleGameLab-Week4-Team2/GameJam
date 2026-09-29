@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputSystem : MonoBehaviour
 {
     private InputSystem_Actions _actions;
+
     private float _xMoveValue;
 
     public event Action<Vector2> Move;
@@ -15,6 +16,7 @@ public class PlayerInputSystem : MonoBehaviour
     private void Awake()
     {
         _actions = new InputSystem_Actions();
+
     }
     private void OnEnable()
     {
@@ -27,6 +29,7 @@ public class PlayerInputSystem : MonoBehaviour
 
         _actions.Player.Stomp.performed += OnStomp;
         _actions.Player.Stomp.canceled += OnStomp;
+
     }
     private void OnDisable()
     {
@@ -39,6 +42,7 @@ public class PlayerInputSystem : MonoBehaviour
 
         _actions.Player.Stomp.performed -= OnStomp;
         _actions.Player.Stomp.canceled -= OnStomp;
+
     }
     private void OnMove(InputAction.CallbackContext context)
     {
@@ -70,4 +74,5 @@ public class PlayerInputSystem : MonoBehaviour
             _isJump = false;
         }
     }
+
 }
