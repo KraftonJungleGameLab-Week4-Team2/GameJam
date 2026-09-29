@@ -39,12 +39,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _BaseCount: 30
-    - _BaseDashCount: 0.1
+    - _BaseDashCount: 2
     - _Dash_Count: 50
     - _Dash_Size: 0.07
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Radius: 208
+    - _Radius: 30
     - _Ring_Thickness: 0.05
     m_Colors:
     - _Color: {r: 0.79607844, g: 1, b: 1, a: 0.043137256}
