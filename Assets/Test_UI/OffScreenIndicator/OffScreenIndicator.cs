@@ -1,102 +1,151 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OffScreenIndicator : MonoBehaviour
 {
     [Header("References")]
     public Transform targetTr;
     public RectTransform indicatorImageTr;
+    public RectTransform meteorIndicatorImageTr;
     public RectTransform canvasTr;
 
     [Header("Settings")]
     public float edgeBuffer = 50f;
+    [SerializeField] private Color _meteorColor = Color.red;
+    [SerializeField, Min(0f)] private float _alertOffset = 42f;
 
-    private Camera mainCamera;
+    private static readonly List<Transform> _meteorTargets = new List<Transform>();
+    private Camera _mainCamera;
+    private Image _itemArrowImage;
+    private Image _meteorArrowImage;
+    private TMP_Text _meteorAlertText;
+    private Color _itemArrowColor;
 
-    void Start()
+    private void Awake()
     {
-        mainCamera = Camera.main;
+        _mainCamera = Camera.main;
+
+        _itemArrowImage = indicatorImageTr.GetComponentInChildren<Image>(true);
+        _itemArrowColor = _itemArrowImage.color;
+        _meteorArrowImage = meteorIndicatorImageTr.GetComponentInChildren<Image>(true);
+        _meteorAlertText = meteorIndicatorImageTr.GetComponentInChildren<TMP_Text>(true);
+
+        _meteorArrowImage.color = _meteorColor;
+
+        indicatorImageTr.gameObject.SetActive(false);
+        meteorIndicatorImageTr.gameObject.SetActive(false);
     }
 
-    void Update()
+    public static void RegisterMeteor(Transform meteor)
     {
-        if (targetTr == null)
+        if (!_meteorTargets.Contains(meteor))
         {
-            indicatorImageTr.gameObject.SetActive(false);
+            _meteorTargets.Add(meteor);
+        }
+    }
+
+    public static void UnregisterMeteor(Transform meteor)
+    {
+        _meteorTargets.Remove(meteor);
+    }
+
+    private void Update()
+    {
+        UpdateItemIndicator();
+        UpdateMeteorIndicator();
+    }
+
+    private void UpdateItemIndicator()
+    {
+        Vector2 position = default;
+        bool isVisible = targetTr != null && TryGetOffScreenPosition(targetTr, out position);
+        indicatorImageTr.gameObject.SetActive(isVisible);
+        _itemArrowImage.color = _itemArrowColor;
+
+        if (isVisible)
+        {
+            SetIndicatorPosition(indicatorImageTr, position);
+        }
+    }
+
+    private void UpdateMeteorIndicator()
+    {
+        Transform meteor = GetOffScreenMeteor();
+        Vector2 position = default;
+        bool isVisible = meteor != null && TryGetOffScreenPosition(meteor, out position);
+        meteorIndicatorImageTr.gameObject.SetActive(isVisible);
+
+        if (!isVisible)
+        {
             return;
         }
 
-        indicatorImageTr.gameObject.SetActive(true);
-
-        // 월드 좌표를 스크린 좌표로 변환
-        Vector3 screenPoint = mainCamera.WorldToScreenPoint(targetTr.position);
-
-        // 화면 안에 있는지 체크
-        bool isOffScreen = screenPoint.x < 0 || screenPoint.x > Screen.width ||
-                           screenPoint.y < 0 || screenPoint.y > Screen.height;
-
-        // 화면 밖
-        if (isOffScreen)
-        {
-            if (indicatorImageTr.gameObject.activeSelf == false)
-            {
-                indicatorImageTr.gameObject.SetActive(true);
-            }
-
-            UpdateIndicatorPosition(screenPoint);
-        }
-        // 화면 안
-        else
-        {
-            if (indicatorImageTr.gameObject.activeSelf)
-            {
-                indicatorImageTr.gameObject.SetActive(false);
-            }
-        }
+        SetIndicatorPosition(meteorIndicatorImageTr, position);
+        RectTransform alertRect = _meteorAlertText.rectTransform;
+        alertRect.position = meteorIndicatorImageTr.position + Vector3.up * _alertOffset;
+        alertRect.rotation = Quaternion.identity;
     }
 
-    void UpdateIndicatorPosition(Vector3 screenPoint)
+    private Transform GetOffScreenMeteor()
     {
+        for (int i = _meteorTargets.Count - 1; i >= 0; i--)
+        {
+            Transform meteor = _meteorTargets[i];
+            if (meteor == null)
+            {
+                _meteorTargets.RemoveAt(i);
+                continue;
+            }
+
+            if (TryGetOffScreenPosition(meteor, out _))
+            {
+                return meteor;
+            }
+        }
+
+        return null;
+    }
+
+    private bool TryGetOffScreenPosition(Transform target, out Vector2 position)
+    {
+        Vector3 screenPoint = _mainCamera.WorldToScreenPoint(target.position);
+        bool isOffScreen = screenPoint.z <= 0f || screenPoint.x < 0f || screenPoint.x > Screen.width
+            || screenPoint.y < 0f || screenPoint.y > Screen.height;
+
+        if (!isOffScreen)
+        {
+            position = default;
+            return false;
+        }
+
         Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Vector2 screenPos = (Vector2)screenPoint - screenCenter;
-
-        float scaleX = canvasTr.sizeDelta.x / Screen.width;
-        float scaleY = canvasTr.sizeDelta.y / Screen.height;
-
-        Vector2 canvasCenter = Vector2.zero;
-        Vector2 pos = new Vector2(screenPos.x * scaleX, screenPos.y * scaleY);
-
-        // 가장자리 위치 구하기
-        float maxX = (canvasTr.sizeDelta.x / 2f) - edgeBuffer;
-        float maxY = (canvasTr.sizeDelta.y / 2f) - edgeBuffer;
-
-        float slope = pos.y / pos.x;
-        if (pos.x > 0)
+        Vector2 direction = (Vector2)screenPoint - screenCenter;
+        if (screenPoint.z <= 0f)
         {
-            pos.x = maxX;
-            pos.y = maxX * slope;
-        }
-        else
-        {
-            pos.x = -maxX;
-            pos.y = -maxX * slope;
+            direction = -direction;
         }
 
-        if (pos.y > maxY)
-        {
-            pos.y = maxY;
-            pos.x = maxY / slope;
-        }
-        else if (pos.y < -maxY)
-        {
-            pos.y = -maxY;
-            pos.x = -maxY / slope;
-        }
+        direction = Vector2.Scale(direction, new Vector2(canvasTr.sizeDelta.x / Screen.width,
+            canvasTr.sizeDelta.y / Screen.height));
 
-        // 위치
-        indicatorImageTr.anchoredPosition = pos;
+        float maxX = canvasTr.sizeDelta.x / 2f - edgeBuffer;
+        float maxY = canvasTr.sizeDelta.y / 2f - edgeBuffer;
+        float scaleX = Mathf.Abs(direction.x) > 0.001f ? maxX / Mathf.Abs(direction.x) : float.PositiveInfinity;
+        float scaleY = Mathf.Abs(direction.y) > 0.001f ? maxY / Mathf.Abs(direction.y) : float.PositiveInfinity;
+        position = direction * Mathf.Min(scaleX, scaleY);
+        return true;
+    }
 
-        // 회전
-        float angle = Mathf.Atan2(pos.y, pos.x) * Mathf.Rad2Deg;
-        indicatorImageTr.rotation = Quaternion.Euler(0, 0, angle);
+    private static void SetIndicatorPosition(RectTransform indicator, Vector2 position)
+    {
+        indicator.anchoredPosition = position;
+        float angle = Mathf.Atan2(position.y, position.x) * Mathf.Rad2Deg;
+        if (indicator.name == "MeteorArrow")
+        {
+            angle -= 90f;
+        }
+        indicator.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 }

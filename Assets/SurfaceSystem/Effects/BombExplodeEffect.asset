@@ -20,3 +20,4 @@ MonoBehaviour:
   _explosionForce: 25
   _explosionRadius: 20
   _upwardsModifier: 0.8
+  _explosionDamage: 1
