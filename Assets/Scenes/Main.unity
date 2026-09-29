@@ -173,8 +173,10 @@ MonoBehaviour:
   - {fileID: 2973619338238588319, guid: 21082fcf08e841f4c8253029afce3dda, type: 3}
   - {fileID: 3244871020934800009, guid: 99186cc24b2b91f4d88337fb320cc12c, type: 3}
   _orbitingPlanetCount: 8
-  _orbitRadius: 40
+  _orbitRadius: 50
   _orbitSpeed: 0.05
+  _minimumScaleMultiplier: 0.92
+  _maximumScaleMultiplier: 1.08
   _gravityManager: {fileID: 2063426215}
   _bossAttack: {fileID: 1233389602}
 --- !u!1001 &195569665
@@ -188,6 +190,22 @@ PrefabInstance:
     - target: {fileID: 1433563107527522426, guid: d5df5e452c155264598b49ea94b7857c, type: 3}
       propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2343238630171686953, guid: d5df5e452c155264598b49ea94b7857c, type: 3}
+      propertyPath: <GravityRange>k__BackingField
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 5853543425151533508, guid: d5df5e452c155264598b49ea94b7857c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5853543425151533508, guid: d5df5e452c155264598b49ea94b7857c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5853543425151533508, guid: d5df5e452c155264598b49ea94b7857c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5853543425151533508, guid: d5df5e452c155264598b49ea94b7857c, type: 3}
       propertyPath: m_LocalPosition.x
