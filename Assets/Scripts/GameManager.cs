@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CinemachineCamera _playerCamera;
 
+    [SerializeField]
+    private ScreenEffectManager _screenEffectManager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +26,9 @@ public class GameManager : MonoBehaviour
 
         // 카메라 변경
         _playerCamera.gameObject.SetActive(true);
+
+        // 스크린 효과 적용
+        _screenEffectManager.IsUse = true;
 
         // 대화창 진행
 

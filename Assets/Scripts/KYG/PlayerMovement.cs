@@ -92,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
         _inputSystem.Stomp -= PlayerStomp;
     }
 
-    private void PlayerMoveInput(Vector2 value) => _xInput = value.x;
+    private void PlayerMoveInput(Vector2 value) => _xInput = value.y;
 
     private void PlayerStomp()
     {
@@ -147,18 +147,22 @@ public class PlayerMovement : MonoBehaviour
         var gravityDir = GetPlanetDir();
         var groundNormal = -gravityDir;
 
-        // 핵심: transform.right를 행성 표면 평면에 완벽히 투영하여 접선 벡터 추출
-        var moveDir = Vector3.ProjectOnPlane(transform.right, groundNormal).normalized;
+// 2D/횡스크롤 기준 (화면 앞쪽 z축이 고정된 평면일 경우)
+// 기준 축(Vector3.forward)과 지면 법선의 외적으로 완벽한 접선(Tangent) 벡터 생성
+        Vector3 moveDir = Vector3.Cross(Vector3.forward, groundNormal).normalized;
+
+// _xVelocity 입력 방향(좌/우)에 맞게 곱해줌
         var horizontalVelocity = moveDir * _xVelocity;
 
-        var verticalVelocity = Vector3.zero;
-        if (_isGrounded == false)
+// 수직 속도 계산
+        if (!_isGrounded)
         {
             _yVelocity -= _gravityInfo.Gravity * Time.fixedDeltaTime;
         }
-        verticalVelocity = groundNormal * _yVelocity;
 
+        var verticalVelocity = groundNormal * _yVelocity;
         _rb.linearVelocity = horizontalVelocity + verticalVelocity;
+
     }
 
     private void RotateToGroundNormal()
@@ -168,6 +172,9 @@ public class PlayerMovement : MonoBehaviour
         // 2D 횡스크롤/서클 이동인 경우 화면 앞쪽(Vector3.forward)을 기준으로 안정적으로 회전 생성
         // 만약 Z축 회전 평면 게임이라면:
         Quaternion targetRotation = Quaternion.FromToRotation(transform.up, gravityUp) * transform.rotation;
+
+        // 플레이어가 y축으로 회전하는 경우 방지
+        targetRotation.y = 0;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10.0f * Time.fixedDeltaTime);
     }
 
@@ -178,9 +185,16 @@ public class PlayerMovement : MonoBehaviour
         _isGrounded = hasGroundHit && _yVelocity <= 0.0f;
         if (_isGrounded)
         {
-            if (hit.collider.TryGetComponent<GravitySource>(out var source))
+            // 그라운드 판정이 처음 들어갈 때
+            if (_isGrounded == false)
             {
-                GravitySource = source;
+                if (hit.collider.TryGetComponent<GravitySource>(out var source))
+                {
+                    GravitySource = source;
+                }
+
+                // z축 좌표를 행성 z축 좌표와 고정시키기
+                transform.position = new Vector3(transform.position.x, transform.position.y, hit.transform.position.z);
             }
 
             if (IsStomp)
