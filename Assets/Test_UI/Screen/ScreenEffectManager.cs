@@ -21,12 +21,18 @@ public class ScreenEffectManager : MonoBehaviour
     [SerializeField] private float _decaySpeed = 2f;
     [SerializeField] private float _maxIntensity = 0.6f;
 
+    [Header("Use")]
+    public bool IsUse = false;
+
     [Header("Color")]
     [SerializeField] private Color _iceColor = new Color(0.2f, 0.6f, 1f);
     [SerializeField] private Color _jellyColor = new Color(0.2f, 1f, 0.4f);
     [SerializeField] private Color _bombColor = new Color(1f, 0.2f, 0.2f);
     [SerializeField] private Color _swampColor = new Color(0.4f, 0.25f, 0.1f);
     [SerializeField] private Color _glassColor = new Color(0.8f, 0.9f, 1f);
+
+    [Header("Binding")]
+    [SerializeField] private PlayerMovement _playerMovement;
 
     [Header("InGame")]
     [SerializeField] private MaterialType _currentMaterialType = MaterialType.None;
@@ -38,10 +44,12 @@ public class ScreenEffectManager : MonoBehaviour
 
     void Start()
     {
-        if (_volume.profile.TryGet<Vignette>(out _vignette))
+        _volume.profile.TryGet<Vignette>(out _vignette);
+
+        _playerMovement.PlanetChanged += (GravitySource gravitySource) =>
         {
-            _vignette.intensity.value = 0f;
-        }
+            SetEffect(gravitySource.MaterialType);
+        };
     }
 
     [ContextMenu("TestSetEffect")]
@@ -52,17 +60,14 @@ public class ScreenEffectManager : MonoBehaviour
 
     public void SetEffect(MaterialType type)
     {
-        // 이미 같은 머티리얼 위에 있다면 중복으로 색상을 바꿀 필요가 없음
         if (_currentMaterialType == type)
         {
             return;
         }
 
-        // 머터리얼 바뀌면 진행 초기화
         _effectProgress = 0f;
         _currentMaterialType = type;
 
-        // 머티리얼 타입에 따라 비네트 색상 미리 변경하기
         if (_vignette != null)
         {
             switch (_currentMaterialType)
@@ -83,7 +88,6 @@ public class ScreenEffectManager : MonoBehaviour
                     _vignette.color.value = _glassColor;
                     break;
                 case MaterialType.None:
-                    // None일 때는 색상을 굳이 바꿀 필요 없음 (어차피 Intensity가 0이 됨)
                     break;
             }
         }
@@ -91,18 +95,23 @@ public class ScreenEffectManager : MonoBehaviour
 
     public void Update()
     {
-        // 1. 머티리얼이 None이면 효과 감소
+        if (IsUse == false)
+        {
+            return;
+        }
+
+        // 일반 행성
         if (_currentMaterialType == MaterialType.None)
         {
             _effectProgress = Mathf.MoveTowards(_effectProgress, 0f, _decaySpeed * Time.deltaTime);
         }
         else
         {
-            // 2. 무언가 밟고 있으면 효과 증가
+            // 효과 있는 행성
             _effectProgress = Mathf.MoveTowards(_effectProgress, 1f, _buildUpSpeed * Time.deltaTime);
         }
 
-        // 3. 강도(Intensity)만 실시간으로 반영
+        // 효과 적용
         if (_vignette != null)
         {
             _vignette.intensity.value = _effectProgress * _maxIntensity;

@@ -1307,14 +1307,16 @@ MonoBehaviour:
   _buildUpSpeed: 1
   _decaySpeed: 2
   _maxIntensity: 0.5
+  IsUse: 0
   _iceColor: {r: 0.2, g: 0.6, b: 1, a: 1}
   _jellyColor: {r: 0.2, g: 1, b: 0.4, a: 1}
   _bombColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   _swampColor: {r: 0.4, g: 0.25, b: 0.1, a: 1}
   _glassColor: {r: 0.8, g: 0.9, b: 1, a: 1}
-  _currentMaterialType: 1
+  _playerMovement: {fileID: 1769683500}
+  _currentMaterialType: 0
   _effectProgress: 0
-  _testMaterialType: 1
+  _testMaterialType: 0
 --- !u!1 &741167223 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7913768680697233272, guid: 6231e363694e8b443b94b7fdcd442fe4, type: 3}
@@ -1830,7 +1832,7 @@ GameObject:
   - component: {fileID: 978469767}
   - component: {fileID: 978469768}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: '@GameManager'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1866,6 +1868,7 @@ MonoBehaviour:
   _gravityManager: {fileID: 2063426215}
   _playerMovement: {fileID: 1769683500}
   _playerCamera: {fileID: 1185278374}
+  _screenEffectManager: {fileID: 696816840}
 --- !u!1 &1022367360
 GameObject:
   m_ObjectHideFlags: 0
