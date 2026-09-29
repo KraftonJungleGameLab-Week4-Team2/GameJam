@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 36ebb1f81aa054bd49704f3d17f62c4d, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -644,36 +644,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 284507497}
     m_Modifications:
     - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
-      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
-      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
-      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 7953848205164264780}
-    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
-      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
-      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
-      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
-      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 533400904261569540, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
-      propertyPath: OnBossDieEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      propertyPath: _maxHealth
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2024730028511031399, guid: 6f0b78a6bf9fe4b4a9c3bbb81012763e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1158,7 +1130,6 @@ MonoBehaviour:
   _bombColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   _swampColor: {r: 0.4, g: 0.25, b: 0.1, a: 1}
   _glassColor: {r: 0.8, g: 0.9, b: 1, a: 1}
-  _fireColor: {r: 0, g: 0, b: 0, a: 0}
   _playerMovement: {fileID: 1769683500}
   _currentMaterialType: 0
   _effectProgress: 0
@@ -1900,7 +1871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ApplyAfter: 2
   ChannelMask: 1
-  Gain: 1
+  Gain: 2
   Use2DDistance: 0
   UseCameraSpace: 1
   SignalCombinationMode: 0
@@ -12249,7 +12220,7 @@ Camera:
   m_GameObject: {fileID: 1958241679}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.04805981, g: 0.0531201, b: 0.0754717, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -12726,11 +12697,6 @@ PrefabInstance:
       addedObject: {fileID: 1781078845}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56b2f9b8ecb37794ca6bf2102da2919d, type: 3}
---- !u!1 &7953848205164264780 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6187271630029463447, guid: 56b2f9b8ecb37794ca6bf2102da2919d, type: 3}
-  m_PrefabInstance: {fileID: 7953848205164264779}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -23,6 +23,8 @@ public class SolarSystem : MonoBehaviour
     private GameObject[] _orbitingPlanets;
     private GameObject[] _orbitingPrefabs;
 
+    public Transform CentralPlanet => _centralFirePlanet.transform;
+
     private void Awake()
     {
         _orbitingPlanets = new GameObject[_orbitingPlanetCount];

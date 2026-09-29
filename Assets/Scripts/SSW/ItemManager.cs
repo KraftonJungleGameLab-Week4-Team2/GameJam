@@ -70,10 +70,11 @@ public class ItemManager : MonoBehaviour
     public Item SpawnAtRandomPlanet(Transform excludedPlanet = null)
     {
         List<Transform> planets = new List<Transform>();
+        Transform centralPlanet = _planetParent.GetComponent<SolarSystem>().CentralPlanet;
         for (int i = 0; i < _planetParent.childCount; i++)
         {
             Transform planet = _planetParent.GetChild(i);
-            if (IsPlanetAvailable(planet))
+            if (planet != centralPlanet && IsPlanetAvailable(planet))
             {
                 planets.Add(planet);
             }
