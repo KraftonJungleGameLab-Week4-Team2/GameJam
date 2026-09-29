@@ -12,12 +12,18 @@ public class SolarSystem : MonoBehaviour
     [SerializeField, Min(0f)] private float _orbitRadius = 40f;
     [SerializeField] private float _orbitSpeed = 0.05f;
 
+    [Header("Planet Scale")]
+    [SerializeField, Range(0.9f, 1.1f)] private float _minimumScaleMultiplier = 0.95f;
+    [SerializeField, Range(0.9f, 1.1f)] private float _maximumScaleMultiplier = 1.05f;
+
     [Header("Scene References")]
     [SerializeField] private GravityManager _gravityManager;
     [SerializeField] private BossAttack _bossAttack;
 
     private GameObject[] _orbitingPlanets;
     private GameObject[] _orbitingPrefabs;
+
+    public Transform CentralPlanet => _centralFirePlanet.transform;
 
     private void Awake()
     {
@@ -52,6 +58,14 @@ public class SolarSystem : MonoBehaviour
         GameObject planet = Instantiate(prefab, position, Quaternion.identity, transform);
         planet.name = prefab.name + "_" + (slot + 1);
 
+        float minimumScale = Mathf.Min(_minimumScaleMultiplier, _maximumScaleMultiplier);
+        float maximumScale = Mathf.Max(_minimumScaleMultiplier, _maximumScaleMultiplier);
+        float scaleMultiplier = Random.Range(minimumScale, maximumScale);
+        planet.transform.localScale *= scaleMultiplier;
+
+        GravitySource gravitySource = planet.GetComponent<GravitySource>();
+        gravitySource.GravityRange *= scaleMultiplier;
+
         Rigidbody body = planet.GetComponent<Rigidbody>();
         body.isKinematic = false;
         Revolution revolution = planet.AddComponent<Revolution>();
@@ -84,18 +98,17 @@ public class SolarSystem : MonoBehaviour
 
     private void RefreshReferences()
     {
-        Transform[] targets = new Transform[_orbitingPlanets.Length + 1];
-        GravitySource[] gravitySources = new GravitySource[targets.Length];
-        targets[0] = _centralFirePlanet.transform;
+        Transform[] meteorTargets = new Transform[_orbitingPlanets.Length];
+        GravitySource[] gravitySources = new GravitySource[_orbitingPlanets.Length + 1];
         gravitySources[0] = _centralFirePlanet.GetComponent<GravitySource>();
 
         for (int i = 0; i < _orbitingPlanets.Length; i++)
         {
-            targets[i + 1] = _orbitingPlanets[i].transform;
+            meteorTargets[i] = _orbitingPlanets[i].transform;
             gravitySources[i + 1] = _orbitingPlanets[i].GetComponent<GravitySource>();
         }
 
         _gravityManager.SetGravitySources(gravitySources);
-        _bossAttack.SetTargetPlanets(targets);
+        _bossAttack.SetTargetPlanets(meteorTargets);
     }
 }

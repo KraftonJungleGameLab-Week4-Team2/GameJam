@@ -16,6 +16,7 @@ public class ExplosionEffect : SurfaceEffect
     [SerializeField, Min(0f)] private float _explosionForce = 40f;
     [SerializeField, Min(0.1f)] private float _explosionRadius = 20f;
     [SerializeField, Min(0f)] private float _upwardsModifier = 1f;
+    [SerializeField, Min(0f)] private float _explosionDamage = 1f;
 
     public float CountdownSeconds { get { return _countdownSeconds; } }
     public FractureEffect FractureEffect { get { return _fractureEffect; } }
@@ -78,7 +79,23 @@ public class ExplosionEffect : SurfaceEffect
         Vector3 explosionCenter = bomb.transform.position;
         if (playerBody != null && !playerBody.isKinematic)
         {
-            playerBody.AddExplosionForce(_explosionForce, explosionCenter, _explosionRadius, _upwardsModifier, ForceMode.Impulse);
+            SurfaceMovement movement = playerBody.GetComponent<SurfaceMovement>();
+            if (movement != null)
+            {
+                Vector3 outward = playerBody.worldCenterOfMass - explosionCenter;
+                float distance = outward.magnitude;
+                if (distance < _explosionRadius)
+                {
+                    ApplyExplosionDamage(playerBody);
+                    outward = distance > 0.001f ? outward / distance : playerBody.transform.up;
+                    float impulse = _explosionForce * (1f - distance / _explosionRadius);
+                    movement.ApplyExternalVelocity(playerBody.linearVelocity + outward * (impulse / playerBody.mass));
+                }
+            }
+            else
+            {
+                playerBody.AddExplosionForce(_explosionForce, explosionCenter, _explosionRadius, _upwardsModifier, ForceMode.Impulse);
+            }
         }
 
         MeshGlass glass = bomb.GetComponent<MeshGlass>();
@@ -90,5 +107,24 @@ public class ExplosionEffect : SurfaceEffect
 
         // 행성 중심을 OpenFracture 파편의 발산점으로 사용한다.
         glass.BeginFracture(_fractureEffect, explosionCenter);
+    }
+
+    private void ApplyExplosionDamage(Rigidbody playerBody)
+    {
+        if (_explosionDamage <= 0f)
+        {
+            return;
+        }
+
+        foreach (MonoBehaviour behaviour in playerBody.GetComponentsInParent<MonoBehaviour>())
+        {
+            if (behaviour is ISurfaceDamageReceiver receiver)
+            {
+                receiver.TakeSurfaceDamage(_explosionDamage);
+                return;
+            }
+        }
+
+        playerBody.gameObject.SendMessageUpwards("TakeDamage", _explosionDamage, SendMessageOptions.DontRequireReceiver);
     }
 }

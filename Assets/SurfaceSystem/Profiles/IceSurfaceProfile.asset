@@ -15,5 +15,5 @@ MonoBehaviour:
   _physicsMaterial: {fileID: 13400000, guid: 40e5bfc3161a62e46bdc5599d8fd9103, type: 2}
   _effects:
   - {fileID: 11400000, guid: dd1d611ed4378224b92ef96a9d99eb8b, type: 2}
-  - {fileID: 11400000, guid: ae698d3a0047f8349bb9759c7cd05f25, type: 2}
+  - {fileID: 11400000, guid: 85dec3f86f714f5478562d7543830a3b, type: 2}
   _allowStompFracture: 0

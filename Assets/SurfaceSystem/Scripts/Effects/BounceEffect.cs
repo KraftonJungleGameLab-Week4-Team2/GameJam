@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Reflection;
 
 [CreateAssetMenu(fileName = "BounceEffect", menuName = "SurfaceSystem/Effects/Bounce Effect")]
 public class BounceEffect : SurfaceEffect
@@ -19,24 +18,7 @@ public class BounceEffect : SurfaceEffect
 
         outward.Normalize();
         float bounceSpeed = _maxBounceSpeed;
-        body.linearVelocity = Vector3.ProjectOnPlane(body.linearVelocity, outward) + outward * bounceSpeed;
-
-        // Keep the project's custom-gravity controller in sync with the applied bounce.
-        foreach (MonoBehaviour component in body.GetComponents<MonoBehaviour>())
-        {
-            if (component.GetType().Name != "PlayerMovement")
-            {
-                continue;
-            }
-
-            FieldInfo verticalVelocity = component.GetType().GetField(
-                "_yVelocity", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (verticalVelocity != null && verticalVelocity.FieldType == typeof(float))
-            {
-                verticalVelocity.SetValue(component, bounceSpeed);
-            }
-            break;
-        }
+        ApplyVelocity(body, Vector3.ProjectOnPlane(body.linearVelocity, outward) + outward * bounceSpeed);
     }
 
     public override void OnSinkThresholdReached(SurfaceInstance surface, Rigidbody body, Vector3 outward)
@@ -73,7 +55,7 @@ public class BounceEffect : SurfaceEffect
             return;
         }
 
-        rigidbody.AddForce(surfaceNormal * velocityChange, ForceMode.VelocityChange);
+        ApplyVelocity(rigidbody, rigidbody.linearVelocity + surfaceNormal * velocityChange);
     }
 
     public override void OnSurfaceTriggerImpact(SurfaceInstance surface, Collider other)
@@ -104,8 +86,17 @@ public class BounceEffect : SurfaceEffect
         float velocityChange = bounceSpeed - currentNormalVelocity;
         if (velocityChange > 0f)
         {
-            rigidbody.AddForce(surfaceNormal * velocityChange, ForceMode.VelocityChange);
+            ApplyVelocity(rigidbody, rigidbody.linearVelocity + surfaceNormal * velocityChange);
         }
+    }
+
+    private void ApplyVelocity(Rigidbody body, Vector3 velocity)
+    {
+        SurfaceMovement movement = body.GetComponent<SurfaceMovement>();
+        if (movement != null)
+            movement.ApplyExternalVelocity(velocity);
+        else
+            body.linearVelocity = velocity;
     }
 
     private Vector3 GetSurfaceNormal(Collision collision)

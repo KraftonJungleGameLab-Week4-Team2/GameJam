@@ -3642,13 +3642,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33688853ee903de4faabad5fca7733f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameStateSO: {fileID: 0}
   attackCube: {fileID: 1961456385036043971, guid: d345582912884ed4cb1b52c1f1590e25, type: 3}
   _playerPos: {fileID: 0}
   _fakeFireBall: {fileID: 1090330047057873782, guid: 14ef01a2ec1a0a1489c170f75458be9a, type: 3}
   _fakeMeteorSpawnPoint: {fileID: 9192257849148106908}
   _fakeMeteorSpawnOffset: {x: -2.678, y: 21.02, z: 0}
   playerRightUp: {x: 0, y: 0, z: 0}
-  nomalattack: 0
+  normalattack: 0
   fireBallAttack: 0
   _meteorCooldown: 4.5
   boss: {fileID: 2024730028511031399}
@@ -3675,6 +3676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22b16f17a3feb147acc1caea9d9f2ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxHealth: 5
 --- !u!1 &7310735662336540217
 GameObject:
   m_ObjectHideFlags: 0

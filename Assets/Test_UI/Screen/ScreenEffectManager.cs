@@ -10,6 +10,7 @@ public enum MaterialType
     Bomb,
     Swamp,
     Glass,
+    Fire,
 }
 
 public class ScreenEffectManager : MonoBehaviour
@@ -30,6 +31,7 @@ public class ScreenEffectManager : MonoBehaviour
     [SerializeField] private Color _bombColor = new Color(1f, 0.2f, 0.2f);
     [SerializeField] private Color _swampColor = new Color(0.4f, 0.25f, 0.1f);
     [SerializeField] private Color _glassColor = new Color(0.8f, 0.9f, 1f);
+    [SerializeField] private Color _fireColor;
 
     [Header("Binding")]
     [SerializeField] private PlayerMovement _playerMovement;
@@ -48,8 +50,7 @@ public class ScreenEffectManager : MonoBehaviour
 
         _playerMovement.PlanetChanged += (GravitySource gravitySource) =>
         {
-            Debug.Log("되나요");
-            SetEffect(gravitySource.MaterialType);
+            //SetEffect(gravitySource.MaterialType);
         };
     }
 

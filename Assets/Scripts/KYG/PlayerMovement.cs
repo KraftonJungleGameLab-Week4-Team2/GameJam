@@ -229,7 +229,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 200, 20), $"{_rb.linearVelocity} / {_yVelocity}");
+        //GUI.Label(new Rect(10, 10, 200, 20), $"{_rb.linearVelocity} / {_yVelocity}");
     }
 
     private void OnDestroy()

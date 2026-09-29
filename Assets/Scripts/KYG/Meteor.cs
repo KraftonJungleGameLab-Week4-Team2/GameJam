@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class Meteor : MonoBehaviour
@@ -9,10 +10,23 @@ public class Meteor : MonoBehaviour
     private bool _hasLaunchTarget;
 
     private Collider _meteorCollider;
+    private CinemachineImpulseSource _impulseSource;
+    private bool _hasHitPlayer;
 
     private void Awake()
     {
         _meteorCollider = GetComponent<Collider>();
+        _impulseSource = FindFirstObjectByType<CinemachineImpulseSource>();
+    }
+
+    private void OnEnable()
+    {
+        OffScreenIndicator.RegisterMeteor(transform);
+    }
+
+    private void OnDisable()
+    {
+        OffScreenIndicator.UnregisterMeteor(transform);
     }
 
     private void Start()
@@ -59,6 +73,14 @@ public class Meteor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        PlayerStatus player = other.GetComponentInParent<PlayerStatus>();
+        if (player != null && !_hasHitPlayer)
+        {
+            _hasHitPlayer = true;
+            player.TakeDamage(1f);
+            return;
+        }
+
         SurfaceInstance surface = other.GetComponentInParent<SurfaceInstance>();
         if (surface == null || surface.Profile == null)
         {
@@ -72,6 +94,12 @@ public class Meteor : MonoBehaviour
         }
 
         Vector3 impactPoint = surface.GetTriggerContactPoint(_meteorCollider);
-        fractureEffect.TryFractureFromMeteor(surface, impactPoint);
+        if (fractureEffect.TryFractureFromMeteor(surface, impactPoint))
+        {
+            if (_impulseSource != null)
+            {
+                _impulseSource.GenerateImpulseAtPositionWithVelocity(impactPoint, Vector3.up * 0.2f);
+            }
+        }
     }
 }

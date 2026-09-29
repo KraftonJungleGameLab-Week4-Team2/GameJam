@@ -19,4 +19,5 @@ MonoBehaviour:
   _useWorldGravity: 0
   _randomizeSeed: 1
   _randomSeed: 12345
-  _insideMaterial: {fileID: 2100000, guid: a40923f81a1d63040bf7091b0d22d605, type: 2}
+  _insideMaterial: {fileID: 2100000, guid: da338fec8228485488317c5fb6a82313, type: 2}
+  <RestoreTime>k__BackingField: 0

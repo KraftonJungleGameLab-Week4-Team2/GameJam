@@ -105,7 +105,7 @@ public class Bullet : MonoBehaviour
             return false;
         }
 
-        HandleHit();
+            HandleHit(closestCollider);
         return true;
     }
 
@@ -121,7 +121,7 @@ public class Bullet : MonoBehaviour
     {
         if (IsPlayer(other.transform) || HasTagInParents(other.transform, "Planet"))
         {
-            HandleHit();
+            HandleHit(other);
         }
     }
 
@@ -145,7 +145,7 @@ public class Bullet : MonoBehaviour
         return false;
     }
 
-    private void HandleHit()
+    private void HandleHit(Collider hitTarget)
     {
         if (_hasHit)
         {
@@ -153,6 +153,12 @@ public class Bullet : MonoBehaviour
         }
 
         _hasHit = true;
+        PlayerStatus player = hitTarget.GetComponentInParent<PlayerStatus>();
+        if (player != null)
+        {
+            player.TakeDamage(1f);
+        }
+
         Destroy(gameObject);
     }
 }
