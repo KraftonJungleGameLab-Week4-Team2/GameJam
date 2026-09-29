@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Boss : MonoBehaviour, ISurfaceDamageReceiver
 {
@@ -7,6 +8,8 @@ public class Boss : MonoBehaviour, ISurfaceDamageReceiver
     private float _currentHealth;
     private MainScreen _mainScreen;
     private BossAttack _bossAttack;
+
+    public UnityEvent OnBossDieEvent;
 
     public float CurrentHealth => _currentHealth;
     public float MaxHealth => _maxHealth;
@@ -38,6 +41,8 @@ public class Boss : MonoBehaviour, ISurfaceDamageReceiver
         {
             _bossAttack.enabled = false;
             gameObject.SetActive(false);
+
+            OnBossDieEvent?.Invoke();
         }
     }
 
