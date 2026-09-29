@@ -1674,8 +1674,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6d8315ddc9a8b4da66e8a9cab26bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _orbitalRadius: 40
+  _planetParent: {fileID: 1219269274}
   _itemPrefab: {fileID: 9087889018538690268, guid: ce70505cb0eca5e40ba74643d12fb2d4, type: 3}
+  _itemLifetime: 30
+  _respawnDelay: 3
 --- !u!4 &947462231
 Transform:
   m_ObjectHideFlags: 0

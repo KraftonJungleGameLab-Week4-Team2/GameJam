@@ -1,19 +1,20 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Revolution))]
 public class Item : MonoBehaviour
 {
-    void Start()
-    {
-        gameObject.SetActive(true);
-    }
+    private bool _isCollected;
+
+    public event System.Action<Item> Collected;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        if (_isCollected || !other.transform.root.CompareTag("Player"))
         {
             return;
         }
 
-        gameObject.SetActive(false);
+        _isCollected = true;
+        Collected?.Invoke(this);
     }
 }
