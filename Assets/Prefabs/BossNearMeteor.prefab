@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8435151972454778740}
   - component: {fileID: 2892349471411491500}
   m_Layer: 0
-  m_Name: FakeFireBall
+  m_Name: BossNearMeteor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 1090330047057873782}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -59.1, y: 140.9, z: 256.1}
-  m_LocalScale: {x: 34.645832, y: 34.645832, z: 34.645832}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 35, y: 35, z: 35}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

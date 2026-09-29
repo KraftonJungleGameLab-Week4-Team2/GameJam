@@ -6,7 +6,7 @@ PhysicsMaterial:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: IcePhysicsMaterial
+  m_Name: DefaultPhysicsMaterial
   serializedVersion: 2
   m_DynamicFriction: 0.02
   m_StaticFriction: 0.02

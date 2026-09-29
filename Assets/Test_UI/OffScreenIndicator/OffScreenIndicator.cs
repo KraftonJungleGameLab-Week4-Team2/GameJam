@@ -21,8 +21,11 @@ public class OffScreenIndicator : MonoBehaviour
     {
         if (targetTr == null)
         {
+            indicatorImageTr.gameObject.SetActive(false);
             return;
         }
+
+        indicatorImageTr.gameObject.SetActive(true);
 
         // 월드 좌표를 스크린 좌표로 변환
         Vector3 screenPoint = mainCamera.WorldToScreenPoint(targetTr.position);
