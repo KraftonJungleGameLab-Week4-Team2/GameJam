@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1385b59009d149408aec979b8a93e01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaterialType>k__BackingField: 0
+  <MaterialType>k__BackingField: 5
   <GravityRange>k__BackingField: 20
 --- !u!54 &-3461487174545875061
 Rigidbody:

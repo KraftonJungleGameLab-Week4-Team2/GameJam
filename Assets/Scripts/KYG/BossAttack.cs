@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class BossAttack : MonoBehaviour
 {
+    [SerializeField]
+    private GameStateSO _gameStateSO;
+
     public GameObject attackCube;
     [SerializeField] private Transform _playerPos;
     [SerializeField] private GameObject _fakeFireBall;
@@ -35,6 +38,11 @@ public class BossAttack : MonoBehaviour
     }
     void Update()
     {
+        if(_gameStateSO.State != GameState.Playing)
+        {
+            return;
+        }
+
         if (normalattack)
         {
             StartCoroutine(CallNormal()); //4초마다 발사 하기 위한 코루틴

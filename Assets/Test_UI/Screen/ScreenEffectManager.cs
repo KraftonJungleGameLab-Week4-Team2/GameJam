@@ -48,6 +48,7 @@ public class ScreenEffectManager : MonoBehaviour
 
         _playerMovement.PlanetChanged += (GravitySource gravitySource) =>
         {
+            Debug.Log("되나요");
             SetEffect(gravitySource.MaterialType);
         };
     }
