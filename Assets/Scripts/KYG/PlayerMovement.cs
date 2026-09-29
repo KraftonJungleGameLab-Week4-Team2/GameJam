@@ -10,7 +10,7 @@ public class PlayerStat
 
     [Header("Force")]
     public float moveSpeed = 5;
-    public float jumpForce = 7;
+    public float jumpForce = 100;
     public float stompForce = 100;
 
     public float acceleration = 10f;
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnGravitySourceChanged(GravitySource source)
     {
-        if(source != null)
+        if (source != null)
             _yVelocity = 0.0f;
     }
 
@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded == false && _isStomp == false)
         {
             _isStomp = true;
-            _yVelocity = _playerStat.stompForce;
+            _yVelocity = -_playerStat.stompForce;
         }
     }
 
@@ -126,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
         var gravityDir = GetPlanetDir();
         var groundNormal = -gravityDir;
         var moveDir = transform.right;
-        var horizontalVelocity = Vector3.ProjectOnPlane(moveDir * _xVelocity, groundNormal) ;
+        var horizontalVelocity = Vector3.ProjectOnPlane(moveDir * _xVelocity, groundNormal);
 
         if (_isGrounded == false)
         {
@@ -155,6 +155,10 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded)
         {
             _gravityInfo.ApplyGravity(0.0f);
+            if (_isStomp == true)
+            {
+                // 이벤트 발행 hit
+            }
             _isStomp = false;
         }
         Debug.DrawRay(transform.position, GetPlanetDir() * _ChkGroundDistance, Color.red);
@@ -167,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(_gravityInfo != null)
+        if (_gravityInfo != null)
             _gravityInfo.GravityOriginChanged -= OnGravitySourceChanged;
     }
 }

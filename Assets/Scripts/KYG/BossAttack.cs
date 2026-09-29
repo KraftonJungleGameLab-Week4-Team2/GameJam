@@ -12,7 +12,9 @@ public class BossAttack : MonoBehaviour
     public Transform boss;
     private Vector3 _bossRight;
     private Vector3 _bossLeft;
-
+    [SerializeField] private Transform[] _planetAry;
+    [SerializeField] private GameObject _WarningPrefab;
+    [SerializeField] private GameObject _fireBallPrefab;
 
     private void Start()
     {
@@ -63,19 +65,39 @@ public class BossAttack : MonoBehaviour
     }
     IEnumerator CallFake()
     {
-        yield return StartCoroutine(FakeFireBall());
+        yield return StartCoroutine(FireBall());
 
         yield return new WaitForSeconds(_fakeFireBallTimer);
         fireBallAttack = true;
     }
-    private IEnumerator FakeFireBall()
+    private IEnumerator FireBall()
     {
         _bossLeft = boss.position + new Vector3(-50, 0, 0);
         GameObject fakeFireBall = Instantiate(_fakeFireBall, _bossLeft, Quaternion.identity);
         fireBallAttack = false;
         Rigidbody fakeRb = fakeFireBall.GetComponent<Rigidbody>();
-        yield return new WaitForSeconds(0.5f);
+
+        yield return new WaitForSeconds(0.5f); //발사전 대기
+
         fakeRb.AddForce(new Vector3(0, 100, -30), ForceMode.Impulse);
+
+        yield return new WaitForSeconds(1f); //발사후 화면 밖으로 나가면 삭제
+
+        Destroy(fakeFireBall);
+
+        yield return new WaitForSeconds(3f); //
+        int randomIndex = Random.Range(0, _planetAry.Length);
+
+        Transform ramdomPlanet = _planetAry[randomIndex];
+
+        GameObject fireballWarning = Instantiate(_WarningPrefab, ramdomPlanet.position, Quaternion.identity, ramdomPlanet);
+        yield return new WaitForSeconds(3f); //원래는 경고등 개념이였던것
+        Destroy(fireballWarning);
+
+
+        //하나의 메테오를 생성시켜서 추락 X,Y 조정한 축위에서 
+        Vector3 fireBallPosition = ramdomPlanet.position + new Vector3(0, 50, 0);
+        GameObject fireBall = Instantiate(_fireBallPrefab, fireBallPosition, Quaternion.identity);
     }
 
 
