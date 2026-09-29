@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GravityRangeDashed
+  m_Name: TItleScreenGravityRange
   m_Shader: {fileID: -6465566751694194690, guid: 7bc96005d72578f48b37a209cc97bb63, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -39,15 +39,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _BaseCount: 30
-    - _BaseDashCount: 0.1
+    - _BaseDashCount: 1
     - _Dash_Count: 50
     - _Dash_Size: 0.07
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Radius: 208
-    - _Ring_Thickness: 0.05
+    - _Radius: 208.2
+    - _Ring_Thickness: 0.07
     m_Colors:
-    - _Color: {r: 0.79607844, g: 1, b: 1, a: 0.043137256}
+    - _Color: {r: 0.79607844, g: 1, b: 1, a: 0.2}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &31688957319497956
