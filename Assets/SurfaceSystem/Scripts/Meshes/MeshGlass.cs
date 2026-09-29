@@ -13,6 +13,7 @@ public class MeshGlass : MonoBehaviour
     private readonly List<Mesh> _ownedMeshes = new List<Mesh>();
 
     public event Action OnMeshBroken;
+    public event Action RestoreRequested;
 
     public bool IsBroken { get { return _isBroken; } }
     public bool IsFracturing { get { return _isFracturing; } }
@@ -69,6 +70,12 @@ public class MeshGlass : MonoBehaviour
 
         // 파괴 후 다시 복구하는 처리
         yield return new WaitForSeconds(effect.RestoreTime);
+
+        if (RestoreRequested != null)
+        {
+            RestoreRequested.Invoke();
+            yield break;
+        }
 
         GetComponent<Renderer>().enabled = true;
 

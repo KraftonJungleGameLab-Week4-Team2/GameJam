@@ -10,6 +10,11 @@ public class GravityManager : MonoBehaviour
 
     public IGravityInfo GravityInfo => _gravityInfo;
 
+    public void SetGravitySources(GravitySource[] sources)
+    {
+        _gravitySources = sources;
+    }
+
 
     private void Update()
     {

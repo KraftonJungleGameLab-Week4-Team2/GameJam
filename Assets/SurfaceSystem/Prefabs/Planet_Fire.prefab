@@ -163,7 +163,6 @@ GameObject:
   - component: {fileID: 7760154656387091405}
   - component: {fileID: 5621327063930717872}
   - component: {fileID: 2084013809971761783}
-  - component: {fileID: 1946177991459940228}
   m_Layer: 0
   m_Name: FireLight
   m_TagString: Untagged
@@ -239,27 +238,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &1946177991459940228
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1682977959933378208}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2968780986344695400
 GameObject:
   m_ObjectHideFlags: 0
@@ -5171,7 +5149,6 @@ GameObject:
   - component: {fileID: 4271740812322313986}
   - component: {fileID: 6723495500864702617}
   - component: {fileID: 7558863515710343880}
-  - component: {fileID: 1101626387199229100}
   m_Layer: 0
   m_Name: FireRing
   m_TagString: Untagged
@@ -5247,28 +5224,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1101626387199229100
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4018954186339722293}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8529934322294538668
 GameObject:
   m_ObjectHideFlags: 0
@@ -5284,6 +5239,7 @@ GameObject:
   - component: {fileID: 5892803465346483845}
   - component: {fileID: 2343238630171686953}
   - component: {fileID: 1583636544873174552}
+  - component: {fileID: 1433563107527522426}
   m_Layer: 0
   m_Name: Planet_Fire
   m_TagString: Untagged
@@ -5428,6 +5384,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3275681ba6a34a44845aa34dd789049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &1433563107527522426
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8529934322294538668}
+  serializedVersion: 4
+  m_Mass: 100
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &7918876243061091467
 PrefabInstance:
   m_ObjectHideFlags: 0

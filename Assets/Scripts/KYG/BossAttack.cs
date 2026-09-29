@@ -13,7 +13,7 @@ public class BossAttack : MonoBehaviour
     [Tooltip("FootStem에서 이동할 거리입니다. Boss 방향에 맞춰 회전하며, 보스 크기 배율은 적용하지 않습니다.")]
     [SerializeField] private Vector3 _fakeMeteorSpawnOffset;
     public Vector3 playerRightUp;
-    public bool nomalattack;
+    public bool normalattack;
     public bool fireBallAttack;
     [SerializeField] private float _meteorCooldown = 5f;
     public Transform boss;
@@ -22,17 +22,22 @@ public class BossAttack : MonoBehaviour
     [SerializeField] private GameObject _WarningPrefab;
     [SerializeField] private GameObject _fireBallPrefab;
 
+    public void SetTargetPlanets(Transform[] planets)
+    {
+        _planetAry = planets;
+    }
+
     private void Start()
     {
-        nomalattack = true;
+        normalattack = true;
         fireBallAttack = true;
 
     }
     void Update()
     {
-        if (nomalattack)
+        if (normalattack)
         {
-            StartCoroutine(CallNomal()); //4초마다 발사 하기 위한 코루틴
+            StartCoroutine(CallNormal()); //4초마다 발사 하기 위한 코루틴
 
         }
         if (fireBallAttack)
@@ -41,15 +46,15 @@ public class BossAttack : MonoBehaviour
         }
 
     }
-    IEnumerator CallNomal()
+    IEnumerator CallNormal()
     {
-        NomalAttack();
-        nomalattack = false;
+        NormalAttack();
+        normalattack = false;
 
         yield return new WaitForSeconds(4f); //4초마다 발사
-        nomalattack = true;
+        normalattack = true;
     }
-    private void NomalAttack()
+    private void NormalAttack()
     {
         Debug.Log("발사");
 
@@ -60,15 +65,17 @@ public class BossAttack : MonoBehaviour
         Vector3 playerPoint = _playerPos.position;
 
         //랜덤위치 생성을 위한 배열
-        Vector3[] waypoint = { playerPoint + new Vector3(13, 15, 0), playerPoint + new Vector3(-13, -15, 0), playerPoint + new Vector3(-13, 15, 0), playerPoint + new Vector3(13, -15, 0) };
+        Vector3[] wayPoint = { playerPoint + new Vector3(13, 15, 0), playerPoint + new Vector3(-13, -15, 0), playerPoint + new Vector3(-13, 15, 0), playerPoint + new Vector3(13, -15, 0) };
+        Vector3 spawnPoint = playerPoint + new Vector3(13, 15, 0);
 
         Transform playerNow = _playerPos;
-        //Vector3 waypoint = playerNow + new Vector3(13, 15, 0);
+        //Vector3 spawnPoint = playerNow + new Vector3(13, 15, 0);
         int randomIndex = Random.Range(0, 4);
 
         GameObject obj = Instantiate(attackCube, _bossRight, Quaternion.identity); //발사체를 저장하여 함수부여
 
-        obj.GetComponent<Bullet>().Init(waypoint[randomIndex], playerNow);
+        // obj.GetComponent<Bullet>().Init(spawnPoint[randomIndex], playerNow);
+        obj.GetComponent<Bullet>().Init(spawnPoint, playerNow);
 
     }
     private IEnumerator CallMeteorAttack()
@@ -85,9 +92,29 @@ public class BossAttack : MonoBehaviour
         yield return PlayFakeFireBall();
         yield return new WaitForSeconds(3f);
 
+        if (targetPlanet == null || targetPlanet.GetComponent<MeshGlass>().IsBroken
+            || targetPlanet.GetComponent<MeshGlass>().IsFracturing)
+        {
+            targetPlanet = GetRandomAvailablePlanet();
+        }
+        if (targetPlanet == null)
+        {
+            yield return new WaitForSeconds(_meteorCooldown);
+            fireBallAttack = true;
+            yield break;
+        }
+
         GameObject warning = Instantiate(_WarningPrefab, targetPlanet.position, Quaternion.identity, targetPlanet);
         yield return new WaitForSeconds(3f);
         Destroy(warning);
+
+        if (targetPlanet == null || targetPlanet.GetComponent<MeshGlass>().IsBroken
+            || targetPlanet.GetComponent<MeshGlass>().IsFracturing)
+        {
+            yield return new WaitForSeconds(_meteorCooldown);
+            fireBallAttack = true;
+            yield break;
+        }
 
         GameObject meteor = Instantiate(_fireBallPrefab, GetMeteorSpawnPosition(targetPlanet), Quaternion.identity);
         meteor.GetComponent<Meteor>().Launch(targetPlanet.position);
@@ -102,6 +129,10 @@ public class BossAttack : MonoBehaviour
 
         foreach (Transform planet in _planetAry)
         {
+            if (planet == null)
+            {
+                continue;
+            }
             MeshGlass glass = planet.GetComponent<MeshGlass>();
             if (!glass.IsBroken && !glass.IsFracturing)
             {
