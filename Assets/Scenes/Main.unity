@@ -12278,6 +12278,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1497873951}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1685753155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1685753156}
+  - component: {fileID: 1685753157}
+  m_Layer: 0
+  m_Name: SolarSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1685753156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685753155}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1685753157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685753155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e05e165deecbe4c9d13d80d01b161a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnParentTr: {fileID: 0}
+  _centerTr: {fileID: 0}
+  _spawnCount: 6
+  _spawnRadius: 6
+  _rotationSpeed: 20
+  _respawnCooldown: 3
+  _socketPrefab: {fileID: 0}
+  _centerPrefab: {fileID: 0}
+  _planetPrefabs: []
 --- !u!4 &1769683498 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3955413036481151992, guid: 38c5917c5e2894817b2ad34d0555c8b6, type: 3}
@@ -12978,11 +13031,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3173f662efad4c07b0103495568a8565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _findSourcsInScene: 1
+  _solarSystem: {fileID: 0}
   _player: {fileID: 1769683498}
-  _gravitySources: []
   _gravityInfo:
     <Gravity>k__BackingField: 5
+  _findGravitySourcesParentTr: {fileID: 0}
+  _gravitySources: []
 --- !u!1 &2068974080
 GameObject:
   m_ObjectHideFlags: 0
@@ -13230,5 +13284,6 @@ SceneRoots:
   - {fileID: 444245156}
   - {fileID: 978469767}
   - {fileID: 2063426214}
+  - {fileID: 1685753156}
   - {fileID: 1430341405}
   - {fileID: 284507497}

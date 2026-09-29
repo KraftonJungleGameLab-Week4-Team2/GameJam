@@ -3,7 +3,7 @@ using UnityEngine;
 public class GravitySource : MonoBehaviour
 {
     [field: SerializeField] public MaterialType MaterialType { get; private set; }
-    [field: SerializeField] public float GravityRange { get; private set; } = 10f;
+    [field: SerializeField] public float GravityRange { get; set; } = 10f;
     public bool IsBroken
     {
         get
