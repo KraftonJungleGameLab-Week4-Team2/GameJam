@@ -27,32 +27,28 @@ public class GravityManager : MonoBehaviour
 
     private void CalculateGravity()
     {
-        GravitySource closestSource = null;
-        GravitySource origin = null;
-        var minDistance = float.MaxValue;
+        GravitySource tempOrigin = null;
+        var maxDistance = float.MaxValue;
         foreach (var gs in _gravitySources)
         {
-            if (gs.IsActive == false)
-                return;
             var distance = (_player.position - gs.transform.position).magnitude;
 
-            if (minDistance > distance)
+            if (gs.GravityRange < distance)
+                continue;
+
+            if (maxDistance > distance)
             {
-                if (gs.GravityRange > distance)
-                {
-                    minDistance = distance;
-                }
-                closestSource = gs;
-                origin = gs;
+                maxDistance = distance;
+                tempOrigin = gs;
             }
         }
 
-        if (_gravityInfo.GravityOrigin != origin)
+        if (_gravityInfo.GravityOrigin != tempOrigin)
         {
             _gravityInfo.Gravity = 0.0f;
         }
 
-        _gravityInfo.GravityOrigin = origin == null ? closestSource : origin;
+        _gravityInfo.GravityOrigin = tempOrigin == null ? _gravityInfo.GravityOrigin : tempOrigin;
         if (_gravityInfo.GravityOrigin != null)
         {
             _gravityInfo.Gravity += GravityConstants.GravityAccel * Time.deltaTime;
